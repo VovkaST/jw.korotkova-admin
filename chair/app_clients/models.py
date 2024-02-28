@@ -38,7 +38,11 @@ class Social(GUIDIdentifiedModel, TimedModel):
     user_id = models.CharField(_("Telegram id"), max_length=50, null=True, blank=True, db_comment="Social id")
     username = models.CharField(_("Username"), max_length=255, null=True, blank=True, db_comment="Social username")
     client_guid = models.ForeignKey(
-        Client, verbose_name=_("Client GUID"), on_delete=models.CASCADE, related_name="client", db_column="client_guid"
+        Client,
+        verbose_name=_("Client GUID"),
+        on_delete=models.CASCADE,
+        related_name="client_socials",
+        db_column="client_guid",
     )
 
     class Meta:

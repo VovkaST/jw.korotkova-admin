@@ -13,15 +13,6 @@ class GUIDIdentifiedModel(models.Model):
         abstract = True
 
 
-class IDIdentifiedModel(models.Model):
-    """Родительский класс моделей таблиц БД, где идентификатором является поле id типа bigint"""
-
-    id = models.BigIntegerField(primary_key=True)
-
-    class Meta:
-        abstract = True
-
-
 class TimedModel(models.Model):
     """Родительский класс моделей для таблиц с полями дат создания и изменения"""
 
