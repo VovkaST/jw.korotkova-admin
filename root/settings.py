@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "chair.app_orders",
-    "chair.app_clients",
+    # "root.apps.orders",
+    # "root.apps.clients",
+    "root.apps.bot",
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "chair.urls"
+ROOT_URLCONF = "root.urls"
 
 TEMPLATES = [
     {
@@ -72,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "chair.wsgi.application"
+WSGI_APPLICATION = "root.wsgi.application"
 
 
 # Database
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "ru-ru"
+LANGUAGE_CODE = "en-GB"
 
 TIME_ZONE = "Europe/Moscow"
 
@@ -129,10 +130,12 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+REDIS_URL = env.str("REDIS_URL", default="redis://localhost:6379/0")
 
 # Bot settings
 BOT_TOKEN = env.str("BOT_TOKEN")
-BOT_LOGGING_LEVEL = env.int("BOT_LOGGING_LEVEL", logging.INFO)
+BOT_LOGGING_LEVEL = env.int("BOT_LOGGING_LEVEL", default=logging.INFO)
+BOT_REDIS_URL = REDIS_URL
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
