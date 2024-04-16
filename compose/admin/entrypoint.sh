@@ -5,8 +5,8 @@ NORMAL="\033[0m"
 
 echo -e "${YELLOW}Running admin-panel${NORMAL}"
 
-source /app/compose/build.sh
-source /app/compose/migrations.sh
+source ./compose/build.sh
+source ./compose/migrations.sh
 
 echo -e "${GREEN}Run server...${NORMAL}"
 python3 manage.py runserver 0.0.0.0:8000
