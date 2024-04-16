@@ -10,6 +10,7 @@ class BotConfig(AppConfig):
     REDIS_URL: str = "redis://localhost:6379/0"
     STATE_STORAGE_PREFIX = "jw_"
     LOGGING_LEVEL = logging.DEBUG
+    DEFAULT_VERSION = "N/A"
 
 
 bot_config = BotConfig()

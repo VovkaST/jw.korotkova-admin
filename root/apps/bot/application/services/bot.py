@@ -49,7 +49,8 @@ class JWBot:
     async def set_description(self):
         bot_name = await self.get_name()
         description = await self.controller.get_bot_description(bot_name)
-        await self.bot.set_my_description(description)
+        if description:
+            await self.bot.set_my_description(description)
 
     async def set_commands(self):
         commands = []

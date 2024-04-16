@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from root.apps.bot import bot_config
 from root.apps.bot.application.boundaries.dtos import BotDTO
 from root.apps.bot.infrastructure.repositories.bot import BotRepository
 from root.contrib.clean_architecture.utils import create_dto_object
@@ -14,8 +15,11 @@ class BotInteractor:
 
     async def get_description(self, bot_name: str) -> str:
         entity = await self.bot_repo.get_bot(bot_name)
-        return entity.description
+        if entity:
+            return entity.description
 
     async def get_version(self, bot_name: str) -> str:
         entity = await self.bot_repo.get_bot(bot_name)
+        if not entity:
+            return bot_config.DEFAULT_VERSION
         return entity.version
