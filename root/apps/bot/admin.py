@@ -2,13 +2,12 @@ from __future__ import annotations
 
 from django.contrib import admin
 
-from root.apps.bot import models
-from root.apps.bot.forms import ButtonsAdminForm
+from root.apps.bot import forms, models
 
 
 class ButtonsInline(admin.TabularInline):
     model = models.Buttons
-    form = ButtonsAdminForm
+    form = forms.ButtonsAdminForm
     ordering = ["bot", "sort_order"]
 
     def get_extra(self, request, obj: models.Bot = None, **kwargs):
@@ -19,7 +18,7 @@ class ButtonsInline(admin.TabularInline):
 
 @admin.register(models.Bot)
 class BotAdmin(admin.ModelAdmin):
-    fields = ["name", "version", "description", "welcome_message"]
+    form = forms.BotAdminForm
     inlines = (ButtonsInline,)
 
     def get_queryset(self, request):
