@@ -3,11 +3,12 @@ from __future__ import annotations
 from django.contrib import admin
 
 from root.apps.bot import models
+from root.apps.bot.forms import ButtonsAdminForm
 
 
 class ButtonsInline(admin.TabularInline):
     model = models.Buttons
-    fields = ["text", "simple_response", "sort_order"]
+    form = ButtonsAdminForm
     ordering = ["bot", "sort_order"]
 
     def get_extra(self, request, obj: models.Bot = None, **kwargs):
