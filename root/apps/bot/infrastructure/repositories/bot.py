@@ -1,17 +1,12 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from root.apps.bot.application.boundaries.bot import IBotRepository
 from root.apps.bot.application.domain.entities import BotEntity
 from root.apps.bot.models import Bot
-from root.contrib.clean_architecture.utils import create_entity_object
-
-if TYPE_CHECKING:
-    pass
+from root.base.repository import BaseRepository
 
 
-class BotRepository(IBotRepository):
+class BotRepository(BaseRepository, IBotRepository):
     model = Bot
 
     async def get_bot(self, bot_name: str) -> BotEntity | None:
@@ -19,4 +14,4 @@ class BotRepository(IBotRepository):
             instance = await self.model.objects.aget(name=bot_name)
         except self.model.DoesNotExist:
             return
-        return create_entity_object(BotEntity, instance)
+        return await self.to_entity(BotEntity, instance)
