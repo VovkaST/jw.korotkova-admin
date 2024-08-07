@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "root.apps.orders",
-    # "root.apps.clients",
+    "root.apps.clients",
     "root.apps.bot",
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
@@ -131,6 +132,8 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REDIS_URL = env.str("REDIS_URL", default="redis://localhost:6379/0")
+
+PHONENUMBER_DEFAULT_REGION = "RU"
 
 # Bot settings
 BOT_TOKEN = env.str("BOT_TOKEN")

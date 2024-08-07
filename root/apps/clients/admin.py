@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from chair.app_clients import models
+from root.apps.clients import models
 
 
 class SocialInlineAdmin(admin.TabularInline):
     model = models.Social
-    readonly_fields = ["guid", "created_at", "updated_at"]
-    list_display = ["client_guid", "social_type", "user_id", "username"]
+    readonly_fields = ["created_at", "updated_at"]
+    list_display = ["client", "social_type", "user_id", "username"]
 
     def get_extra(self, request, obj: models.Client = None, **kwargs):
         if not obj or not (items := obj.client_socials.all().count()):
@@ -16,6 +16,6 @@ class SocialInlineAdmin(admin.TabularInline):
 
 @admin.register(models.Client)
 class ClientAdmin(admin.ModelAdmin):
-    readonly_fields = ["guid", "created_at", "updated_at"]
-    list_display = ["guid", "phone", "surname", "name", "patronymic"]
+    readonly_fields = ["created_at", "updated_at"]
+    list_display = ["id", "phone", "surname", "name", "patronymic", "birth_date"]
     inlines = [SocialInlineAdmin]
