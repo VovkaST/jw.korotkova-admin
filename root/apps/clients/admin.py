@@ -5,7 +5,7 @@ from root.apps.clients import models
 
 class SocialInlineAdmin(admin.TabularInline):
     model = models.Social
-    readonly_fields = ["id", "created_at", "updated_at"]
+    readonly_fields = ["created_at", "updated_at"]
     list_display = ["client", "social_type", "user_id", "username"]
 
     def get_extra(self, request, obj: models.Client = None, **kwargs):
@@ -16,6 +16,6 @@ class SocialInlineAdmin(admin.TabularInline):
 
 @admin.register(models.Client)
 class ClientAdmin(admin.ModelAdmin):
-    readonly_fields = ["id", "created_at", "updated_at"]
-    list_display = ["id", "phone", "surname", "name", "patronymic"]
+    readonly_fields = ["created_at", "updated_at"]
+    list_display = ["id", "phone", "surname", "name", "patronymic", "birth_date"]
     inlines = [SocialInlineAdmin]
