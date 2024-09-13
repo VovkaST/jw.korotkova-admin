@@ -7,6 +7,7 @@ echo -e "${YELLOW}Running admin-panel${NORMAL}"
 
 source ./compose/build.sh
 source ./compose/migrations.sh
+source ./compose/make_messages.sh
 
 echo -e "${GREEN}Run bot...${NORMAL}"
 python3 manage.py run_bot
