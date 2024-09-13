@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "root.core",
     "root.apps.clients",
     "root.apps.bot",
+    "root.apps.notifications",
     "phonenumber_field",
 ]
 
