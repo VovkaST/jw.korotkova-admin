@@ -9,6 +9,8 @@ from root.core.utils import gettext_lazy as _
 
 
 class BaseRepository:
+    model: DjangoModel = None
+
     @staticmethod
     def _model_to_entity(entity_class: type[BaseEntity], obj: DjangoModel, from_attributes: bool = True) -> BaseEntity:
         assert issubclass(entity_class, BaseEntity), _("Entity must be a subclass of BaseEntity")
