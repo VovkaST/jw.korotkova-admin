@@ -35,17 +35,20 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 # Application definition
 
 INSTALLED_APPS = [
+    # Django apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Custom apps
     # "root.apps.orders",
     "root.core",
     "root.apps.clients",
     "root.apps.bot",
     "root.apps.notifications",
+    # Third-party apps
     "phonenumber_field",
 ]
 
@@ -152,6 +155,11 @@ PHONENUMBER_DEFAULT_REGION = "RU"
 BOT_TOKEN = env.str("BOT_TOKEN")
 BOT_LOGGING_LEVEL = env.int("BOT_LOGGING_LEVEL", default=logging.INFO)
 BOT_REDIS_URL = REDIS_URL
+
+# Celery settings
+CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)
+CELERY_BROKER = env.str("CELERY_BROKER", default=REDIS_URL)
+
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]  # noqa F405

@@ -1,5 +1,6 @@
 aiohttp==3.9.1
 argon2-cffi==23.1.0
+celery==5.4.0
 Django==5.0.1
 django-debug-toolbar==4.2.0
 django-phonenumber-field==8.0.0
