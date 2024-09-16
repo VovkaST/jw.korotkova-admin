@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from root.apps.notifications.application.domain.enums import NotificationType
+from root.apps.notifications.application.domain.enums import NotificationDailyType
 from root.base.entity import BaseEntity, IDMixin
 from root.core.application.domain.entities import UserEntity
 
 
 class NotificationsDailyEntity(IDMixin, BaseEntity):
     mailing_name: str
-    type: NotificationType
+    type: NotificationDailyType
     by_email: bool
     by_telegram: bool
     is_active: bool

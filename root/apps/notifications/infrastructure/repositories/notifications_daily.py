@@ -9,7 +9,7 @@ from root.base.repository import BaseRepository
 from root.core.application.domain.entities import UserEntity
 
 if TYPE_CHECKING:
-    from root.apps.notifications.application.domain.enums import NotificationType
+    from root.apps.notifications.application.domain.enums import NotificationDailyType
 
 
 class NotificationsDailyRepository(BaseRepository, INotificationsDailyRepository):
@@ -21,7 +21,7 @@ class NotificationsDailyRepository(BaseRepository, INotificationsDailyRepository
         queryset = super().get_queryset()
         return queryset.prefetch_related("users")
 
-    async def get_active_notifications(self, notification_type: NotificationType) -> list[base_entity_class]:
+    async def get_active_notifications(self, notification_type: NotificationDailyType) -> list[base_entity_class]:
         queryset = self.get_queryset().filter(is_active=True, type=notification_type).all()
         entities = []
         async for notification in queryset:
