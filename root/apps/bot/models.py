@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from root.apps.bot.managers import ButtonsQuerySet
-from root.base.models import TimedModel
+from root.base.models import CreatedTimestampModel, TimedModel
 
 
 class Bot(TimedModel):
@@ -19,6 +19,25 @@ class Bot(TimedModel):
 
     def __str__(self):
         return f"{self.name} (v.{self.version})"
+
+
+class UserChat(CreatedTimestampModel):
+    user_id = models.CharField(
+        _("User ID"), max_length=100, unique=True, db_comment="User ID", validators=[validators.MinLengthValidator(1)]
+    )
+    chat_id = models.CharField(
+        _("Chat ID"), max_length=100, unique=True, db_comment="Chat ID", validators=[validators.MinLengthValidator(1)]
+    )
+
+    class Meta:
+        db_table = "bot_user_chat"
+        db_table_comment = "Pairs or user - chat id"
+        unique_together = ["user_id", "chat_id"]
+        verbose_name = _("User chat")
+        verbose_name_plural = _("User chats")
+
+    def __str__(self):
+        return f"{self.user_id}:{self.chat_id})"
 
 
 class Buttons(TimedModel):

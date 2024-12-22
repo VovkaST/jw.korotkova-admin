@@ -26,4 +26,4 @@ select = [
 docstring-code-format = true
 
 [tool.ruff.lint.isort]
-known-first-party = ["application", "chair"]
+known-first-party = ["root"]

@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, TypeVar
 
 from django.db.models.manager import BaseManager
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 from pydantic_core import PydanticUndefined
 from pydantic_core.core_schema import ValidationInfo
 
@@ -22,6 +22,10 @@ class BaseEntity(BaseModel):
         if field_info.default_factory:
             return field_info.default_factory()
         raise AttributeError(_("Default factory or default value must be specified to related models field"))
+
+
+class IDMixin:
+    id: int | None = Field(title=_("Object identity"), default=None)
 
 
 BaseEntityType = TypeVar("BaseEntityType", bound=BaseEntity)

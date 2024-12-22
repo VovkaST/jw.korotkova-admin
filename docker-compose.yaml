@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres:
     image: postgres:15.2-bullseye
@@ -72,6 +70,14 @@ services:
       admin:
         condition: service_started
     entrypoint: ./compose/bot/entrypoint.sh
+
+  celery:
+    <<: *service_base
+    container_name: korotkova-bot
+    depends_on:
+      admin:
+        condition: service_started
+    entrypoint: ./compose/celery/entrypoint.sh
 
 networks:
   korotkova-network:

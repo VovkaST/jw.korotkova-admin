@@ -13,12 +13,20 @@ class GUIDIdentifiedModel(models.Model):
         abstract = True
 
 
-class TimedModel(models.Model):
-    """Родительский класс моделей для таблиц с полями дат создания и изменения"""
+class CreatedTimestampModel(models.Model):
+    """Родительский класс моделей для таблиц с полями даты создания"""
 
     created_at = models.DateTimeField(
         _("Creation date and time"), auto_now_add=True, db_comment=_("Creation date and time")
     )
+
+    class Meta:
+        abstract = True
+
+
+class TimedModel(CreatedTimestampModel):
+    """Родительский класс моделей для таблиц с полями дат создания и изменения"""
+
     updated_at = models.DateTimeField(_("Update date and time"), auto_now=True, db_comment=_("Update date and time"))
 
     class Meta:

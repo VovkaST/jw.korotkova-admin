@@ -46,7 +46,7 @@ class InterceptError:
                 if inspect.iscoroutinefunction(method):
                     return await method(self, *args, **kwargs)
                 return method(self, *args, **kwargs)
-            except self.mode.DoesNotExist:
+            except self.model.DoesNotExist:
                 pass
 
         return wrapper
