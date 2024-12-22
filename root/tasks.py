@@ -21,8 +21,8 @@ CELERY_RESULT_BACKEND = "django-db"
 app.conf.beat_schedule = {
     "task_send_daily_notifications": {
         "task": "root.apps.notifications.tasks.task_send_daily_notifications",
-        # "schedule": crontab(hour="9", minute="0"),
-        "schedule": crontab(minute="*/1"),
+        "schedule": crontab(hour="9", minute="0"),
+        # "schedule": crontab(minute="*/1"),
     },
 }
 
