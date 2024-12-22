@@ -12,5 +12,6 @@ class NotificationsDailyEntity(IDMixin, BaseEntity):
     type: NotificationDailyType
     by_email: bool
     by_telegram: bool
+    message_template: str
     is_active: bool
     users: list[UserEntity] = Field(default_factory=list)

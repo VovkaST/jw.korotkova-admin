@@ -8,4 +8,4 @@ from root.apps.notifications.application.interactors.notifications_daily import 
 @shared_task
 def task_send_daily_notifications():
     notifications_interactor = NotificationsDailyInteractor()
-    asyncio.run(notifications_interactor.send_daily_notifications())
+    return asyncio.run(notifications_interactor.send_daily_notifications())

@@ -5,11 +5,13 @@ from django.db.models.base import ModelBase as DjangoModel
 from pydantic import TypeAdapter
 
 from root.base.entity import BaseEntity, BaseEntityType
+from root.base.interfaces import IBaseRepository
 from root.contrib.clean_architecture.interfaces import ObjectId
+from root.core.utils import Singleton
 from root.core.utils import gettext_lazy as _
 
 
-class BaseRepository:
+class BaseRepository(Singleton, IBaseRepository):
     model: DjangoModel = None
     base_entity_class: type[BaseEntity] = None
     update_entity_class: type[BaseEntity] = None
