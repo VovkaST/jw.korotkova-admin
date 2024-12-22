@@ -37,7 +37,7 @@ class NotificationsDailyInteractor:
 
         return "\n".join(items)
 
-    async def send_daily_notifications(self):
+    async def send_daily_notifications(self) -> str:
         notifications_daily = await self.notifications_daily_repo.get_active_notifications(
             NotificationDailyType.BIRTHDAY
         )

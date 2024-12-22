@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-import logging
+from logging import getLevelName
 from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
@@ -153,7 +153,7 @@ PHONENUMBER_DEFAULT_REGION = "RU"
 
 # Bot settings
 BOT_TOKEN = env.str("BOT_TOKEN")
-BOT_LOGGING_LEVEL = env.int("BOT_LOGGING_LEVEL", default=logging.INFO)
+BOT_LOGGING_LEVEL = getLevelName(env.str("BOT_LOGGING_LEVEL", default="INFO"))
 BOT_REDIS_URL = REDIS_URL
 
 # Celery settings
