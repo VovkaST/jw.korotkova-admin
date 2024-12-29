@@ -21,17 +21,18 @@ class UserChatRepository(BaseRepository, IUserChatRepository):
         assert user_id or username, "user_id or username is required"
 
         if user_id and not username:
-            instance = await self.model.objects.aget(user_id=user_id)
+            query = Q(user_id=user_id)
 
         elif not user_id and username:
-            instance = await self.model.objects.aget(username=username)
+            query = Q(username=username)
 
         else:
             if comparison == ComparisonType.AND:
-                instance = await self.model.objects.aget(user_id=user_id, username=username)
+                query = Q(user_id=user_id, username=username)
             else:
-                instance = await self.model.objects.aget(Q(user_id=user_id) | Q(username=username))
+                query = Q(user_id=user_id) | Q(username=username)
 
+        instance = await self.model.objects.aget(query)
         return instance.chat_id
 
     @InterceptError.allow_does_not_exists
