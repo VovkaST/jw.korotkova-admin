@@ -9,6 +9,7 @@ from root.apps.bot.application.controllers.user_chats import UserChatController
 
 
 def store_chat(handler: Callable) -> Callable:
+    """Decorator for storing user chat. Use it for message handlers."""
     user_chat_controller = UserChatController()
 
     @wraps(handler)
