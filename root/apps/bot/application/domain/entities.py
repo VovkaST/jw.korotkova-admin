@@ -18,3 +18,9 @@ class BotEntity(BaseEntity):
     description: str | None
     welcome_message: str | None
     buttons: list[ButtonEntity] | None = Field(default_factory=list)
+
+
+class UserChatEntity(BaseEntity):
+    user_id: str
+    username: str | None = Field(default=None)
+    chat_id: str

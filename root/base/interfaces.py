@@ -28,6 +28,9 @@ class IBaseRepository(ABC):
     def get_queryset(self):
         """Get queryset to begin search objects"""
 
+    async def create(self, **kwargs) -> BaseEntityType:
+        """Create object"""
+
     async def get(self, pk: ObjectId) -> BaseEntityType:
         """Get object by pk"""
 

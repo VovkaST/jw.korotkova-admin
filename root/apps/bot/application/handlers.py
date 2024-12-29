@@ -1,11 +1,13 @@
 from telebot import logger, types
 
+from root.apps.bot.application.decorators import store_chat
 from root.apps.bot.application.domain.enums import Commands, Messages
 from root.apps.bot.application.domain.exceptions import UnknownButton
 from root.apps.bot.application.services import bot as bot_instance
 
 
 @bot_instance.bot.message_handler(commands=["start", Commands.RESTART.name.lower()])
+@store_chat
 async def handler_start(message: types.Message):
     logger.info("Received %s command [%s@%s]", message.text, message.from_user.id, message.from_user.username)
     inlines = await bot_instance.get_buttons()

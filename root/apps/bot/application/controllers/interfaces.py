@@ -25,3 +25,13 @@ class IButtonsController(ABC):
     @abstractmethod
     async def get_button_simple_response(self, bot_name: str, button_text: str) -> str | None:
         pass
+
+
+class IUserChatController(ABC):
+    @abstractmethod
+    async def get_chat(self, user_id: str) -> str:
+        """Get stored chat id by user id"""
+
+    @abstractmethod
+    async def create_user_chat(self, user_id: str | int, chat_id: str | int, username: str = None) -> None:
+        """Create user chat"""

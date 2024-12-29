@@ -41,6 +41,10 @@ class BaseRepository(Singleton, IBaseRepository):
     def get_queryset(self):
         return self.model.objects.all()
 
+    async def create(self, **kwargs) -> base_entity_class:
+        instance = await self.model.objects.acreate(**kwargs)
+        return await self.to_entity(self.base_entity_class, instance)
+
     async def get(self, pk: ObjectId) -> base_entity_class:
         queryset = self.get_queryset()
         instance = queryset.get(pk=pk)
