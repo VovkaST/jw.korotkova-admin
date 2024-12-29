@@ -15,6 +15,7 @@ async def handler_start(message: types.Message):
 
 
 @bot_instance.bot.message_handler(commands=[Commands.VERSION.name.lower()])
+@store_chat
 async def handler_version(message: types.Message):
     logger.info("Received %s command [%s@%s]", message.text, message.from_user.id, message.from_user.username)
     version = await bot_instance.get_version()
@@ -23,6 +24,7 @@ async def handler_version(message: types.Message):
 
 
 @bot_instance.bot.message_handler(content_types=["text"])
+@store_chat
 async def handler_messages(message: types.Message):
     logger.info("Received message: %s [%s@%s]", message.text, message.from_user.id, message.from_user.username)
     try:
