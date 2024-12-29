@@ -44,3 +44,8 @@ class Buttons(str, Enum):
 class Commands(TextChoices):
     RESTART = "RESTART", _("Перезапуск")
     VERSION = "VERSION", _("Версия")
+
+
+class ComparisonType(Enum):
+    AND = "AND"
+    OR = "OR"

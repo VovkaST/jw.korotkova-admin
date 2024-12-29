@@ -54,7 +54,7 @@ class NotificationsDailyInteractor:
         for notification in notifications_daily:
             for user in notification.users:
                 if notification.by_telegram and user.telegram_id:
-                    chat_id = await self.user_chats_repo.get_chat(user.telegram_id)
+                    chat_id = await self.user_chats_repo.get_chat(username=user.telegram_id)
                     if not chat_id:
                         continue
                     message = self.make_message(user, users_list)
