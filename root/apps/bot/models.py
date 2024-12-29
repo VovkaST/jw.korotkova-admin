@@ -22,6 +22,7 @@ class Bot(TimedModel):
 
 
 class UserChat(CreatedTimestampModel):
+    username = models.CharField(_("Username"), max_length=255, null=True, blank=True, db_comment="User's name")
     user_id = models.CharField(
         _("User ID"), max_length=100, unique=True, db_comment="User ID", validators=[validators.MinLengthValidator(1)]
     )
@@ -31,10 +32,9 @@ class UserChat(CreatedTimestampModel):
 
     class Meta:
         db_table = "bot_user_chat"
-        db_table_comment = "Pairs or user - chat id"
-        unique_together = ["user_id", "chat_id"]
-        verbose_name = _("User chat")
-        verbose_name_plural = _("User chats")
+        db_table_comment = "User's chat info"
+        verbose_name = _("User chat info")
+        verbose_name_plural = _("User chats infos")
 
     def __str__(self):
         return f"{self.user_id}:{self.chat_id})"
