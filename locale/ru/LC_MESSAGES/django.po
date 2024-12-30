@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-30 13:01+0300\n"
+"POT-Creation-Date: 2024-12-30 13:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -339,15 +339,18 @@ msgstr ""
 msgid "Order items"
 msgstr ""
 
+#: root/apps/products/admin.py:31 root/apps/products/admin.py:52
+#: root/apps/products/models.py:23 root/apps/products/models.py:35
+msgid "Product type"
+msgstr "Тип товара"
+
+#: root/apps/products/admin.py:47
+msgid "Lot"
+msgstr "Лот"
+
 #: root/apps/products/apps.py:8 root/apps/products/models.py:54
 msgid "Products"
 msgstr "Товары"
-
-#: root/apps/products/models.py:23 root/apps/products/models.py:35
-#, fuzzy
-#| msgid "Social type"
-msgid "Product type"
-msgstr "Тип соц.сети"
 
 #: root/apps/products/models.py:24
 msgid "Product types"

@@ -27,9 +27,9 @@ class ProductAdmin(admin.ModelAdmin):
         def has_add_permission(self, request, obj):
             return False
 
-    list_display = ["guid", "get_type_name", "title", "price", "in_stock"]
+    list_display = ["get_lot", "get_type_name", "title", "price", "in_stock"]
     list_filter = [("type__name", named_filter(_("Product type"))), "in_stock"]
-    search_fields = ["title"]
+    search_fields = ["id", "title"]
     fieldsets = (
         (None, {"fields": ["type", "title", "price", "in_stock"]}),
         ("Additional info", {"fields": ["guid", "created_at", "updated_at"]}),
@@ -41,10 +41,15 @@ class ProductAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.select_related("type")
 
+    def get_lot(self, obj: models.Product) -> str:
+        return f'{_("Lot")} #{obj.id}'
+
+    get_lot.short_description = _("Lot")
+
     def get_type_name(self, obj: models.Product) -> str:
         return obj.type.name
 
-    get_type_name.short_description = "Product type"
+    get_type_name.short_description = _("Product type")
 
 
 @admin.register(models.ProductType)

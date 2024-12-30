@@ -54,7 +54,7 @@ class Product(TimedModel):
         verbose_name_plural = _("Products")
 
     def __str__(self):
-        return f'{self.type.name} "{self.title}"'
+        return f'{_("Lot")} #{self.id}: {self.type.name} "{self.title}"'
 
 
 class ProductFiles(CreatedTimestampModel):
