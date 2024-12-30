@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from root.apps.products import models
+from root.core.utils import named_filter
 
 
 @admin.register(models.Product)
@@ -26,8 +28,8 @@ class ProductAdmin(admin.ModelAdmin):
             return False
 
     list_display = ["guid", "get_type_name", "title", "price", "in_stock"]
-    list_filter = ["in_stock"]
-    search_fields = ["type__name", "title"]
+    list_filter = [("type__name", named_filter(_("Product type"))), "in_stock"]
+    search_fields = ["title"]
     fieldsets = (
         (None, {"fields": ["type", "title", "price", "in_stock"]}),
         ("Additional info", {"fields": ["guid", "created_at", "updated_at"]}),
