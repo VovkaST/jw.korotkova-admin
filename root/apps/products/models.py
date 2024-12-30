@@ -79,6 +79,11 @@ class ProductFiles(CreatedTimestampModel):
     def __str__(self):
         return self.description or self.file.url
 
+    def delete(self, using=None, keep_parents=False):
+        result = super().delete(using=using, keep_parents=keep_parents)
+        self.file.storage.delete(self.file.name)
+        return result
+
 
 class ProductPriceHistory(CreatedTimestampModel):
     product = models.ForeignKey(
