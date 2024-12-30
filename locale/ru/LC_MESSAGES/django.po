@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-08 01:07+0300\n"
+"POT-Creation-Date: 2024-12-30 13:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgid "Версия"
 msgstr "Версия"
 
 #: root/apps/bot/apps.py:8 root/apps/bot/models.py:17
-#: root/apps/bot/models.py:25
+#: root/apps/bot/models.py:44
 msgid "Bot"
 msgstr "Бот"
 
@@ -42,7 +42,8 @@ msgstr "Бот"
 msgid "Bots"
 msgstr "Боты"
 
-#: root/apps/bot/models.py:10
+#: root/apps/bot/models.py:10 root/apps/products/models.py:13
+#: root/apps/products/models.py:37
 msgid "Unique name"
 msgstr "Уникальное имя"
 
@@ -50,7 +51,8 @@ msgstr "Уникальное имя"
 msgid "Version"
 msgstr "Версия"
 
-#: root/apps/bot/models.py:12
+#: root/apps/bot/models.py:12 root/apps/products/models.py:15
+#: root/apps/products/models.py:38 root/apps/products/models.py:71
 msgid "Description"
 msgstr "Описание"
 
@@ -58,23 +60,43 @@ msgstr "Описание"
 msgid "Welcome message"
 msgstr "Приветственное сообщение"
 
-#: root/apps/bot/models.py:26
+#: root/apps/bot/models.py:25 root/apps/clients/models.py:37
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: root/apps/bot/models.py:27
+msgid "User ID"
+msgstr "ID пользователя"
+
+#: root/apps/bot/models.py:30
+msgid "Chat ID"
+msgstr "ID чата"
+
+#: root/apps/bot/models.py:36
+msgid "User chat info"
+msgstr "Информация о чате пользователя"
+
+#: root/apps/bot/models.py:37
+msgid "User chats infos"
+msgstr "Информация о чате пользователя"
+
+#: root/apps/bot/models.py:45
 msgid "Text"
 msgstr "Текст"
 
-#: root/apps/bot/models.py:28
+#: root/apps/bot/models.py:47
 msgid "Simple click response"
 msgstr "Простой ответ"
 
-#: root/apps/bot/models.py:31
+#: root/apps/bot/models.py:50
 msgid "Sort order"
 msgstr "Порядок сортировки"
 
-#: root/apps/bot/models.py:38
+#: root/apps/bot/models.py:57
 msgid "Button"
 msgstr "Кнопка"
 
-#: root/apps/bot/models.py:39
+#: root/apps/bot/models.py:58
 msgid "Buttons"
 msgstr "Кнопки"
 
@@ -87,7 +109,7 @@ msgstr "Клиент"
 msgid "Clients"
 msgstr "Клиенты"
 
-#: root/apps/clients/models.py:12
+#: root/apps/clients/models.py:12 root/core/models.py:13
 msgid "Phone number"
 msgstr "Номер телефона"
 
@@ -99,7 +121,7 @@ msgstr "Фамилия"
 msgid "Name"
 msgstr "Имя"
 
-#: root/apps/clients/models.py:16
+#: root/apps/clients/models.py:16 root/core/models.py:12
 msgid "Patronymic"
 msgstr "Отчество"
 
@@ -111,13 +133,9 @@ msgstr "Дата рождения"
 msgid "Social type"
 msgstr "Тип соц.сети"
 
-#: root/apps/clients/models.py:36
+#: root/apps/clients/models.py:36 root/core/models.py:15
 msgid "Telegram id"
 msgstr "Идентификатор Telegram"
-
-#: root/apps/clients/models.py:37
-msgid "Username"
-msgstr "Имя пользователя"
 
 #: root/apps/clients/models.py:44
 msgid "Social"
@@ -130,6 +148,120 @@ msgstr "Соц.сети"
 #: root/apps/clients/models.py:61
 msgid "Social id or social username must be set"
 msgstr "Идентификатор или имя пользователя должны быть указаны"
+
+#: root/apps/notifications/application/domain/enums.py:6
+msgid "Email"
+msgstr "Эл.почта"
+
+#: root/apps/notifications/application/domain/enums.py:7
+#, fuzzy
+#| msgid "Telegram id"
+msgid "Telegram"
+msgstr "Идентификатор Telegram"
+
+#: root/apps/notifications/application/domain/enums.py:11
+msgid "New"
+msgstr "Новое"
+
+#: root/apps/notifications/application/domain/enums.py:12
+msgid "Sent"
+msgstr "Отправлено"
+
+#: root/apps/notifications/application/domain/enums.py:13
+msgid "Error"
+msgstr "Ошибка"
+
+#: root/apps/notifications/application/domain/enums.py:17
+#, fuzzy
+#| msgid "Birth date"
+msgid "Birthday"
+msgstr "Дата рождения"
+
+#: root/apps/notifications/apps.py:7
+msgid "Notification"
+msgstr "Уведомление"
+
+#: root/apps/notifications/apps.py:8
+msgid "Notifications"
+msgstr "Уведомления"
+
+#: root/apps/notifications/models.py:13
+msgid "Mailing name"
+msgstr "Название рассылки"
+
+#: root/apps/notifications/models.py:14
+msgid "Type"
+msgstr "Тип"
+
+#: root/apps/notifications/models.py:16
+msgid "By e-mail"
+msgstr "По эл.почте"
+
+#: root/apps/notifications/models.py:16
+msgid "Send notification by e-mail"
+msgstr "Отправлять уведомление по эл.почте"
+
+#: root/apps/notifications/models.py:19
+#, fuzzy
+#| msgid "Telegram id"
+msgid "By Telegram"
+msgstr "Идентификатор Telegram"
+
+#: root/apps/notifications/models.py:19
+msgid "Send notification by Telegram"
+msgstr "Отправлять уведомление по Telegram"
+
+#: root/apps/notifications/models.py:21
+msgid "Message template"
+msgstr "Шаблон сообщения"
+
+#: root/apps/notifications/models.py:22 root/apps/products/models.py:17
+msgid "Is active"
+msgstr "Признак активности"
+
+#: root/apps/notifications/models.py:23 root/core/models.py:22
+#, fuzzy
+#| msgid "Username"
+msgid "Users"
+msgstr "Имя пользователя"
+
+#: root/apps/notifications/models.py:28
+msgid "Daily notification"
+msgstr "Ежедневное уведомление"
+
+#: root/apps/notifications/models.py:29
+msgid "Daily notifications"
+msgstr "Ежедневные уведомления"
+
+#: root/apps/notifications/models.py:40
+msgid "Notification type"
+msgstr "Тип уведомления"
+
+#: root/apps/notifications/models.py:42
+msgid "Status"
+msgstr "Статус"
+
+#: root/apps/notifications/models.py:45 root/core/models.py:21
+#, fuzzy
+#| msgid "Username"
+msgid "User"
+msgstr "Имя пользователя"
+
+#: root/apps/notifications/models.py:47
+msgid "Payload"
+msgstr "Содержимое"
+
+#: root/apps/notifications/models.py:48
+msgid "Date and time message sent"
+msgstr "Дата и время отправки сообщения"
+
+#: root/apps/notifications/models.py:52
+msgid "Notification mailing"
+msgstr "Рассылка уведомлений"
+
+#: root/apps/notifications/models.py:53
+msgid "Notifications mailing"
+msgstr "Рассылка уведомлений"
 
 #: root/apps/orders/apps.py:8 root/apps/orders/models.py:69
 msgid "Orders"
@@ -207,28 +339,89 @@ msgstr ""
 msgid "Order items"
 msgstr ""
 
+#: root/apps/products/apps.py:8 root/apps/products/models.py:54
+msgid "Products"
+msgstr "Товары"
+
+#: root/apps/products/models.py:23 root/apps/products/models.py:35
+#, fuzzy
+#| msgid "Social type"
+msgid "Product type"
+msgstr "Тип соц.сети"
+
+#: root/apps/products/models.py:24
+msgid "Product types"
+msgstr "Тип товара"
+
+#: root/apps/products/models.py:40 root/apps/products/models.py:93
+msgid "Price"
+msgstr "Цена"
+
+#: root/apps/products/models.py:47
+msgid "In stock"
+msgstr "В наличии"
+
+#: root/apps/products/models.py:53 root/apps/products/models.py:64
+#: root/apps/products/models.py:87
+msgid "Product"
+msgstr "Товар"
+
+#: root/apps/products/models.py:69
+msgid "File's link"
+msgstr "Ссылка на файл"
+
+#: root/apps/products/models.py:76
+msgid "Product file"
+msgstr "Файл товара"
+
+#: root/apps/products/models.py:77
+msgid "Product files"
+msgstr "Файлы товаров"
+
+#: root/apps/products/models.py:104 root/apps/products/models.py:105
+msgid "Product price history"
+msgstr "История изменений цены товара"
+
 #: root/base/entity.py:24
 msgid ""
 "Default factory or default value must be specified to related models field"
+msgstr ""
+
+#: root/base/entity.py:28
+msgid "Object identity"
 msgstr ""
 
 #: root/base/models.py:20
 msgid "Creation date and time"
 msgstr "Дата и время создания"
 
-#: root/base/models.py:22
+#: root/base/models.py:30
 msgid "Update date and time"
 msgstr "Дата и время изменения"
 
-#: root/base/repository.py:16
+#: root/base/repository.py:25
 msgid "Entity must be a subclass of BaseEntity"
 msgstr ""
 
-#: root/settings.py:128
+#: root/core/admin.py:17
+msgid "Personal information"
+msgstr ""
+
+#: root/core/admin.py:29
+msgid "Access rights"
+msgstr ""
+
+#: root/core/admin.py:40
+#, fuzzy
+#| msgid "Birth date"
+msgid "Other dates"
+msgstr "Дата рождения"
+
+#: root/settings.py:133
 msgid "English"
 msgstr "English"
 
-#: root/settings.py:129
+#: root/settings.py:134
 msgid "Russian"
 msgstr "Русский"
 
