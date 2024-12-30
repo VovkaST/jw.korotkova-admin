@@ -29,7 +29,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_display = ["get_lot", "get_type_name", "title", "price", "in_stock"]
     list_filter = [("type__name", named_filter(_("Product type"))), "in_stock"]
-    search_fields = ["id", "title"]
+    search_fields = ["id", "guid", "title"]
     fieldsets = (
         (None, {"fields": ["type", "title", "price", "in_stock"]}),
         ("Additional info", {"fields": ["guid", "created_at", "updated_at"]}),
