@@ -51,6 +51,16 @@ class ProductAdmin(admin.ModelAdmin):
 
     get_type_name.short_description = _("Product type")
 
+    @staticmethod
+    def save_price_history(updated_instance: models.Product):
+        old_product = models.Product.objects.get(pk=updated_instance.id)
+        models.ProductPriceHistory.objects.create(product=updated_instance, price=old_product.price)
+
+    def save_form(self, request, form, change):
+        if "price" in form.changed_data:
+            self.save_price_history(form.instance)
+        return super().save_form(request, form, change)
+
 
 @admin.register(models.ProductType)
 class ProductTypeAdmin(admin.ModelAdmin):
