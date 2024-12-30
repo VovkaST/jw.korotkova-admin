@@ -60,3 +60,16 @@ class Buttons(TimedModel):
 
     def __str__(self):
         return self.text
+
+
+class Channel(models.Model):
+    chat_id = models.BigIntegerField(_("Chat ID"), unique=True, db_comment="Chat ID")
+    title = models.CharField(_("Title"), max_length=255, db_comment="Channel title")
+
+    class Meta:
+        db_table = "bot_channel"
+        verbose_name = _("Channel")
+        verbose_name_plural = _("Channels")
+
+    def __str__(self):
+        return self.title

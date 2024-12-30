@@ -108,3 +108,28 @@ class ProductPriceHistory(CreatedTimestampModel):
         db_table = "jw_product_price_history"
         verbose_name = _("Product price history")
         verbose_name_plural = _("Product price history")
+
+
+class ProductChannelPublication(TimedModel):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name=_("Product"),
+        related_name="publications",
+        db_comment="Product",
+    )
+    channel = models.ForeignKey(
+        "bot.Channel",
+        verbose_name=_("Channel"),
+        on_delete=models.CASCADE,
+        related_name="product_publications",
+        db_comment="Publication channel",
+    )
+    message_id = models.BigIntegerField(_("Message ID"), db_comment="Message ID")
+    text = models.CharField(_("Publication text"), db_comment="Publication`s text")
+    is_main = models.BooleanField(_("Is main publication"), default=True, db_comment="Is main publication sign")
+
+    class Meta:
+        db_table = "jw_product_channel_publication"
+        verbose_name = _("Product channel publication")
+        verbose_name_plural = _("Product channel publications")
