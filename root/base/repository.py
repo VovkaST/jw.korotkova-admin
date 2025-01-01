@@ -2,11 +2,12 @@ from __future__ import annotations
 
 from django.db.models import QuerySet
 from django.db.models.base import ModelBase as DjangoModel
-from pydantic import TypeAdapter
+from pydantic import BaseModel
 
 from root.base.entity import BaseEntity, BaseEntityType
 from root.base.interfaces import IBaseRepository
 from root.contrib.clean_architecture.interfaces import ObjectId
+from root.contrib.clean_architecture.utils import create_entity_object
 from root.core.utils import Singleton
 from root.core.utils import gettext_lazy as _
 
@@ -14,27 +15,57 @@ from root.core.utils import gettext_lazy as _
 class BaseRepository(Singleton, IBaseRepository):
     model: DjangoModel = None
     base_entity_class: type[BaseEntity] = None
-    update_entity_class: type[BaseEntity] = None
+    update_dto_class: type[BaseModel] = None
 
     @property
     def objects(self):
         return self.model.objects
 
     @staticmethod
-    def _model_to_entity(entity_class: type[BaseEntity], obj: DjangoModel, from_attributes: bool = True) -> BaseEntity:
+    async def _model_to_entity(
+        entity_class: type[BaseEntity],
+        obj: DjangoModel,
+        mappings: dict[str, str] | None = None,
+        exclude: set | list | tuple = None,
+        depth: int = 0,
+        include_relation: set | list | tuple = None,
+    ) -> BaseEntity:
         assert issubclass(entity_class, BaseEntity), _("Entity must be a subclass of BaseEntity")
-        return TypeAdapter(entity_class).validate_python(obj, from_attributes=from_attributes)
+        return await create_entity_object(
+            entity_class, obj, mappings=mappings, exclude=exclude, depth=depth, include_relation=include_relation
+        )
 
     async def to_entity(
-        self, entity_class: type[BaseEntity], obj: DjangoModel, from_attributes: bool = True
+        self,
+        entity_class: type[BaseEntity],
+        obj: DjangoModel,
+        mappings: dict[str, str] | None = None,
+        exclude: set | list | tuple = None,
+        depth: int = 0,
+        include_relation: set | list | tuple = None,
     ) -> BaseEntityType:
-        return self._model_to_entity(entity_class, obj, from_attributes=from_attributes)
+        return await self._model_to_entity(
+            entity_class, obj, mappings=mappings, exclude=exclude, depth=depth, include_relation=include_relation
+        )
 
     async def to_entities(
-        self, entity_class: type[BaseEntity], queryset: QuerySet, from_attributes: bool = True
+        self,
+        entity_class: type[BaseEntity],
+        queryset: QuerySet,
+        mappings: dict[str, str] | None = None,
+        exclude: set | list | tuple = None,
+        depth: int = 0,
+        include_relation: set | list | tuple = None,
     ) -> list[BaseEntityType]:
         return [
-            self._model_to_entity(entity_class, instance, from_attributes=from_attributes)
+            await self._model_to_entity(
+                entity_class,
+                instance,
+                mappings=mappings,
+                exclude=exclude,
+                depth=depth,
+                include_relation=include_relation,
+            )
             async for instance in queryset.aiterator()
         ]
 
@@ -50,7 +81,7 @@ class BaseRepository(Singleton, IBaseRepository):
         instance = queryset.get(pk=pk)
         return await self.to_entity(self.base_entity_class, instance)
 
-    async def update(self, pk: ObjectId, dto: update_entity_class) -> ObjectId:
+    async def update(self, pk: ObjectId, dto: update_dto_class) -> ObjectId:
         instance = await self.objects.aget(pk=pk)
         # todo: Вычислить поля, входящие только в self.model, и закинуть их в include
         updated_data = dto.model_dump(exclude_unset=True, include={})

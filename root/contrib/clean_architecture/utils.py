@@ -10,6 +10,7 @@ from typing import Any, Optional, TypeVar, Union, get_args, get_type_hints, is_t
 
 from annotated_types import MaxLen
 from asgiref.sync import sync_to_async
+from django.core.exceptions import SynchronousOnlyOperation
 from django.db.models import ManyToOneRel, Model
 from django.db.models.enums import ChoicesType
 from django.db.models.fields import NOT_PROVIDED
@@ -122,7 +123,7 @@ class ObjectMapperService:
         return None, False
 
     @classmethod
-    def convert_to_entity(
+    async def convert_to_entity(
         cls,
         entity_class: type[EntityObjectType],
         obj_to_convert: OrmModelObjectType | TypedDictObjectType | dict,
@@ -155,9 +156,12 @@ class ObjectMapperService:
             logger.debug(f"convert_to_entity loop started: {model_name=}, {model_field=}")
             if model_name in exclude:
                 continue
-            if cls._is_basic_type(model_field.annotation) or isinstance(
-                dotval(obj_to_convert, mapping.get(model_name) or model_name), BaseModel
-            ):
+            try:
+                attribute_value = dotval(obj_to_convert, mapping.get(model_name) or model_name)
+            except SynchronousOnlyOperation:
+                async_dotval = sync_to_async(dotval)
+                attribute_value = await async_dotval(obj_to_convert, mapping.get(model_name) or model_name)
+            if cls._is_basic_type(model_field.annotation) or isinstance(attribute_value, BaseModel):
                 result_dict[model_name] = dotval(obj_to_convert, mapping.get(model_name) or model_name)
             else:
                 # Получаем связанный с полем тип
@@ -181,7 +185,7 @@ class ObjectMapperService:
                 if not many:
                     value = dotval(obj_to_convert, mapping.get(model_name) or model_name)
                     if value is not None:
-                        result_dict[model_name] = cls.convert_to_entity(
+                        result_dict[model_name] = await cls.convert_to_entity(
                             parent_type, value, depth=depth - 1, mapping=mapping, exclude=exclude
                         )
                 # Иначе ожидаем, что нужна последовательность,
@@ -200,7 +204,9 @@ class ObjectMapperService:
                     else:
                         raise ValueError(f"Annotation is {parent_type}, but value is not iterable")
                     result_dict[model_name] = [
-                        cls.convert_to_entity(parent_type, value, depth=depth - 1, mapping=mapping, exclude=exclude)
+                        await cls.convert_to_entity(
+                            parent_type, value, depth=depth - 1, mapping=mapping, exclude=exclude
+                        )
                         for value in values
                     ]
         return entity_class(**result_dict)
@@ -312,7 +318,7 @@ def create_dto_object(dto_class, entity_object, mappings=None, exclude=None):
     return ObjectMapperService.convert_to_dto(dto_class, entity_object, mapping=mappings, exclude=exclude)
 
 
-def create_entity_object(
+async def create_entity_object(
     entity_class: type[EntityObjectType],
     db_object,
     mappings: dict | None = None,
@@ -330,7 +336,7 @@ def create_entity_object(
     if include_relation is None:
         include_relation = []
 
-    return ObjectMapperService.convert_to_entity(
+    return await ObjectMapperService.convert_to_entity(
         entity_class, db_object, mapping=mappings, exclude=exclude, depth=depth, include_relation=include_relation
     )
 
