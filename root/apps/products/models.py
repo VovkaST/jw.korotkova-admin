@@ -133,3 +133,4 @@ class ProductChannelPublication(TimedModel):
         db_table = "jw_product_channel_publication"
         verbose_name = _("Product channel publication")
         verbose_name_plural = _("Product channel publications")
+        unique_together = ("product", "channel", "message_id")
