@@ -57,7 +57,7 @@ class ProductAdmin(admin.ModelAdmin):
         models.ProductPriceHistory.objects.create(product=updated_instance, price=old_product.price)
 
     def save_form(self, request, form, change):
-        if "price" in form.changed_data:
+        if change and "price" in form.changed_data:
             self.save_price_history(form.instance)
         return super().save_form(request, form, change)
 
