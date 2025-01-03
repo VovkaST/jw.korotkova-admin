@@ -134,3 +134,6 @@ class ProductChannelPublication(TimedModel):
         verbose_name = _("Product channel publication")
         verbose_name_plural = _("Product channel publications")
         unique_together = ("product", "channel", "message_id")
+
+    def __str__(self):
+        return ""

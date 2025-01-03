@@ -1,8 +1,10 @@
+from django.conf import settings
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from root.apps.products import models
-from root.core.utils import named_filter
+from root.core.utils import ReadOnlyAdminMixin, named_filter
 
 
 @admin.register(models.Product)
@@ -17,15 +19,27 @@ class ProductAdmin(admin.ModelAdmin):
                 return 1
             return 0
 
-    class ProductPriceHistoryInline(admin.TabularInline):
+    class ProductPriceHistoryInline(ReadOnlyAdminMixin, admin.TabularInline):
         model = models.ProductPriceHistory
         fields = ["price", "created_at"]
         readonly_fields = fields
-        extra = 0
-        can_delete = False
 
-        def has_add_permission(self, request, obj):
-            return False
+    class ProductChannelPublicationInline(ReadOnlyAdminMixin, admin.TabularInline):
+        model = models.ProductChannelPublication
+        fields = ["get_message_link"]
+        readonly_fields = fields
+
+        def get_queryset(self, request):
+            qs = super().get_queryset(request)
+            return qs.select_related("channel")
+
+        def get_message_link(self, obj: models.ProductChannelPublication) -> str:
+            link = settings.TELEGRAM_CHANNEL_MESSAGE_LINK_TEMPLATE.format(
+                channel=obj.channel.link, message_id=obj.message_id
+            )
+            return mark_safe(f'<a href="{link}" target="_blank">{link}</a>')
+
+        get_message_link.short_description = _("Message link")
 
     list_display = ["get_lot", "get_type_name", "title", "price", "in_stock"]
     list_filter = [("type__name", named_filter(_("Product type"))), "in_stock"]
@@ -35,7 +49,7 @@ class ProductAdmin(admin.ModelAdmin):
         ("Additional info", {"fields": ["guid", "created_at", "updated_at"]}),
     )
     readonly_fields = ["guid", "created_at", "updated_at"]
-    inlines = [ProductFilesInline, ProductPriceHistoryInline]
+    inlines = [ProductFilesInline, ProductChannelPublicationInline, ProductPriceHistoryInline]
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
