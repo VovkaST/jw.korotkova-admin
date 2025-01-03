@@ -13,5 +13,5 @@ class ChannelInteractor:
         if channel_id:
             return await self.channel_repo.get_by_channel_id(channel_id=channel_id)
 
-    async def create_channel(self, channel_id: int, title: str) -> None:
-        return await self.channel_repo.create(chat_id=channel_id, title=title)
+    async def create_channel(self, channel_id: int, title: str, link: str = None) -> None:
+        return await self.channel_repo.create(chat_id=channel_id, title=title, link=link)

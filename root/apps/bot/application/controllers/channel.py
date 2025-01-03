@@ -10,5 +10,5 @@ class ChannelController(IChannelController):
     async def get_channel(self, channel_id: int) -> int:
         return await self.channel_interactor.get_channel(channel_id=channel_id)
 
-    async def create_channel(self, channel_id: int, title: str) -> None:
-        return await self.channel_interactor.create_channel(channel_id=channel_id, title=title)
+    async def create_channel(self, channel_id: int, title: str, link: str = None) -> None:
+        return await self.channel_interactor.create_channel(channel_id=channel_id, title=title, link=link)

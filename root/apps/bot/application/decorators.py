@@ -19,7 +19,9 @@ def store_chat(handler: Callable) -> Callable:
             case "channel":
                 channel = await channel_controller.get_channel(channel_id=message.chat.id)
                 if not channel:
-                    await channel_controller.create_channel(channel_id=message.chat.id, title=message.chat.title)
+                    await channel_controller.create_channel(
+                        channel_id=message.chat.id, title=message.chat.title, link=message.chat.username
+                    )
 
             case "private":
                 chat = await user_chat_controller.get_chat(

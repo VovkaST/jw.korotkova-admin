@@ -29,3 +29,4 @@ class UserChatEntity(BaseEntity):
 class ChannelEntity(IDMixin, BaseEntity):
     chat_id: int
     title: str
+    link: str | None = Field(default=None)

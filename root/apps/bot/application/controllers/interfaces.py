@@ -43,5 +43,5 @@ class IChannelController(ABC):
         """Get channel id"""
 
     @abstractmethod
-    async def create_channel(self, channel_id: int, title: str) -> None:
+    async def create_channel(self, channel_id: int, title: str, link: str = None) -> None:
         pass
