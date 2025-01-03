@@ -72,6 +72,9 @@ class BaseRepository(Singleton, IBaseRepository):
     def get_queryset(self):
         return self.model.objects.all()
 
+    def get_model_field_names(self, model: DjangoModel) -> set[str]:
+        return {f.column for f in model._meta.fields if not f.primary_key}
+
     async def create(self, **kwargs) -> base_entity_class:
         instance = await self.model.objects.acreate(**kwargs)
         return await self.to_entity(self.base_entity_class, instance)
@@ -83,8 +86,8 @@ class BaseRepository(Singleton, IBaseRepository):
 
     async def update(self, pk: ObjectId, dto: update_dto_class) -> ObjectId:
         instance = await self.objects.aget(pk=pk)
-        # todo: Вычислить поля, входящие только в self.model, и закинуть их в include
-        updated_data = dto.model_dump(exclude_unset=True, include={})
+        real_fields = self.get_model_field_names(self.model)
+        updated_data = dto.model_dump(exclude_unset=True, include=real_fields)
         update_fields = []
         for field_name, value in updated_data.items():
             if getattr(instance, field_name) != value:
@@ -94,3 +97,6 @@ class BaseRepository(Singleton, IBaseRepository):
         if update_fields:
             await instance.asave(update_fields=update_fields)
         return instance.pk
+
+    async def delete(self, **kwargs) -> tuple[int, dict[str, int]]:
+        return await self.model.objects.filter(**kwargs).adelete()
