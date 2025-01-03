@@ -28,5 +28,5 @@ class BotAdmin(admin.ModelAdmin):
 
 @admin.register(models.Channel)
 class ChannelAdmin(admin.ModelAdmin):
-    list_display = ["chat_id", "title"]
-    list_filter = ["title"]
+    list_display = ["chat_id", "title", "link"]
+    list_filter = ["title", "link"]

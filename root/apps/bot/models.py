@@ -65,6 +65,7 @@ class Buttons(TimedModel):
 class Channel(models.Model):
     chat_id = models.BigIntegerField(_("Chat ID"), unique=True, db_comment="Chat ID")
     title = models.CharField(_("Title"), max_length=255, db_comment="Channel title")
+    link = models.CharField(_("Link"), max_length=255, null=True, blank=True, db_comment="Channel link")
 
     class Meta:
         db_table = "bot_channel"
