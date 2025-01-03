@@ -79,6 +79,9 @@ class JWBot:
     async def new_channel_post(self, channel_id: int, message_id: int, text: str):
         await self.product_channel_publication_controller.new_channel_post(channel_id, message_id, text)
 
+    async def edited_channel_post(self, channel_id: int, message_id: int, text: str):
+        await self.product_channel_publication_controller.edited_channel_post(channel_id, message_id, text)
+
     async def get_version(self) -> str:
         bot_name = await self.get_name()
         return await self.controller.get_bot_version(bot_name)

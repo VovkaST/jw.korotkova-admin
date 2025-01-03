@@ -9,3 +9,6 @@ class ProductChannelPublicationController(IProductChannelPublicationController):
 
     async def new_channel_post(self, channel_id: int, message_id: int, text: str):
         return await self.channel_publication_interactor.new_channel_post(channel_id, message_id, text)
+
+    async def edited_channel_post(self, channel_id: int, message_id: int, text: str):
+        return await self.channel_publication_interactor.edited_channel_post(channel_id, message_id, text)

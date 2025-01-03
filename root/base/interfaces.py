@@ -36,3 +36,6 @@ class IBaseRepository(ABC):
 
     async def update(self, pk: ObjectId, dto: BaseEntityType) -> ObjectId:
         """Update object by pk"""
+
+    async def delete(self, **kwargs) -> tuple[int, dict[str, int]]:
+        """Delete object by kwargs filters"""

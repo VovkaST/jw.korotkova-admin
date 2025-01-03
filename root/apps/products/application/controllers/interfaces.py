@@ -13,3 +13,7 @@ class IProductChannelPublicationController(ABC):
     @abstractmethod
     async def new_channel_post(self, channel_id: int, message_id: int, text: str):
         pass
+
+    @abstractmethod
+    async def edited_channel_post(self, channel_id: int, message_id: int, text: str):
+        pass

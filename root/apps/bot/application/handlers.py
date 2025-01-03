@@ -40,3 +40,10 @@ async def handler_messages(message: types.Message):
 async def handler_new_channel_post(message: types.Message):
     logger.info("New post #%s was published in channel %s: %s", message.id, message.sender_chat.title, message.text)
     await bot_instance.new_channel_post(channel_id=message.chat.id, message_id=message.id, text=message.text)
+
+
+@bot_instance.bot.edited_channel_post_handler(content_types=["text"])
+@store_chat
+async def handler_new_channel_post(message: types.Message):
+    logger.info("Post #%s in channel %s was edited: %s", message.id, message.sender_chat.title, message.text)
+    await bot_instance.edited_channel_post(channel_id=message.chat.id, message_id=message.id, text=message.text)
