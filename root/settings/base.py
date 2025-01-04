@@ -16,7 +16,7 @@ from django.utils.translation import gettext_lazy as _
 from environ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 env = environ.Env()
 env.read_env(BASE_DIR / ".env")
 
@@ -24,10 +24,10 @@ env.read_env(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-uv=+la1i=5tarn#ltte4*qy5k3*-v(-!2$)=o%t%2*7f!e71k@"
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
@@ -174,12 +174,3 @@ TELEGRAM_CHANNEL_MESSAGE_LINK_TEMPLATE = TELEGRAM_CHANNEL_LINK_TEMPLATE + "/{mes
 # Celery settings
 CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)
 CELERY_BROKER = env.str("CELERY_BROKER", default=REDIS_URL)
-
-
-if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
-    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
-    DEBUG_TOOLBAR_CONFIG = {
-        "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
-        "SHOW_TEMPLATE_CONTEXT": True,
-    }
