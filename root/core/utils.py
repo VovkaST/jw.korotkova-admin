@@ -47,3 +47,16 @@ class DefaultFormatter(dict):
 
     def __missing__(self, key):
         return self.default(key)
+
+
+class ReadOnlyAdminMixin:
+    extra = 0  # hide add button on inlines
+    can_delete = False  # forbidden deletion on inlines
+
+    def has_add_permission(self, request, obj):
+        return False
+
+    def get_readonly_fields(self, request, obj=None):
+        if hasattr(self, "fields"):
+            return self.fields
+        return ()
