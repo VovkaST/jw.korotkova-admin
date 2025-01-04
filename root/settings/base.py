@@ -27,10 +27,13 @@ env.read_env(BASE_DIR / ".env")
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
+HOST_NAME = env.str("HOST_NAME", default=None)
+if HOST_NAME and HOST_NAME not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(HOST_NAME)
 
 # Application definition
 
