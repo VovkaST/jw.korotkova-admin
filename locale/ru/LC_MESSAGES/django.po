@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-04 12:45+0300\n"
+"POT-Creation-Date: 2025-01-04 12:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,7 +68,7 @@ msgstr "Имя пользователя"
 msgid "User ID"
 msgstr "ID пользователя"
 
-#: root/apps/bot/models.py:30 root/apps/bot/models.py:66
+#: root/apps/bot/models.py:30 root/apps/bot/models.py:67
 msgid "Chat ID"
 msgstr "ID чата"
 
@@ -100,19 +100,34 @@ msgstr "Кнопка"
 msgid "Buttons"
 msgstr "Кнопки"
 
-#: root/apps/bot/models.py:67
+#: root/apps/bot/models.py:69
+msgid "Global chat identity. Usually negative integer."
+msgstr "Идентификатор чата. Обычно отрицательное целое число."
+
+#: root/apps/bot/models.py:73
 msgid "Title"
 msgstr "Название"
 
-#: root/apps/bot/models.py:68
+#: root/apps/bot/models.py:75
+msgid ""
+"Channel name. Changing value has no effect for real channel. This is useful "
+"only for information."
+msgstr "Название канала. Изменение значения не влияет на реальный канал."
+
+#: root/apps/bot/models.py:79
 msgid "Link"
 msgstr "Ссылка"
 
-#: root/apps/bot/models.py:72 root/apps/products/models.py:123
+#: root/apps/bot/models.py:83
+msgid ""
+"Link for channel. Useful for make http-link like https://t.me/channel_name."
+msgstr "Ссылка на канал. Используется для создания ссылки вида https://t.me/channel_name."
+
+#: root/apps/bot/models.py:89 root/apps/products/models.py:123
 msgid "Channel"
 msgstr "Канал"
 
-#: root/apps/bot/models.py:73
+#: root/apps/bot/models.py:90
 msgid "Channels"
 msgstr "Каналы"
 

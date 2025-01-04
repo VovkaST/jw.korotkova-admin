@@ -30,3 +30,4 @@ class BotAdmin(admin.ModelAdmin):
 class ChannelAdmin(admin.ModelAdmin):
     list_display = ["chat_id", "title", "link"]
     list_filter = ["title", "link"]
+    readonly_fields = ["chat_id"]
