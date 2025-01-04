@@ -36,7 +36,6 @@ if HOST_NAME and HOST_NAME not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(HOST_NAME)
 
 # Application definition
-
 INSTALLED_APPS = [
     # Django apps
     "django.contrib.admin",
