@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "root.apps.notifications",
     # Third-party apps
     "phonenumber_field",
+    "tinymce",
 ]
 
 MIDDLEWARE = [
@@ -151,6 +152,12 @@ MEDIA_URL = "media/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core.User"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = ""
+EMAIL_PORT = ""
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 
 REDIS_URL = env.str("REDIS_URL", default="redis://localhost:6379/0")
 

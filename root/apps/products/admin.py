@@ -1,7 +1,9 @@
+from django import forms
 from django.conf import settings
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from tinymce.widgets import TinyMCE
 
 from root.apps.products import models
 from root.core.utils import ReadOnlyAdminMixin, named_filter
@@ -9,6 +11,14 @@ from root.core.utils import ReadOnlyAdminMixin, named_filter
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
+    class ProductForm(forms.ModelForm):
+        class Meta:
+            model = models.Product
+            fields = "__all__"
+            widgets = {
+                "description": TinyMCE(attrs={"rows": 10}),
+            }
+
     class ProductFilesInline(admin.TabularInline):
         model = models.ProductFiles
         fields = ["file", "description", "created_at"]
@@ -44,8 +54,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ["get_lot", "get_type_name", "title", "price", "in_stock"]
     list_filter = [("type__name", named_filter(_("Product type"))), "in_stock"]
     search_fields = ["id", "guid", "title"]
+    form = ProductForm
     fieldsets = (
-        (None, {"fields": ["type", "title", "price", "in_stock"]}),
+        (None, {"fields": ["type", "title", "description", "price", "in_stock"]}),
         ("Additional info", {"fields": ["guid", "created_at", "updated_at"]}),
     )
     readonly_fields = ["guid", "created_at", "updated_at"]
