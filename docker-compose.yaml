@@ -38,7 +38,7 @@ services:
       retries: 5
 
   service_base: &service_base
-    image: python:3.11.8-bullseye
+    image: korotkova-admin-python-3.11:latest
     depends_on:
       postgres:
         condition: service_healthy
@@ -53,7 +53,7 @@ services:
       - .env
     environment:
       - TZ=Europe/Moscow
-      - DJANGO_SETTINGS_MODULE=root.settings
+      - DJANGO_SETTINGS_MODULE=root.settings.production
       - PYTHONUNBUFFERED=1
 
   admin:
@@ -62,6 +62,9 @@ services:
     ports:
       - "8000:8000"
     entrypoint: ./compose/admin/entrypoint.sh
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
 
   bot:
     <<: *service_base
