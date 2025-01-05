@@ -28,6 +28,9 @@ class IBaseRepository(ABC):
     def get_queryset(self):
         """Get queryset to begin search objects"""
 
+    def get_model_field_names(self, model) -> set[str]:
+        """Get given model field names"""
+
     async def create(self, **kwargs) -> BaseEntityType:
         """Create object"""
 
@@ -36,3 +39,6 @@ class IBaseRepository(ABC):
 
     async def update(self, pk: ObjectId, dto: BaseEntityType) -> ObjectId:
         """Update object by pk"""
+
+    async def delete(self, **kwargs) -> tuple[int, dict[str, int]]:
+        """Delete object by kwargs filters"""

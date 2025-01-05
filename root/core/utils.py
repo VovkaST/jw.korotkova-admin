@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 
 import django
+from django.contrib import admin
 from django.utils.translation import gettext as django_gettext
 from django.utils.translation import gettext_lazy as django_gettext_lazy
 
@@ -20,6 +21,18 @@ def django_setup():
     django.setup()
 
 
+def named_filter(title: str):
+    """Returns FieldListFilter with given name."""
+
+    class NamedFieldListFilter(admin.FieldListFilter):
+        def __new__(cls, *args, **kwargs):
+            instance = admin.FieldListFilter.create(*args, **kwargs)
+            instance.title = title
+            return instance
+
+    return NamedFieldListFilter
+
+
 class Singleton:
     def __new__(cls):
         if not hasattr(cls, "instance"):
@@ -34,3 +47,16 @@ class DefaultFormatter(dict):
 
     def __missing__(self, key):
         return self.default(key)
+
+
+class ReadOnlyAdminMixin:
+    extra = 0  # hide add button on inlines
+    can_delete = False  # forbidden deletion on inlines
+
+    def has_add_permission(self, request, obj):
+        return False
+
+    def get_readonly_fields(self, request, obj=None):
+        if hasattr(self, "fields"):
+            return self.fields
+        return ()

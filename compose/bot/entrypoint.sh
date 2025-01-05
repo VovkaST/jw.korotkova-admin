@@ -5,7 +5,6 @@ NORMAL="\033[0m"
 
 echo -e "${YELLOW}Running admin-panel${NORMAL}"
 
-source ./compose/build.sh
 source ./compose/migrations.sh
 source ./compose/make_messages.sh
 

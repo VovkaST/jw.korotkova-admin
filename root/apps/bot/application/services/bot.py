@@ -10,6 +10,7 @@ from telebot.types import BotName
 from root.apps.bot import bot_config
 from root.apps.bot.application.controllers import BotController, ButtonsController
 from root.apps.bot.application.domain.enums import Commands
+from root.apps.products.application.controllers import ProductChannelPublicationController
 
 if TYPE_CHECKING:
     from root.apps.bot.application.boundaries.dtos import BotDTO
@@ -18,6 +19,7 @@ if TYPE_CHECKING:
 class JWBot:
     controller = BotController()
     buttons_controller = ButtonsController()
+    product_channel_publication_controller = ProductChannelPublicationController()
 
     def __init__(self):
         self.config = bot_config
@@ -73,6 +75,12 @@ class JWBot:
     async def get_button_answer(self, button_text: str) -> str:
         bot_name = await self.get_name()
         return await self.buttons_controller.get_button_simple_response(bot_name, button_text)
+
+    async def new_channel_post(self, channel_id: int, message_id: int, text: str):
+        await self.product_channel_publication_controller.new_channel_post(channel_id, message_id, text)
+
+    async def edited_channel_post(self, channel_id: int, message_id: int, text: str):
+        await self.product_channel_publication_controller.edited_channel_post(channel_id, message_id, text)
 
     async def get_version(self) -> str:
         bot_name = await self.get_name()

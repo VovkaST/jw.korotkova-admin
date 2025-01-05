@@ -35,3 +35,13 @@ class IUserChatController(ABC):
     @abstractmethod
     async def create_user_chat(self, user_id: str | int, chat_id: str | int, username: str = None) -> None:
         """Create user chat"""
+
+
+class IChannelController(ABC):
+    @abstractmethod
+    async def get_channel(self, channel_id: int) -> int:
+        """Get channel id"""
+
+    @abstractmethod
+    async def create_channel(self, channel_id: int, title: str, link: str = None) -> None:
+        pass

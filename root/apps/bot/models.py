@@ -60,3 +60,36 @@ class Buttons(TimedModel):
 
     def __str__(self):
         return self.text
+
+
+class Channel(models.Model):
+    chat_id = models.BigIntegerField(
+        _("Chat ID"),
+        unique=True,
+        help_text=_("Global chat identity. Usually negative integer."),
+        db_comment="Chat ID",
+    )
+    title = models.CharField(
+        _("Title"),
+        max_length=255,
+        help_text=_(
+            "Channel name. Changing value has no effect for real channel. This is useful only for information."
+        ),
+        db_comment="Channel title",
+    )
+    link = models.CharField(
+        _("Link"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Link for channel. Useful for make http-link like https://t.me/channel_name."),
+        db_comment="Channel link",
+    )
+
+    class Meta:
+        db_table = "bot_channel"
+        verbose_name = _("Channel")
+        verbose_name_plural = _("Channels")
+
+    def __str__(self):
+        return self.title

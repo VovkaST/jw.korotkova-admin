@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from root.base.entity import BaseEntity
+from root.base.entity import BaseEntity, IDMixin
 
 
 class ButtonEntity(BaseEntity):
@@ -24,3 +24,9 @@ class UserChatEntity(BaseEntity):
     user_id: str
     username: str | None = Field(default=None)
     chat_id: str
+
+
+class ChannelEntity(IDMixin, BaseEntity):
+    chat_id: int
+    title: str
+    link: str | None = Field(default=None)

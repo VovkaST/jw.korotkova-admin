@@ -24,3 +24,10 @@ class BotAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.prefetch_related("buttons")
+
+
+@admin.register(models.Channel)
+class ChannelAdmin(admin.ModelAdmin):
+    list_display = ["chat_id", "title", "link"]
+    list_filter = ["title", "link"]
+    readonly_fields = ["chat_id"]

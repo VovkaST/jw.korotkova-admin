@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from root.apps.notifications.application.boundaries.dtos import NotificationsDailyUpdateDTO
 from root.apps.notifications.application.boundaries.notifications_daily import INotificationsDailyRepository
 from root.apps.notifications.application.domain.entities import NotificationsDailyEntity
 from root.apps.notifications.models import NotificationDaily
@@ -15,7 +16,7 @@ if TYPE_CHECKING:
 class NotificationsDailyRepository(BaseRepository, INotificationsDailyRepository):
     model = NotificationDaily
     base_entity_class = NotificationsDailyEntity
-    update_entity_class = NotificationsDailyEntity
+    update_dto_class = NotificationsDailyUpdateDTO
 
     def get_queryset(self):
         queryset = super().get_queryset()

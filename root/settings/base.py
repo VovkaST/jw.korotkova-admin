@@ -16,7 +16,7 @@ from django.utils.translation import gettext_lazy as _
 from environ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 env = environ.Env()
 env.read_env(BASE_DIR / ".env")
 
@@ -24,16 +24,22 @@ env.read_env(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-uv=+la1i=5tarn#ltte4*qy5k3*-v(-!2$)=o%t%2*7f!e71k@"
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
+HOST_NAME = env.str("HOST_NAME", default=None)
+if HOST_NAME:
+    if HOST_NAME not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(HOST_NAME)
+    if HOST_NAME not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(HOST_NAME)
 
 # Application definition
-
 INSTALLED_APPS = [
     # Django apps
     "django.contrib.admin",
@@ -43,13 +49,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Custom apps
-    # "root.apps.orders",
     "root.core",
     "root.apps.clients",
+    # "root.apps.orders",
+    "root.apps.products",
     "root.apps.bot",
     "root.apps.notifications",
     # Third-party apps
     "phonenumber_field",
+    "tinymce",
 ]
 
 MIDDLEWARE = [
@@ -138,7 +146,11 @@ LOCALE_PATHS = (BASE_DIR / "locale",)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "static/"
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -146,6 +158,12 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core.User"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = ""
+EMAIL_PORT = ""
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 
 REDIS_URL = env.str("REDIS_URL", default="redis://localhost:6379/0")
 
@@ -156,14 +174,16 @@ BOT_TOKEN = env.str("BOT_TOKEN")
 BOT_LOGGING_LEVEL = getLevelName(env.str("BOT_LOGGING_LEVEL", default="INFO"))
 BOT_REDIS_URL = REDIS_URL
 
+TELEGRAM_CHANNEL_LINK_TEMPLATE = "https://t.me/{channel}"
+TELEGRAM_CHANNEL_MESSAGE_LINK_TEMPLATE = TELEGRAM_CHANNEL_LINK_TEMPLATE + "/{message_id}"
+
 # Celery settings
 CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)
 CELERY_BROKER = env.str("CELERY_BROKER", default=REDIS_URL)
 
-
 if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
-    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
     DEBUG_TOOLBAR_CONFIG = {
         "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
         "SHOW_TEMPLATE_CONTEXT": True,
