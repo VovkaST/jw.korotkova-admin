@@ -6,8 +6,8 @@ from root.base.entity import BaseEntityType
 from root.base.interfaces import IBaseRepository
 
 
-class IClientsRepository(IBaseRepository, ABC):
-    """Repository interface for Clients model."""
+class IUserRepository(IBaseRepository, ABC):
+    """Repository interface for User model."""
 
     @abstractmethod
     async def get_birthday_boys(self) -> BaseEntityType:
