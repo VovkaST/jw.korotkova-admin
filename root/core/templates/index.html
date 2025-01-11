@@ -1,29 +1,25 @@
-{% load static %}
+{% extends 'base.html' %}
+{% load i18n %}
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}">
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <title>JW.Korotkova - ваши живые украшения</title>
-</head>
-<body>
+{% block body %}
 <div class="main-substraite">
   <div class="tm-label-block">
     <div class="tm-label__round mb-3">
       <div class="tm-label__title">JW.Korotkova</div>
     </div>
     <p>
-      <i>Скоро здесь будет мой сайт</i>
+      <i>{% trans 'Скоро здесь будет мой сайт' %}</i>
     </p>
     <p>
       А пока присоединяйтесь к моему Telegram-каналу
-      <a href="https://t.me/JW_Korotkova" target="_blank" title="Канал живых украшений и трансформаций Натальи Коротковой">@jw_korotkova</a>
+      <a
+        href="{{ telegram_channel_link }}"
+        target="_blank"
+        title="{{ telegram_channel_description }}"
+      >
+        {{ telegram_channel_name }}
+      </a>
     </p>
   </div>
 </div>
-</body>
-</html>
+{% endblock %}
