@@ -2,10 +2,10 @@
 {% load i18n %}
 
 {% block body %}
-<div class="main-substraite">
+<div class="main-substrate">
   <div class="tm-label-block">
     <div class="tm-label__round mb-3">
-      <div class="tm-label__title">JW.Korotkova</div>
+      <div class="tm-label__title">{{ app_config.tm_label_text }}</div>
     </div>
     <p>
       <i>{% trans 'Скоро здесь будет мой сайт' %}</i>
@@ -13,11 +13,11 @@
     <p>
       А пока присоединяйтесь к моему Telegram-каналу
       <a
-        href="{{ telegram_channel_link }}"
+        href="{{ app_config.telegram_channel.link }}"
         target="_blank"
-        title="{{ telegram_channel_description }}"
+        title="{{ app_config.telegram_channel.description }}"
       >
-        {{ telegram_channel_name }}
+        {{ app_config.telegram_channel.name }}
       </a>
     </p>
   </div>
