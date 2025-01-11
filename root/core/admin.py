@@ -19,8 +19,8 @@ class UserAdmin(UserAdmin, admin.ModelAdmin):
                 return 1
             return items - 1
 
-    list_display = ["username", "first_name", "last_name", "patronymic", "email", "telegram_id"]
-    search_fields = ["username", "first_name", "last_name", "patronymic", "email", "telegram_id"]
+    list_display = ["username", "first_name", "last_name", "patronymic", "email"]
+    search_fields = ["username", "first_name", "last_name", "patronymic", "email"]
     fieldsets = [
         (None, {"fields": ("username", "password")}),
         (
@@ -30,8 +30,8 @@ class UserAdmin(UserAdmin, admin.ModelAdmin):
                     "last_name",
                     "first_name",
                     "patronymic",
+                    "birth_date",
                     "email",
-                    "telegram_id",
                 )
             },
         ),

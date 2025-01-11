@@ -16,19 +16,13 @@ class User(AbstractUser):
 
     patronymic = models.CharField(_("Patronymic"), max_length=150, blank=True, null=True, db_comment="Patronymic")
     phone = PhoneNumberField(_("Phone number"), blank=True, null=True, unique=True, db_comment="Phone number")
-    telegram_id = models.CharField(
-        _("Telegram id"), max_length=50, null=True, blank=True, unique=True, db_comment="Telegram id"
-    )
+    birth_date = models.DateField(_("Birth date"), null=True, blank=True, db_comment="User's date of birth")
 
     class Meta:
         db_table = "auth_user"
         db_table_comment = "Users"
         verbose_name = _("User")
         verbose_name_plural = _("Users")
-
-    def clean(self):
-        if self.telegram_id and not self.telegram_id.startswith("@"):
-            self.telegram_id = f"@{self.telegram_id}"
 
 
 class UserSocial(TimedModel):
