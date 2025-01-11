@@ -22,13 +22,11 @@ msgstr ""
 
 #: root/apps/administration/admin.py:9
 #, fuzzy, python-format
-#| msgid " site admin"
 msgid "%s site admin"
 msgstr "%s админка"
 
 #: root/apps/administration/admin.py:13
-#, fuzzy, python-format
-#| msgid "Administrative panel "
+#, python-format
 msgid "Administrative panel %s"
 msgstr "Административная панель %s"
 
