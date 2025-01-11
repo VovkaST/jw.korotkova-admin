@@ -191,6 +191,9 @@ TELEGRAM_CHANNEL_NAME = env.str("TELEGRAM_CHANNEL_NAME", default="JW_Korotkova")
 TELEGRAM_CHANNEL_LINK = TELEGRAM_CHANNEL_LINK_TEMPLATE.format(channel=TELEGRAM_CHANNEL_NAME)
 TELEGRAM_CHANNEL_DESCRIPTION = _("Канал живых украшений и трансформаций Натальи Коротковой")
 
+# Site settings
+USE_YANDEX_METRIKA = env.bool("USE_YANDEX_METRIKA", default=False)
+
 # Celery settings
 CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)
 CELERY_BROKER = env.str("CELERY_BROKER", default=REDIS_URL)

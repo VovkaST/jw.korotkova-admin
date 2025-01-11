@@ -23,7 +23,9 @@
     {% endif %}
   {% endblock title %}
   </title>
-  {% include 'yandex.metrica.html' %}
+  {% if app_config.use_yandex_metrika %}
+    {% include 'yandex.metrica.html' %}
+  {% endif %}
 </head>
 <body>
 {% block body %}{% endblock %}
