@@ -19,8 +19,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("i18n/", include("django.conf.urls.i18n")),
-    path("tinymce/", include("tinymce.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+from root.core.views import IndexView
+
+urlpatterns = (
+    [
+        path("", IndexView.as_view(), name="index"),
+        path("admin/", admin.site.urls),
+        path("i18n/", include("django.conf.urls.i18n")),
+        path("tinymce/", include("tinymce.urls")),
+    ]
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+)

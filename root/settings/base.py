@@ -42,7 +42,7 @@ if HOST_NAME:
 # Application definition
 INSTALLED_APPS = [
     # Django apps
-    "django.contrib.admin",
+    "root.apps.administration.apps.CoreSiteAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -76,7 +76,7 @@ ROOT_URLCONF = "root.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["root/templates", "root/core/templates"],
         "APP_DIRS": False,
         "OPTIONS": {
             "context_processors": [
@@ -84,7 +84,12 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "root.core.context_processors.app_config",
             ],
+            "loaders": (
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
+            ),
         },
     },
 ]
@@ -148,6 +153,7 @@ LOCALE_PATHS = (BASE_DIR / "locale",)
 
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "root" / "assets"]
 
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "media/"
@@ -169,13 +175,24 @@ REDIS_URL = env.str("REDIS_URL", default="redis://localhost:6379/0")
 
 PHONENUMBER_DEFAULT_REGION = "RU"
 
+# TM label settings
+TM_LABEL_TEXT = env.str("TM_LABEL_TEXT", default="JW.Korotkova")
+
 # Bot settings
 BOT_TOKEN = env.str("BOT_TOKEN")
 BOT_LOGGING_LEVEL = getLevelName(env.str("BOT_LOGGING_LEVEL", default="INFO"))
 BOT_REDIS_URL = REDIS_URL
 
+# Telegram settings and links
 TELEGRAM_CHANNEL_LINK_TEMPLATE = "https://t.me/{channel}"
 TELEGRAM_CHANNEL_MESSAGE_LINK_TEMPLATE = TELEGRAM_CHANNEL_LINK_TEMPLATE + "/{message_id}"
+
+TELEGRAM_CHANNEL_NAME = env.str("TELEGRAM_CHANNEL_NAME", default="JW_Korotkova")
+TELEGRAM_CHANNEL_LINK = TELEGRAM_CHANNEL_LINK_TEMPLATE.format(channel=TELEGRAM_CHANNEL_NAME)
+TELEGRAM_CHANNEL_DESCRIPTION = _("Канал живых украшений и трансформаций Натальи Коротковой")
+
+# Site settings
+USE_YANDEX_METRIKA = env.bool("USE_YANDEX_METRIKA", default=False)
 
 # Celery settings
 CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)

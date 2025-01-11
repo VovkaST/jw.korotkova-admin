@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-04 12:53+0300\n"
+"POT-Creation-Date: 2025-01-11 15:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: root/apps/administration/admin.py:9
+#, python-format
+msgid "%s site admin"
+msgstr "%s админка"
+
+#: root/apps/administration/admin.py:13
+#, python-format
+msgid "Administrative panel %s"
+msgstr "Административная панель %s"
+
+#: root/apps/administration/admin.py:17
+#, python-format
+msgid "%s site administration"
+msgstr "%s администрирование сайта"
 
 #: root/apps/bot/application/domain/enums.py:34
 #, python-format
@@ -108,26 +123,28 @@ msgstr "Идентификатор чата. Обычно отрицательн
 msgid "Title"
 msgstr "Название"
 
-#: root/apps/bot/models.py:75
+#: root/apps/bot/models.py:76
 msgid ""
 "Channel name. Changing value has no effect for real channel. This is useful "
 "only for information."
 msgstr "Название канала. Изменение значения не влияет на реальный канал."
 
-#: root/apps/bot/models.py:79
+#: root/apps/bot/models.py:81
 msgid "Link"
 msgstr "Ссылка"
 
-#: root/apps/bot/models.py:83
+#: root/apps/bot/models.py:85
 msgid ""
 "Link for channel. Useful for make http-link like https://t.me/channel_name."
-msgstr "Ссылка на канал. Используется для создания ссылки вида https://t.me/channel_name."
+msgstr ""
+"Ссылка на канал. Используется для создания ссылки вида https://t.me/"
+"channel_name."
 
-#: root/apps/bot/models.py:89 root/apps/products/models.py:123
+#: root/apps/bot/models.py:91 root/apps/products/models.py:123
 msgid "Channel"
 msgstr "Канал"
 
-#: root/apps/bot/models.py:90
+#: root/apps/bot/models.py:92
 msgid "Channels"
 msgstr "Каналы"
 
@@ -370,18 +387,16 @@ msgstr ""
 msgid "Order items"
 msgstr ""
 
-#: root/apps/products/admin.py:42
-#, fuzzy
-#| msgid "Message template"
+#: root/apps/products/admin.py:52
 msgid "Message link"
 msgstr "Шаблон сообщения"
 
-#: root/apps/products/admin.py:45 root/apps/products/admin.py:66
+#: root/apps/products/admin.py:55 root/apps/products/admin.py:77
 #: root/apps/products/models.py:23 root/apps/products/models.py:35
 msgid "Product type"
 msgstr "Тип товара"
 
-#: root/apps/products/admin.py:61
+#: root/apps/products/admin.py:72
 msgid "Lot"
 msgstr "Лот"
 
@@ -481,13 +496,25 @@ msgstr ""
 msgid "Other dates"
 msgstr "Дата рождения"
 
-#: root/settings.py:133
+#: root/core/templates/index.html:11
+msgid "Скоро здесь будет мой сайт"
+msgstr ""
+
+#: root/core/views.py:8
+msgid "JW.Korotkova - ваши живые украшения"
+msgstr ""
+
+#: root/settings/base.py:146
 msgid "English"
 msgstr "English"
 
-#: root/settings.py:134
+#: root/settings/base.py:147
 msgid "Russian"
 msgstr "Русский"
+
+#: root/settings/base.py:193
+msgid "Канал живых украшений и трансформаций Натальи Коротковой"
+msgstr ""
 
 #: root/templates/admin/base.html:42
 msgid "Skip to main content"

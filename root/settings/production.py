@@ -1,6 +1,3 @@
 from .base import *  # noqa F403
 
-TEMPLATES[0]["OPTIONS"]["loaders"] = (  # noqa F405
-    "django.template.loaders.filesystem.Loader",
-    "django.template.loaders.app_directories.Loader",
-)
+USE_YANDEX_METRIKA = env.bool("USE_YANDEX_METRIKA", default=True)  # noqa F405
