@@ -42,7 +42,7 @@ if HOST_NAME:
 # Application definition
 INSTALLED_APPS = [
     # Django apps
-    "django.contrib.admin",
+    "root.apps.administration.apps.CoreSiteAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
