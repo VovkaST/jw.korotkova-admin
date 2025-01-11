@@ -161,4 +161,8 @@ cython_debug/
 
 # Media dirs
 media/
-static/
+static/admin
+static/ckeditor
+static/debug_toolbar
+static/django_tinymce
+static/tinymce

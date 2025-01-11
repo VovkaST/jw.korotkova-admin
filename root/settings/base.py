@@ -76,7 +76,7 @@ ROOT_URLCONF = "root.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["core/templates"],
         "APP_DIRS": False,
         "OPTIONS": {
             "context_processors": [
@@ -85,6 +85,10 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            "loaders": (
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
+            ),
         },
     },
 ]
@@ -148,6 +152,7 @@ LOCALE_PATHS = (BASE_DIR / "locale",)
 
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "root" / "assets"]
 
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "media/"
