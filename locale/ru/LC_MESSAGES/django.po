@@ -21,7 +21,7 @@ msgstr ""
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: root/apps/administration/admin.py:9
-#, fuzzy, python-format
+#, python-format
 msgid "%s site admin"
 msgstr "%s админка"
 
