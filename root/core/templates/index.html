@@ -4,14 +4,14 @@
 {% block body %}
 <div class="main-substrate">
   <div class="tm-label-block">
-    <div class="tm-label__round mb-3">
+    <div class="tm-label__round mb-4">
       <div class="tm-label__title">{{ app_config.tm_label_text }}</div>
     </div>
     <p class="text-center">
       <i>{% trans 'Скоро здесь будет мой сайт' %}</i>
     </p>
-    <p class="text-center">
-      А пока присоединяйтесь к моему Telegram-каналу
+    <p class="text-center mx-4">
+      А&nbsp;пока присоединяйтесь к&nbsp;моему Telegram&#8209;каналу
       <a
         href="{{ app_config.telegram_channel.link }}"
         target="_blank"
