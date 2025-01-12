@@ -2,18 +2,17 @@ from __future__ import annotations
 
 from root.apps.bot.application.services import bot as bot_instance
 from root.apps.bot.infrastructure.repositories.user_chats import UserChatRepository
-from root.apps.clients.application.domain.entities import ClientEntity
-from root.apps.clients.infrastructure.repositories.clients import ClientsRepository
 from root.apps.notifications.application.domain.enums import NotificationDailyType
 from root.apps.notifications.infrastructure.repositories.notifications_daily import NotificationsDailyRepository
-from root.core.application.domain.entities import UserEntity
+from root.core.application.domain.entities import ClientEntity, UserEntity
 from root.core.enums import SocialsChoices
+from root.core.infrastructure.repositories.user import UserRepository
 
 
 class NotificationsDailyInteractor:
     notifications_daily_repo = NotificationsDailyRepository()
     user_chats_repo = UserChatRepository()
-    clients_repo = ClientsRepository()
+    user_repo = UserRepository()
 
     TG_MESSAGE_TEMPLATE = "{username}, не забудь поздравить сегодняшних именинников:\n{clients_list}"
 
@@ -44,7 +43,7 @@ class NotificationsDailyInteractor:
         if not notifications_daily:
             return "No notifications planned"
 
-        birthday_boys = await self.clients_repo.get_birthday_boys()
+        birthday_boys = await self.user_repo.get_birthday_boys()
         if not birthday_boys:
             return "No birthday boys found"
 

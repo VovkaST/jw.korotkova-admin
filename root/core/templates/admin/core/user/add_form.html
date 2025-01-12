@@ -1,0 +1,14 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block form_top %}
+  {% if is_client_add %}
+    <p>{% translate 'Provide basic customer information. A login will be generated from the submitted full name. If you leave the fields empty, it will be generated automatically.' %}</p>
+  {% else %}
+    {% if not is_popup %}
+      <p>{% translate 'First, enter a username and password. Then, you’ll be able to edit more user options.' %}</p>
+    {% else %}
+      <p>{% translate "Enter a username and password." %}</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

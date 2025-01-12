@@ -3,7 +3,9 @@ from __future__ import annotations
 import os
 
 import django
+import transliterate
 from django.contrib import admin
+from django.utils.text import slugify as django_slugify
 from django.utils.translation import gettext as django_gettext
 from django.utils.translation import gettext_lazy as django_gettext_lazy
 
@@ -19,6 +21,14 @@ def gettext_lazy(message: str) -> str:
 def django_setup():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings")
     django.setup()
+
+
+def slugify(text: str) -> str:
+    """
+    Converts text to slug according to the requirements for that data type.
+    In the case when the text is in Cyrillic, it transliterates it.
+    """
+    return transliterate.slugify(text) or django_slugify(text)
 
 
 def named_filter(title: str):

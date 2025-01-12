@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-11 15:07+0300\n"
+"POT-Creation-Date: 2025-01-12 17:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr "Описание"
 msgid "Welcome message"
 msgstr "Приветственное сообщение"
 
-#: root/apps/bot/models.py:25 root/apps/clients/models.py:37
+#: root/apps/bot/models.py:25 root/core/models.py:34
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -148,55 +148,6 @@ msgstr "Канал"
 msgid "Channels"
 msgstr "Каналы"
 
-#: root/apps/clients/apps.py:8 root/apps/clients/models.py:22
-#: root/apps/clients/models.py:39
-msgid "Client"
-msgstr "Клиент"
-
-#: root/apps/clients/apps.py:9 root/apps/clients/models.py:23
-msgid "Clients"
-msgstr "Клиенты"
-
-#: root/apps/clients/models.py:12 root/core/models.py:13
-msgid "Phone number"
-msgstr "Номер телефона"
-
-#: root/apps/clients/models.py:13
-msgid "Surname"
-msgstr "Фамилия"
-
-#: root/apps/clients/models.py:14
-msgid "Name"
-msgstr "Имя"
-
-#: root/apps/clients/models.py:16 root/core/models.py:12
-msgid "Patronymic"
-msgstr "Отчество"
-
-#: root/apps/clients/models.py:18
-msgid "Birth date"
-msgstr "Дата рождения"
-
-#: root/apps/clients/models.py:34
-msgid "Social type"
-msgstr "Тип соц.сети"
-
-#: root/apps/clients/models.py:36 root/core/models.py:15
-msgid "Telegram id"
-msgstr "Идентификатор Telegram"
-
-#: root/apps/clients/models.py:44
-msgid "Social"
-msgstr "Соц.сеть"
-
-#: root/apps/clients/models.py:45
-msgid "Socials"
-msgstr "Соц.сети"
-
-#: root/apps/clients/models.py:61
-msgid "Social id or social username must be set"
-msgstr "Идентификатор или имя пользователя должны быть указаны"
-
 #: root/apps/notifications/application/domain/enums.py:6
 msgid "Email"
 msgstr "Эл.почта"
@@ -267,11 +218,9 @@ msgstr "Шаблон сообщения"
 msgid "Is active"
 msgstr "Признак активности"
 
-#: root/apps/notifications/models.py:23 root/core/models.py:22
-#, fuzzy
-#| msgid "Username"
+#: root/apps/notifications/models.py:23 root/core/models.py:25
 msgid "Users"
-msgstr "Имя пользователя"
+msgstr "Пользователи"
 
 #: root/apps/notifications/models.py:28
 msgid "Daily notification"
@@ -289,11 +238,10 @@ msgstr "Тип уведомления"
 msgid "Status"
 msgstr "Статус"
 
-#: root/apps/notifications/models.py:45 root/core/models.py:21
-#, fuzzy
-#| msgid "Username"
+#: root/apps/notifications/models.py:45 root/core/models.py:24
+#: root/core/models.py:36
 msgid "User"
-msgstr "Имя пользователя"
+msgstr "Пользователь"
 
 #: root/apps/notifications/models.py:47
 msgid "Payload"
@@ -482,19 +430,75 @@ msgstr "Дата и время изменения"
 msgid "Entity must be a subclass of BaseEntity"
 msgstr ""
 
-#: root/core/admin.py:17
-msgid "Personal information"
-msgstr ""
-
 #: root/core/admin.py:29
-msgid "Access rights"
-msgstr ""
+msgid "Personal information"
+msgstr "Персональная информация"
 
-#: root/core/admin.py:40
-#, fuzzy
-#| msgid "Birth date"
+#: root/core/admin.py:41
+msgid "Access rights"
+msgstr "Права доступа"
+
+#: root/core/admin.py:52
 msgid "Other dates"
 msgstr "Дата рождения"
+
+#: root/core/admin.py:103
+#: root/core/templates/admin/add_client_object_tools.html:7
+msgid "Add client"
+msgstr "Добавить клиента"
+
+#: root/core/models.py:17
+msgid "Patronymic"
+msgstr "Отчество"
+
+#: root/core/models.py:18
+msgid "Phone number"
+msgstr "Номер телефона"
+
+#: root/core/models.py:19
+msgid "Birth date"
+msgstr "Дата рождения"
+
+#: root/core/models.py:30
+msgid "Social type"
+msgstr "Тип соц.сети"
+
+#: root/core/models.py:32
+msgid "Telegram id"
+msgstr "Идентификатор Telegram"
+
+#: root/core/models.py:40
+msgid "User social"
+msgstr "Имя пользователя"
+
+#: root/core/models.py:41
+msgid "User socials"
+msgstr "Соц.сети"
+
+#: root/core/models.py:61
+msgid "Social user id or social username must be set"
+msgstr "Идентификатор или имя пользователя должны быть указаны"
+
+#: root/core/templates/admin/core/user/add_form.html:6
+msgid ""
+"Provide basic customer information. A login will be generated from the "
+"submitted full name. If you leave the fields empty, it will be generated "
+"automatically."
+msgstr ""
+"Укажите основные данные клиента. Логин будет сгенерирован из представленных "
+"ФИО. Если оставить поля пустыми, он будет сгенерирован автоматически."
+
+#: root/core/templates/admin/core/user/add_form.html:9
+msgid ""
+"First, enter a username and password. Then, you’ll be able to edit more user "
+"options."
+msgstr ""
+"Сначала введите имя пользователя и пароль. После этого вы сможете "
+"редактировать дополнительные параметры пользователя."
+
+#: root/core/templates/admin/core/user/add_form.html:11
+msgid "Enter a username and password."
+msgstr "Введите имя пользователя и пароль."
 
 #: root/core/templates/index.html:11
 msgid "Скоро здесь будет мой сайт"
@@ -504,15 +508,15 @@ msgstr ""
 msgid "JW.Korotkova - ваши живые украшения"
 msgstr ""
 
-#: root/settings/base.py:146
+#: root/settings/base.py:145
 msgid "English"
 msgstr "English"
 
-#: root/settings/base.py:147
+#: root/settings/base.py:146
 msgid "Russian"
 msgstr "Русский"
 
-#: root/settings/base.py:193
+#: root/settings/base.py:192
 msgid "Канал живых украшений и трансформаций Натальи Коротковой"
 msgstr ""
 

@@ -2,20 +2,20 @@ from __future__ import annotations
 
 from datetime import date
 
-from root.apps.clients.application.boundaries.clients import IClientsRepository
-from root.apps.clients.application.domain.entities import ClientEntity, SocialEntity
-from root.apps.clients.models import Client
 from root.base.repository import BaseRepository
+from root.core.application.boundaries.user import IUserRepository
+from root.core.application.domain.entities import ClientEntity, SocialEntity
+from root.core.models import User
 
 
-class ClientsRepository(BaseRepository, IClientsRepository):
-    model = Client
+class UserRepository(BaseRepository, IUserRepository):
+    model = User
     base_entity_class = ClientEntity
 
     async def get_birthday_boys(self) -> list[base_entity_class]:
         queryset = (
             self.get_queryset()
-            .prefetch_related("client_socials")
+            .prefetch_related("user_socials")
             .filter(birth_date__day=date.today().day, birth_date__month=date.today().month)
         )
         entities = []
