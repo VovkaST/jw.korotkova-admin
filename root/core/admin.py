@@ -102,6 +102,3 @@ class UserAdmin(DjangoUserAdmin):
         if is_client_add:
             response.context_data["title"] = _("Add client")
         return response
-
-    def save_form(self, request, form, change):
-        return super().save_form(request, form, change)
