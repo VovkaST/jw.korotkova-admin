@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.urls import resolve
 from django.utils.translation import gettext_lazy as _
 
 from root.core import models
+from root.core.forms import ClientCreationForm
 
 
 @admin.register(models.User)
-class UserAdmin(UserAdmin, admin.ModelAdmin):
+class UserAdmin(DjangoUserAdmin):
     class UserSocialInlineAdmin(admin.TabularInline):
         model = models.UserSocial
         readonly_fields = ["created_at", "updated_at"]
@@ -51,3 +53,55 @@ class UserAdmin(UserAdmin, admin.ModelAdmin):
     ]
     inlines = [UserSocialInlineAdmin]
     readonly_fields = ["date_joined", "last_login"]
+    add_client_form = ClientCreationForm
+    add_client_fieldsets = (
+        (
+            None,
+            {
+                "fields": ("last_name", "first_name", "patronymic", "birth_date", "email"),
+            },
+        ),
+    )
+    add_client_inlines = [UserSocialInlineAdmin]
+    add_form_template = "admin/core/user/add_form.html"
+
+    def is_client_add(self, request) -> bool:
+        resolved_path = resolve(request.path)
+        return resolved_path.url_name.endswith("_add_client")
+
+    def get_form(self, request, obj=None, **kwargs):
+        if self.is_client_add(request):
+            return self.add_client_form
+        return super().get_form(request, obj, **kwargs)
+
+    def get_inlines(self, request, obj):
+        if self.is_client_add(request):
+            return self.add_client_inlines
+        if not obj:
+            return ()
+        return super().get_inlines(request, obj)
+
+    def get_fieldsets(self, request, obj=None):
+        if self.is_client_add(request):
+            return self.add_client_fieldsets
+        return super().get_fieldsets(request, obj)
+
+    def get_urls(self):
+        from django.urls import path
+
+        info = self.opts.app_label, self.opts.model_name
+        urls = super().get_urls()
+        return urls + [
+            path("add/client", self.admin_site.admin_view(self.add_view), name="%s_%s_add_client" % info),
+        ]
+
+    def render_change_form(self, request, context, add=False, change=False, form_url="", obj=None):
+        response = super().render_change_form(request, context, add, change, form_url, obj)
+        is_client_add = self.is_client_add(request)
+        response.context_data["is_client_add"] = is_client_add
+        if is_client_add:
+            response.context_data["title"] = _("Add client")
+        return response
+
+    def save_form(self, request, form, change):
+        return super().save_form(request, form, change)
