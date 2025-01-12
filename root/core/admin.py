@@ -34,6 +34,7 @@ class UserAdmin(DjangoUserAdmin):
                     "patronymic",
                     "birth_date",
                     "email",
+                    "phone",
                 )
             },
         ),
@@ -58,7 +59,7 @@ class UserAdmin(DjangoUserAdmin):
         (
             None,
             {
-                "fields": ("last_name", "first_name", "patronymic", "birth_date", "email"),
+                "fields": ("last_name", "first_name", "patronymic", "birth_date", "email", "phone"),
             },
         ),
     )

@@ -12,7 +12,7 @@ default_username_pattern = re.compile(r"^\D+(?P<index>\d+)?$", flags=re.IGNORECA
 class ClientCreationForm(forms.ModelForm):
     class Meta:
         model = models.User
-        fields = ("last_name", "first_name", "patronymic", "birth_date", "email")
+        fields = ("last_name", "first_name", "patronymic", "birth_date", "email", "phone")
         widgets = {
             "birth_date": widgets.AdminDateWidget(),
         }
