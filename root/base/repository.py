@@ -69,7 +69,7 @@ class BaseRepository(Singleton, IBaseRepository):
             async for instance in queryset.aiterator()
         ]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         return self.model.objects.all()
 
     def get_model_field_names(self, model: DjangoModel) -> set[str]:
