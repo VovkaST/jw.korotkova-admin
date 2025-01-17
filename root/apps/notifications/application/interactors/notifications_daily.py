@@ -28,7 +28,7 @@ class NotificationsDailyInteractor:
             for social in client.socials:
                 if social.social_type == SocialsChoices.TELEGRAM:
                     break
-            client_name = f"{client.surname} {client.name}"
+            client_name = f"{client.last_name} {client.first_name}"
             if social and social.user_id:
                 items.append(f"- {client_name} ({social.user_id})")
             else:
@@ -48,16 +48,18 @@ class NotificationsDailyInteractor:
             return "No birthday boys found"
 
         users_list = self.make_clients_list(birthday_boys)
-        to_send, sent = len(notifications_daily), 0
+        to_send, sent, user_quantity = len(notifications_daily), 0, 0
 
         for notification in notifications_daily:
+            user_quantity += len(notification.users)
             for user in notification.users:
-                if notification.by_telegram and user.telegram_id:
-                    chat_id = await self.user_chats_repo.get_chat(username=user.telegram_id)
-                    if not chat_id:
-                        continue
-                    message = self.make_message(user, users_list)
-                    await bot_instance.bot.send_message(chat_id, message)
-                    sent += 1
+                if notification.by_telegram:
+                    for telegram in user.telegram:
+                        chat_id = await self.user_chats_repo.get_chat(username=telegram.social_user_id)
+                        if not chat_id:
+                            continue
+                        message = self.make_message(user, users_list)
+                        await bot_instance.bot.send_message(chat_id, message)
+                        sent += 1
 
-        return f"Notifications to send: {to_send}, was sent: {sent}"
+        return f"Notifications to send: {to_send}, target users: {user_quantity}, was sent: {sent}"

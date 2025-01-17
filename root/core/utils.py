@@ -19,7 +19,7 @@ def gettext_lazy(message: str) -> str:
 
 
 def django_setup():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings.local")
     django.setup()
 
 

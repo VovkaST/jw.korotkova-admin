@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
                     "user",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="user_socials",
+                        related_name="socials",
                         to=settings.AUTH_USER_MODEL,
                         verbose_name="User",
                     ),

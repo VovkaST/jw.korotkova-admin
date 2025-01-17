@@ -33,7 +33,7 @@ class UserSocial(TimedModel):
     social_username = models.CharField(
         _("Username"), max_length=255, null=True, blank=True, db_comment="Social username"
     )
-    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE, related_name="user_socials")
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE, related_name="socials")
 
     class Meta:
         db_table = "jw_user_social"

@@ -23,10 +23,13 @@ class NotificationsDailyRepository(BaseRepository, INotificationsDailyRepository
         return queryset.prefetch_related("users").filter(is_active=True)
 
     async def get_active_notifications(self, notification_type: NotificationDailyType) -> list[base_entity_class]:
-        queryset = self.get_queryset().filter(type=notification_type).all()
+        queryset = self.get_queryset().prefetch_related("users__socials").filter(type=notification_type).all()
         entities = []
         async for notification in queryset:
             entity = await self.to_entity(self.base_entity_class, notification)
-            entity.users = [await self.to_entity(UserEntity, user) async for user in notification.users.all()]
+            entity.users = [
+                await self.to_entity(UserEntity, user, include_relation={"socials"}, depth=1)
+                async for user in notification.users.all()
+            ]
             entities.append(entity)
         return entities

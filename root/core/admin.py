@@ -17,7 +17,7 @@ class UserAdmin(DjangoUserAdmin):
         list_display = ["user", "social_type", "social_user_id", "social_username"]
 
         def get_extra(self, request, obj: models.User = None, **kwargs):
-            if not obj or not (items := obj.user_socials.all().count()):
+            if not obj or not (items := obj.socials.all().count()):
                 return 1
             return items - 1
 
