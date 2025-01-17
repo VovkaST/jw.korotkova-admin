@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import os
+from collections.abc import Callable
+from contextlib import asynccontextmanager
+from functools import wraps
 
 import django
 import transliterate
@@ -8,6 +11,19 @@ from django.contrib import admin
 from django.utils.text import slugify as django_slugify
 from django.utils.translation import gettext as django_gettext
 from django.utils.translation import gettext_lazy as django_gettext_lazy
+
+
+def removable(function) -> Callable:
+    """Decorator for async context managers functions that deletes the returned instance after exit."""
+
+    @wraps(function)
+    @asynccontextmanager
+    async def _wrapper(*args, **kwargs):
+        instance = await function(*args, **kwargs)
+        yield instance
+        await instance.adelete()
+
+    return _wrapper
 
 
 def gettext(message: str) -> str:

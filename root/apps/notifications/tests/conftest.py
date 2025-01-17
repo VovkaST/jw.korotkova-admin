@@ -1,16 +1,16 @@
 from collections.abc import Callable
-from contextlib import asynccontextmanager
 
 import pytest
 
 from root.apps.notifications.application.domain.enums import NotificationDailyType
 from root.apps.notifications.models import NotificationDaily
 from root.core.models import User
+from root.core.utils import removable
 
 
 @pytest.fixture
 def test_notification_daily() -> Callable:
-    @asynccontextmanager
+    @removable
     async def _wrapper(
         mailing_name: str,
         users: list[User] = None,
@@ -30,7 +30,6 @@ def test_notification_daily() -> Callable:
         )
         if users:
             await instance.users.aset(users)
-        yield instance
-        await instance.adelete()
+        return instance
 
     return _wrapper
