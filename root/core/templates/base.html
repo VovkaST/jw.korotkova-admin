@@ -27,7 +27,7 @@
   {% endblock title %}
   </title>
   {% if site_settings.use_yandex_metrika and site_settings.yandex_metrika_code %}
-    {{ site_settings.yandex_metrika_code }}
+    {{ site_settings.yandex_metrika_code|safe }}
   {% endif %}
 </head>
 <body>
