@@ -84,6 +84,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "root.core.context_processors.app_config",
+                "root.core.context_processors.site_settings",
             ],
             "loaders": (
                 "django.template.loaders.filesystem.Loader",

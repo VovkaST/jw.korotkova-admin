@@ -4,20 +4,47 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
+from django.forms import model_to_dict
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from root.base.models import SingletonModel, TimedModel
+from root.core.application.domain.entities import SiteSettingsEntity
 from root.core.enums import SocialsChoices
 
 
 class SiteSettings(SingletonModel):
     """Site settings singleton models"""
 
-    title = models.CharField(_("Site title"), max_length=255, blank=True, null=True, db_comment="Site title")
-    description = models.CharField(_("Site description"), blank=True, null=True, db_comment="Site description")
-    tm_label = models.CharField(_("Trade mark label"), blank=True, null=True, db_comment="Trade mark label")
-    yandex_metrika = models.CharField(
+    title = models.CharField(
+        _("Site title"),
+        max_length=255,
+        blank=True,
+        null=True,
+        db_comment="Site title",
+        help_text=_("Title using to show on top of site and browser tab"),
+    )
+    description = models.CharField(
+        _("Site description"),
+        blank=True,
+        null=True,
+        db_comment="Site description",
+        help_text=_("Description for search robots"),
+    )
+    tm_label = models.CharField(
+        _("Trade mark label"),
+        blank=True,
+        null=True,
+        db_comment="Trade mark label",
+        help_text=_("Using on TM-label as main text"),
+    )
+    use_yandex_metrika = models.BooleanField(
+        _("Use Yandex metrika widget"),
+        default=False,
+        db_comment="Code of Yandex metrika widget",
+        help_text=_("Ability to toggle using Yandex metrika widget"),
+    )
+    yandex_metrika_code = models.CharField(
         _("Code of Yandex metrika widget"), blank=True, null=True, db_comment="Code of Yandex metrika widget"
     )
     telegram_channel = models.CharField(
@@ -27,11 +54,21 @@ class SiteSettings(SingletonModel):
         _("Telegram channel description"), blank=True, null=True, db_comment="Telegram channel description"
     )
 
+    def __str__(self):
+        return str(_("Site settings"))
+
     class Meta:
         db_table = "jw_settings"
         db_table_comment = "Site dynamic settings"
-        verbose_name = _("Settings")
-        verbose_name_plural = _("Settings")
+        verbose_name = _("Site settings")
+        verbose_name_plural = _("Site settings")
+
+    @classmethod
+    def load(cls, to_entity: bool = False) -> SiteSettingsEntity:
+        instance = super().load()
+        if to_entity:
+            return SiteSettingsEntity(**model_to_dict(instance))
+        return instance
 
 
 class User(AbstractUser):
