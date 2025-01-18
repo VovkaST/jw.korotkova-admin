@@ -4,6 +4,7 @@ import os
 from collections.abc import Callable
 from contextlib import asynccontextmanager
 from functools import wraps
+from pathlib import Path
 
 import django
 import transliterate
@@ -32,6 +33,12 @@ def gettext(message: str) -> str:
 
 def gettext_lazy(message: str) -> str:
     return django_gettext_lazy(message)
+
+
+def get_app_name(file_name: str, parent_level: int = 0) -> str:
+    full_path = Path(file_name)
+    parent = full_path.parents[parent_level]
+    return parent.name
 
 
 def django_setup():
