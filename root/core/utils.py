@@ -36,6 +36,10 @@ def gettext_lazy(message: str) -> str:
 
 
 def get_app_name(file_name: str, parent_level: int = 0) -> str:
+    """
+    Extract application name of given file name. parent_level indicates what level of pre-parents is app root.
+    0 level - is file's parent dir, 1 level is parent's parent (grand parent) and e.t.c.
+    """
     full_path = Path(file_name)
     parent = full_path.parents[parent_level]
     return parent.name
