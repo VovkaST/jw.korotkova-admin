@@ -7,8 +7,31 @@ from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from root.base.models import TimedModel
+from root.base.models import SingletonModel, TimedModel
 from root.core.enums import SocialsChoices
+
+
+class SiteSettings(SingletonModel):
+    """Site settings singleton models"""
+
+    title = models.CharField(_("Site title"), max_length=255, blank=True, null=True, db_comment="Site title")
+    description = models.CharField(_("Site description"), blank=True, null=True, db_comment="Site description")
+    tm_label = models.CharField(_("Trade mark label"), blank=True, null=True, db_comment="Trade mark label")
+    yandex_metrika = models.CharField(
+        _("Code of Yandex metrika widget"), blank=True, null=True, db_comment="Code of Yandex metrika widget"
+    )
+    telegram_channel = models.CharField(
+        _("Telegram channel name"), max_length=100, blank=True, null=True, db_comment="Telegram channel name"
+    )
+    telegram_channel_description = models.CharField(
+        _("Telegram channel description"), blank=True, null=True, db_comment="Telegram channel description"
+    )
+
+    class Meta:
+        db_table = "jw_settings"
+        db_table_comment = "Site dynamic settings"
+        verbose_name = _("Settings")
+        verbose_name_plural = _("Settings")
 
 
 class User(AbstractUser):
