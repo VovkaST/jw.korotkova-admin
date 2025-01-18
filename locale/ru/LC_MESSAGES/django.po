@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-12 17:39+0300\n"
+"POT-Creation-Date: 2025-01-19 00:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr "Описание"
 msgid "Welcome message"
 msgstr "Приветственное сообщение"
 
-#: root/apps/bot/models.py:25 root/core/models.py:34
+#: root/apps/bot/models.py:25 root/core/models.py:94
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -152,8 +152,7 @@ msgstr "Каналы"
 msgid "Email"
 msgstr "Эл.почта"
 
-#: root/apps/notifications/application/domain/enums.py:7
-#, fuzzy
+#: root/apps/notifications/application/domain/enums.py:7 root/core/admin.py:21
 #| msgid "Telegram id"
 msgid "Telegram"
 msgstr "Идентификатор Telegram"
@@ -201,10 +200,9 @@ msgid "Send notification by e-mail"
 msgstr "Отправлять уведомление по эл.почте"
 
 #: root/apps/notifications/models.py:19
-#, fuzzy
 #| msgid "Telegram id"
 msgid "By Telegram"
-msgstr "Идентификатор Telegram"
+msgstr "По Telegram"
 
 #: root/apps/notifications/models.py:19
 msgid "Send notification by Telegram"
@@ -218,7 +216,7 @@ msgstr "Шаблон сообщения"
 msgid "Is active"
 msgstr "Признак активности"
 
-#: root/apps/notifications/models.py:23 root/core/models.py:25
+#: root/apps/notifications/models.py:23 root/core/models.py:85
 msgid "Users"
 msgstr "Пользователи"
 
@@ -238,8 +236,8 @@ msgstr "Тип уведомления"
 msgid "Status"
 msgstr "Статус"
 
-#: root/apps/notifications/models.py:45 root/core/models.py:24
-#: root/core/models.py:36
+#: root/apps/notifications/models.py:45 root/core/models.py:84
+#: root/core/models.py:96
 msgid "User"
 msgstr "Пользователь"
 
@@ -430,52 +428,108 @@ msgstr "Дата и время изменения"
 msgid "Entity must be a subclass of BaseEntity"
 msgstr ""
 
-#: root/core/admin.py:29
+#: root/core/admin.py:19
+msgid "Trade mark"
+msgstr "Торговая марка"
+
+#: root/core/admin.py:20
+msgid "Site metriks"
+msgstr "Метрики сайта"
+
+#: root/core/admin.py:54
 msgid "Personal information"
 msgstr "Персональная информация"
 
-#: root/core/admin.py:41
+#: root/core/admin.py:67
 msgid "Access rights"
 msgstr "Права доступа"
 
-#: root/core/admin.py:52
+#: root/core/admin.py:78
 msgid "Other dates"
 msgstr "Дата рождения"
 
-#: root/core/admin.py:103
+#: root/core/admin.py:132
 #: root/core/templates/admin/add_client_object_tools.html:7
 msgid "Add client"
 msgstr "Добавить клиента"
 
-#: root/core/models.py:17
+#: root/core/models.py:20
+msgid "Site title"
+msgstr "Название сайта"
+
+#: root/core/models.py:25
+msgid "Title using to show on top of site and browser tab"
+msgstr "Название сайта используется по умолчанию в названии вкладки браузера"
+
+#: root/core/models.py:28
+msgid "Site description"
+msgstr "Описание сайта"
+
+#: root/core/models.py:32
+msgid "Description for search robots"
+msgstr "Описание сайта для поисковых роботов"
+
+#: root/core/models.py:35
+msgid "Trade mark label"
+msgstr "Название торговой марки"
+
+#: root/core/models.py:39
+msgid "Using on TM-label as main text"
+msgstr "Используется в значке торговой марки в качестве основного текста"
+
+#: root/core/models.py:42
+msgid "Use Yandex metrika widget"
+msgstr "Использовать виджет Яндекс.Метрики"
+
+#: root/core/models.py:45
+msgid "Ability to toggle using Yandex metrika widget"
+msgstr "Переключение использования виджета Яндекс.Метрики"
+
+#: root/core/models.py:48
+msgid "Code of Yandex metrika widget"
+msgstr "Код виджета Яндекс.Метрики"
+
+#: root/core/models.py:51
+msgid "Telegram channel name"
+msgstr "Название Telegram канала"
+
+#: root/core/models.py:54
+msgid "Telegram channel description"
+msgstr "Описание Telegram канала"
+
+#: root/core/models.py:58 root/core/models.py:63 root/core/models.py:64
+msgid "Site settings"
+msgstr "Настроки сайта"
+
+#: root/core/models.py:77
 msgid "Patronymic"
 msgstr "Отчество"
 
-#: root/core/models.py:18
+#: root/core/models.py:78
 msgid "Phone number"
 msgstr "Номер телефона"
 
-#: root/core/models.py:19
+#: root/core/models.py:79
 msgid "Birth date"
 msgstr "Дата рождения"
 
-#: root/core/models.py:30
+#: root/core/models.py:90
 msgid "Social type"
 msgstr "Тип соц.сети"
 
-#: root/core/models.py:32
+#: root/core/models.py:92
 msgid "Telegram id"
 msgstr "Идентификатор Telegram"
 
-#: root/core/models.py:40
+#: root/core/models.py:100
 msgid "User social"
 msgstr "Имя пользователя"
 
-#: root/core/models.py:41
+#: root/core/models.py:101
 msgid "User socials"
 msgstr "Соц.сети"
 
-#: root/core/models.py:61
+#: root/core/models.py:121
 msgid "Social user id or social username must be set"
 msgstr "Идентификатор или имя пользователя должны быть указаны"
 
@@ -504,7 +558,7 @@ msgstr "Введите имя пользователя и пароль."
 msgid "Скоро здесь будет мой сайт"
 msgstr ""
 
-#: root/core/views.py:8
+#: root/core/views.py:9
 msgid "JW.Korotkova - ваши живые украшения"
 msgstr ""
 
@@ -512,11 +566,11 @@ msgstr ""
 msgid "English"
 msgstr "English"
 
-#: root/settings/base.py:146
+#: root/settings/base.py:146 root/settings/test.py:7
 msgid "Russian"
 msgstr "Русский"
 
-#: root/settings/base.py:192
+#: root/settings/base.py:193
 msgid "Канал живых украшений и трансформаций Натальи Коротковой"
 msgstr ""
 
