@@ -58,11 +58,15 @@ class TestDailyNotification:
     async def test_success(
         self, test_user, test_staff, test_notification_daily, test_user_social, mock_bot, test_user_chat
     ):
-        async with test_user("some_user1", first_name="Jack", last_name="London", birth_date=d1) as user, test_user(
+        async with test_user(
+            "some_user1", first_name="Jack", last_name="London", birth_date=d1
+        ) as user1, test_user_social(
+            SocialsChoices.WHATSAPP, user1, social_user_id="@user1_whatsapp"
+        ) as user2_telegram, test_user(
             "some_user2", first_name="James", last_name="Bond", birth_date=d2
-        ) as user2, test_user("some_user3", first_name="Rowan", last_name="Atkinson", birth_date=d3), test_staff(
-            "some_admin1"
-        ) as admin1, test_user_social(
+        ) as user2, test_user("some_user3", first_name="Rowan", last_name="Atkinson", birth_date=d3), test_user_social(
+            SocialsChoices.TELEGRAM, user2, social_user_id="@user2_telegram"
+        ) as user2_telegram, test_staff("some_admin1") as admin1, test_user_social(
             SocialsChoices.TELEGRAM, admin1, social_user_id="@admin1_telegram"
         ) as admin1_telegram, test_user_chat(
             user_id="123", chat_id="123", username=admin1_telegram.social_user_id
@@ -81,12 +85,11 @@ class TestDailyNotification:
         send1 = mock_bot.bot.send_message.call_args_list[0]
         send2 = mock_bot.bot.send_message.call_args_list[1]
 
-        clients_content = "\n".join([f"- {u.last_name} {u.first_name}" for u in [user, user2]])
         assert send1.args == (
-            admin1_chat.user_id,
-            f"{admin1.username}, не забудь поздравить сегодняшних именинников:\n{clients_content}",
+            "123",
+            "some_admin1, не забудь поздравить сегодняшних именинников:\n- London Jack\n- Bond James (@user2_telegram)",
         )
         assert send2.args == (
-            admin2_chat.user_id,
-            f"{admin2.first_name}, не забудь поздравить сегодняшних именинников:\n{clients_content}",
+            "456",
+            "mr. Admin, не забудь поздравить сегодняшних именинников:\n- London Jack\n- Bond James (@user2_telegram)",
         )

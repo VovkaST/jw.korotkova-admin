@@ -24,13 +24,14 @@ class NotificationsDailyInteractor:
     def make_clients_list(clients: list[ClientEntity]) -> str:
         items = []
         for client in clients:
-            social = None
             for social in client.socials:
                 if social.social_type == SocialsChoices.TELEGRAM:
                     break
+            else:
+                social = None
             client_name = f"{client.last_name} {client.first_name}"
-            if social and social.user_id:
-                items.append(f"- {client_name} ({social.user_id})")
+            if social and social.social_user_id:
+                items.append(f"- {client_name} ({social.social_user_id})")
             else:
                 items.append(f"- {client_name}")
 
