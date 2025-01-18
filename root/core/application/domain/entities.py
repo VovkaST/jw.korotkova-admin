@@ -8,6 +8,16 @@ from root.base.entity import BaseEntity, IDMixin
 from root.core.enums import SocialsChoices
 
 
+class SiteSettingsEntity(BaseEntity):
+    title: str | None = Field(default=None)
+    description: str | None = Field(default=None)
+    tm_label: str | None = Field(default=None)
+    use_yandex_metrika: bool | None = Field(default=False)
+    yandex_metrika_code: str | None = Field(default=None)
+    telegram_channel: str | None = Field(default=None)
+    telegram_channel_description: str | None = Field(default=None)
+
+
 class SocialEntity(BaseEntity):
     social_type: SocialsChoices
     social_user_id: str | None = Field(default=None)

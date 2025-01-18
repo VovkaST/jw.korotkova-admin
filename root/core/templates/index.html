@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n telegram_utils %}
 
 {% block body %}
 <div class="main-substrate">
   <div class="tm-label-block">
     <div class="tm-label__round mb-4">
-      <div class="tm-label__title">{{ app_config.tm_label_text }}</div>
+      <div class="tm-label__title">{{ site_settings.tm_label }}</div>
     </div>
     <p class="text-center">
       <i>{% trans 'Скоро здесь будет мой сайт' %}</i>
@@ -13,11 +13,11 @@
     <p class="text-center mx-4">
       А&nbsp;пока присоединяйтесь к&nbsp;моему Telegram&#8209;каналу
       <a
-        href="{{ app_config.telegram_channel.link }}"
+        href="{% telegram_url site_settings.telegram_channel %}"
         target="_blank"
-        title="{{ app_config.telegram_channel.description }}"
+        title="{{ site_settings.telegram_channel_description }}"
       >
-        {{ app_config.telegram_channel.name }}
+        {% telegram_url site_settings.telegram_channel to_full=False %}
       </a>
     </p>
   </div>

@@ -14,17 +14,20 @@
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% if page_description or site_settings.description %}
+      <meta name="description" content="{% if page_description %}{{ page_description }}{% else %}{{ site_settings.description }}{% endif %}"/>
+  {% endif %}
   <title>
   {% block title %}
     {% if page_title %}
       {{ page_title }}
     {% else %}
-      JW.Korotkova
+      {{ site_settings.title }}
     {% endif %}
   {% endblock title %}
   </title>
-  {% if app_config.use_yandex_metrika %}
-    {% include 'yandex.metrika.html' %}
+  {% if site_settings.use_yandex_metrika and site_settings.yandex_metrika_code %}
+    {{ site_settings.yandex_metrika_code }}
   {% endif %}
 </head>
 <body>

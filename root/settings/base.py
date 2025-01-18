@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Custom apps
     "root.core",
-    "root.apps.clients",
     # "root.apps.orders",
     "root.apps.products",
     "root.apps.bot",
@@ -85,6 +84,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "root.core.context_processors.app_config",
+                "root.core.context_processors.site_settings",
             ],
             "loaders": (
                 "django.template.loaders.filesystem.Loader",
@@ -184,11 +184,12 @@ BOT_LOGGING_LEVEL = getLevelName(env.str("BOT_LOGGING_LEVEL", default="INFO"))
 BOT_REDIS_URL = REDIS_URL
 
 # Telegram settings and links
-TELEGRAM_CHANNEL_LINK_TEMPLATE = "https://t.me/{channel}"
-TELEGRAM_CHANNEL_MESSAGE_LINK_TEMPLATE = TELEGRAM_CHANNEL_LINK_TEMPLATE + "/{message_id}"
+TELEGRAM_URL = "https://t.me"
+TELEGRAM_URL_TEMPLATE = TELEGRAM_URL + "/{name}"
+TELEGRAM_CHANNEL_MESSAGE_LINK_TEMPLATE = TELEGRAM_URL_TEMPLATE + "/{message_id}"
 
 TELEGRAM_CHANNEL_NAME = env.str("TELEGRAM_CHANNEL_NAME", default="JW_Korotkova")
-TELEGRAM_CHANNEL_LINK = TELEGRAM_CHANNEL_LINK_TEMPLATE.format(channel=TELEGRAM_CHANNEL_NAME)
+TELEGRAM_CHANNEL_LINK = TELEGRAM_URL_TEMPLATE.format(name=TELEGRAM_CHANNEL_NAME)
 TELEGRAM_CHANNEL_DESCRIPTION = _("Канал живых украшений и трансформаций Натальи Коротковой")
 
 # Site settings

@@ -1,6 +1,7 @@
 from django.conf import settings
 
 from root.core.application.boundaries.dtos import AppConfig
+from root.core.models import SiteSettings
 
 
 def app_config(request) -> dict[str, AppConfig]:
@@ -17,3 +18,7 @@ def app_config(request) -> dict[str, AppConfig]:
             use_yandex_metrika=settings.USE_YANDEX_METRIKA,
         )
     }
+
+
+def site_settings(request):
+    return {"site_settings": SiteSettings.load(to_entity=True)}

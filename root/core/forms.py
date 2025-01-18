@@ -9,6 +9,16 @@ from root.core.utils import slugify
 default_username_pattern = re.compile(r"^\D+(?P<index>\d+)?$", flags=re.IGNORECASE)
 
 
+class SiteSettingsForm(forms.ModelForm):
+    class Meta:
+        model = models.SiteSettings
+        fields = "__all__"
+        widgets = {
+            "description": forms.Textarea,
+            "yandex_metrika_code": forms.Textarea,
+        }
+
+
 class ClientCreationForm(forms.ModelForm):
     class Meta:
         model = models.User

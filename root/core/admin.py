@@ -1,12 +1,37 @@
 from __future__ import annotations
 
+from contextlib import suppress
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.db import ProgrammingError
 from django.urls import resolve
 from django.utils.translation import gettext_lazy as _
 
 from root.core import models
-from root.core.forms import ClientCreationForm
+from root.core.forms import ClientCreationForm, SiteSettingsForm
+
+
+@admin.register(models.SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {"fields": ("title", "description")}),
+        (_("Trade mark"), {"fields": ("tm_label",)}),
+        (_("Site metriks"), {"fields": ("use_yandex_metrika", "yandex_metrika_code")}),
+        (_("Telegram"), {"fields": ("telegram_channel", "telegram_channel_description")}),
+    ]
+    form = SiteSettingsForm
+
+    def __init__(self, model, admin_site):
+        super().__init__(model, admin_site)
+        with suppress(ProgrammingError):
+            models.SiteSettings.load().save()
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(models.User)
@@ -90,10 +115,13 @@ class UserAdmin(DjangoUserAdmin):
     def get_urls(self):
         from django.urls import path
 
-        info = self.opts.app_label, self.opts.model_name
         urls = super().get_urls()
         return urls + [
-            path("add/client", self.admin_site.admin_view(self.add_view), name="%s_%s_add_client" % info),
+            path(
+                "add/client",
+                self.admin_site.admin_view(self.add_view),
+                name=f"{self.opts.app_label}_{self.opts.model_name}_add_client",
+            ),
         ]
 
     def render_change_form(self, request, context, add=False, change=False, form_url="", obj=None):
