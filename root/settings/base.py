@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Custom apps
     "root.core",
-    "root.apps.clients",
     # "root.apps.orders",
     "root.apps.products",
     "root.apps.bot",
