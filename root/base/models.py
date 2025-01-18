@@ -17,7 +17,7 @@ class CreatedTimestampModel(models.Model):
     """Родительский класс моделей для таблиц с полями даты создания"""
 
     created_at = models.DateTimeField(
-        _("Creation date and time"), auto_now_add=True, db_comment=_("Creation date and time")
+        _("Creation date and time"), auto_now_add=True, db_comment="Creation date and time"
     )
 
     class Meta:
@@ -27,7 +27,7 @@ class CreatedTimestampModel(models.Model):
 class TimedModel(CreatedTimestampModel):
     """Родительский класс моделей для таблиц с полями дат создания и изменения"""
 
-    updated_at = models.DateTimeField(_("Update date and time"), auto_now=True, db_comment=_("Update date and time"))
+    updated_at = models.DateTimeField(_("Update date and time"), auto_now=True, db_comment="Update date and time")
 
     class Meta:
         abstract = True

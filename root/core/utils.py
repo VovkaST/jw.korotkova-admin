@@ -1,11 +1,29 @@
 from __future__ import annotations
 
 import os
+from collections.abc import Callable
+from contextlib import asynccontextmanager
+from functools import wraps
 
 import django
+import transliterate
 from django.contrib import admin
+from django.utils.text import slugify as django_slugify
 from django.utils.translation import gettext as django_gettext
 from django.utils.translation import gettext_lazy as django_gettext_lazy
+
+
+def removable(function) -> Callable:
+    """Decorator for async context managers functions that deletes the returned instance after exit."""
+
+    @wraps(function)
+    @asynccontextmanager
+    async def _wrapper(*args, **kwargs):
+        instance = await function(*args, **kwargs)
+        yield instance
+        await instance.adelete()
+
+    return _wrapper
 
 
 def gettext(message: str) -> str:
@@ -17,8 +35,16 @@ def gettext_lazy(message: str) -> str:
 
 
 def django_setup():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings.local")
     django.setup()
+
+
+def slugify(text: str) -> str:
+    """
+    Converts text to slug according to the requirements for that data type.
+    In the case when the text is in Cyrillic, it transliterates it.
+    """
+    return transliterate.slugify(text) or django_slugify(text)
 
 
 def named_filter(title: str):
