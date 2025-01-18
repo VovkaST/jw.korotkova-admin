@@ -19,12 +19,12 @@
     {% if page_title %}
       {{ page_title }}
     {% else %}
-      JW.Korotkova
+      {{ site_settings.title }}
     {% endif %}
   {% endblock title %}
   </title>
-  {% if app_config.use_yandex_metrika %}
-    {% include 'yandex.metrika.html' %}
+  {% if site_settings.use_yandex_metrika and site_settings.yandex_metrika_code %}
+    {{ site_settings.yandex_metrika_code }}
   {% endif %}
 </head>
 <body>
