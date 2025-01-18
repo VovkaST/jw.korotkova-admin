@@ -19,11 +19,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from root.core.views import IndexView
+from root.core.views import HealthView, IndexView
 
 urlpatterns = (
     [
         path("", IndexView.as_view(), name="index"),
+        path("health/", HealthView.as_view(), name="health"),
         path("admin/", admin.site.urls),
         path("i18n/", include("django.conf.urls.i18n")),
         path("tinymce/", include("tinymce.urls")),
