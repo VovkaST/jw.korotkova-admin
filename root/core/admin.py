@@ -1,19 +1,17 @@
 from __future__ import annotations
 
-from contextlib import suppress
-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.db import ProgrammingError
 from django.urls import resolve
 from django.utils.translation import gettext_lazy as _
 
+from root.contrib.singleton_model.admin import SingletonModelAdmin
 from root.core import models
 from root.core.forms import ClientCreationForm, SiteSettingsForm
 
 
 @admin.register(models.SiteSettings)
-class SiteSettingsAdmin(admin.ModelAdmin):
+class SiteSettingsAdmin(SingletonModelAdmin):
     fieldsets = [
         (None, {"fields": ("title", "description")}),
         (_("Trade mark"), {"fields": ("tm_label",)}),
@@ -21,17 +19,6 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         (_("Telegram"), {"fields": ("telegram_channel", "telegram_channel_description")}),
     ]
     form = SiteSettingsForm
-
-    def __init__(self, model, admin_site):
-        super().__init__(model, admin_site)
-        with suppress(ProgrammingError):
-            models.SiteSettings.load().save()
-
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
 
 @admin.register(models.User)

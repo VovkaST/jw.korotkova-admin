@@ -4,17 +4,19 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
-from django.forms import model_to_dict
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from root.base.models import SingletonModel, TimedModel
+from root.base.models import TimedModel
+from root.contrib.singleton_model.models import SingletonModel
 from root.core.application.domain.entities import SiteSettingsEntity
 from root.core.enums import SocialsChoices
 
 
 class SiteSettings(SingletonModel):
     """Site settings singleton models"""
+
+    entity_class = SiteSettingsEntity
 
     title = models.CharField(
         _("Site title"),
@@ -62,13 +64,6 @@ class SiteSettings(SingletonModel):
         db_table_comment = "Site dynamic settings"
         verbose_name = _("Site settings")
         verbose_name_plural = _("Site settings")
-
-    @classmethod
-    def load(cls, to_entity: bool = False) -> SiteSettingsEntity:
-        instance = super().load()
-        if to_entity:
-            return SiteSettingsEntity(**model_to_dict(instance))
-        return instance
 
 
 class User(AbstractUser):

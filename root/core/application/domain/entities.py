@@ -9,13 +9,13 @@ from root.core.enums import SocialsChoices
 
 
 class SiteSettingsEntity(BaseEntity):
-    title: str | None = Field(default=None)
-    description: str | None = Field(default=None)
-    tm_label: str | None = Field(default=None)
-    use_yandex_metrika: bool | None = Field(default=False)
-    yandex_metrika_code: str | None = Field(default=None)
-    telegram_channel: str | None = Field(default=None)
-    telegram_channel_description: str | None = Field(default=None)
+    title: str = Field(default="")
+    description: str = Field(default="")
+    tm_label: str = Field(default="")
+    use_yandex_metrika: bool = Field(default=False)
+    yandex_metrika_code: str = Field(default="")
+    telegram_channel: str = Field(default="")
+    telegram_channel_description: str = Field(default="")
 
 
 class SocialEntity(BaseEntity):
