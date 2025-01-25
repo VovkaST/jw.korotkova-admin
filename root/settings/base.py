@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Contrib
+    "root.contrib.singleton_model",
     # Custom apps
     "root.core",
     # "root.apps.orders",
