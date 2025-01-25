@@ -12,6 +12,6 @@ echo -e "${GREEN}Collecting static files...${NORMAL}"
 python manage.py collectstatic --no-input
 
 echo -e "${GREEN}Run server...${NORMAL}"
-python3 manage.py runserver 0.0.0.0:8000
+python3 -m uvicorn root.asgi:application
 
 echo -e "${GREEN}Server was stopped${NORMAL}"
