@@ -35,7 +35,7 @@ async def handler_messages(message: types.Message):
     await bot_instance.bot.reply_to(message, answer)
 
 
-@bot_instance.bot.channel_post_handler(content_types=["text"])
+@bot_instance.bot.channel_post_handler(content_types=["text", "photo", "video"])
 @store_chat
 async def handler_new_channel_post(message: types.Message):
     logger.info("New post #%s was published in channel %s: %s", message.id, message.sender_chat.title, message.text)
