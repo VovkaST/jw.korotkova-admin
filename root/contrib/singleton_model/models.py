@@ -13,10 +13,14 @@ class SingletonModel(models.Model):
         if args or kwargs:
             return super().__new__(cls)
 
-        if not cls.instance:
+        if not cls.instance or not cls.instance.id:
             cls.instance, created = cls.objects.get_or_create(id=1)
 
         return cls.instance
+
+    def __init__(self, *args, **kwargs):
+        if args or kwargs:
+            super().__init__(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         self.__class__.objects.exclude(id=self.id).delete()
