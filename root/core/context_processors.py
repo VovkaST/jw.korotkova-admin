@@ -21,4 +21,4 @@ def app_config(request) -> dict[str, AppConfig]:
 
 
 def site_settings(request):
-    return {"site_settings": SiteSettings.load(to_entity=True)}
+    return {"site_settings": SiteSettings().as_entity()}
