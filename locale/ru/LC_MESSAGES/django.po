@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-26 22:48+0300\n"
+"POT-Creation-Date: 2025-01-26 23:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,7 +157,6 @@ msgid "Telegram"
 msgstr "Идентификатор Telegram"
 
 #: root/apps/notifications/application/domain/enums.py:11
-#: root/apps/orders/application/domain/enums.py:7
 msgid "New"
 msgstr "Новое"
 
@@ -257,52 +256,55 @@ msgid "Notifications mailing"
 msgstr "Рассылка уведомлений"
 
 #: root/apps/orders/application/domain/enums.py:8
+msgctxt "Order"
+msgid "New"
+msgstr "Новый"
+
+#: root/apps/orders/application/domain/enums.py:9
 msgid "In process"
 msgstr "В работе"
 
-#: root/apps/orders/application/domain/enums.py:9
+#: root/apps/orders/application/domain/enums.py:10
 msgid "Waiting for payment"
 msgstr "Ожидает оплаты"
 
-#: root/apps/orders/application/domain/enums.py:10
+#: root/apps/orders/application/domain/enums.py:11
 msgid "Delivered"
 msgstr "Доставляется"
 
-#: root/apps/orders/application/domain/enums.py:11
+#: root/apps/orders/application/domain/enums.py:12
 msgid "Completed"
 msgstr "Завершен"
 
-#: root/apps/orders/application/domain/enums.py:12
+#: root/apps/orders/application/domain/enums.py:13
 msgid "Canceled"
 msgstr "Отменен"
 
-#: root/apps/orders/application/domain/enums.py:16
+#: root/apps/orders/application/domain/enums.py:17
 msgid "Pickup"
 msgstr "Самовывоз"
 
-#: root/apps/orders/application/domain/enums.py:17
+#: root/apps/orders/application/domain/enums.py:18
 msgid "Yandex"
 msgstr "Яндекс"
 
-#: root/apps/orders/application/domain/enums.py:18
-#, fuzzy
-#| msgid "Russian"
+#: root/apps/orders/application/domain/enums.py:19
 msgid "Russian Post"
 msgstr "Почта России"
 
-#: root/apps/orders/application/domain/enums.py:19
+#: root/apps/orders/application/domain/enums.py:20
 msgid "CDEK"
 msgstr "СДЭК"
 
-#: root/apps/orders/application/domain/enums.py:23
+#: root/apps/orders/application/domain/enums.py:24
 msgid "Prepayment"
 msgstr "Предоплата"
 
-#: root/apps/orders/application/domain/enums.py:24
+#: root/apps/orders/application/domain/enums.py:25
 msgid "Partial payment"
 msgstr "Частичная оплата"
 
-#: root/apps/orders/application/domain/enums.py:25
+#: root/apps/orders/application/domain/enums.py:26
 msgid "Full payment"
 msgstr "Полная оплата"
 

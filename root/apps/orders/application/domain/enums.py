@@ -1,10 +1,11 @@
 from django.db.models import TextChoices
 
 from root.core.utils import gettext_lazy as _
+from root.core.utils import pgettext_lazy
 
 
 class OrderStatusChoices(TextChoices):
-    NEW = "NEW", _("New")
+    NEW = "NEW", pgettext_lazy("Order", "New")
     IN_PROCESS = "IN_PROCESS", _("In process")
     PAYMENT_AWAIT = "PAYMENT_AWAIT", _("Waiting for payment")
     DELIVERY = "DELIVERY", _("Delivered")
