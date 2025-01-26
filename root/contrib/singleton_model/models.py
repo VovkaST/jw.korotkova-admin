@@ -15,6 +15,8 @@ class SingletonModel(models.Model):
 
         if not cls.instance or not cls.instance.id:
             cls.instance, created = cls.objects.get_or_create(id=1)
+        else:
+            cls.instance.refresh_from_db()
 
         return cls.instance
 
