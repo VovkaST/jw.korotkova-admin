@@ -51,12 +51,12 @@ class ProductAdmin(admin.ModelAdmin):
 
         get_message_link.short_description = _("Message link")
 
-    list_display = ["get_lot", "get_type_name", "title", "price", "in_stock"]
-    list_filter = [("type__name", named_filter(_("Product type"))), "in_stock"]
+    list_display = ["get_lot", "category", "get_type_name", "title", "price", "in_stock"]
+    list_filter = [("type__name", named_filter(_("Product type"))), "category", "in_stock"]
     search_fields = ["id", "guid", "title"]
     form = ProductForm
     fieldsets = (
-        (None, {"fields": ["type", "title", "description", "price", "in_stock"]}),
+        (None, {"fields": ["category", "type", "title", "description", "price", "in_stock"]}),
         ("Additional info", {"fields": ["guid", "created_at", "updated_at"]}),
     )
     readonly_fields = ["guid", "created_at", "updated_at"]
