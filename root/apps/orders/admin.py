@@ -1,10 +1,20 @@
+from django import forms
 from django.contrib import admin
+from tinymce.widgets import TinyMCE
 
 from root.apps.orders import models
 
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    class OrderForm(forms.ModelForm):
+        class Meta:
+            model = models.Order
+            fields = "__all__"
+            widgets = {
+                "note": TinyMCE(attrs={"rows": 10}),
+            }
+
     class OrderItemInline(admin.TabularInline):
         model = models.OrderItem
         readonly_fields = ["price", "total_sum", "discounted_sum"]
@@ -23,6 +33,7 @@ class OrderAdmin(admin.ModelAdmin):
                 return 1
             return items - 1
 
+    form = OrderForm
     readonly_fields = [
         "guid",
         "total_sum",
