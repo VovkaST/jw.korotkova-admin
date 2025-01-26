@@ -45,7 +45,7 @@ class ProductAdmin(admin.ModelAdmin):
 
         def get_message_link(self, obj: models.ProductChannelPublication) -> str:
             link = settings.TELEGRAM_CHANNEL_MESSAGE_LINK_TEMPLATE.format(
-                channel=obj.channel.link, message_id=obj.message_id
+                name=obj.channel.link, message_id=obj.message_id
             )
             return mark_safe(f'<a href="{link}" target="_blank">{link}</a>')
 
