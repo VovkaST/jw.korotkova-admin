@@ -33,7 +33,6 @@ class Order(TimedModel):
         decimal_places=2,
         max_digits=10,
         db_comment="Total order sum",
-        editable=False,
         default=0,
         validators=[validators.MinValueValidator(0)],
     )
@@ -50,7 +49,6 @@ class Order(TimedModel):
         decimal_places=2,
         max_digits=10,
         db_comment="Sum with discount",
-        editable=False,
         default=0,
         validators=[validators.MinValueValidator(0)],
     )
@@ -107,7 +105,6 @@ class OrderItem(TimedModel):
         decimal_places=2,
         max_digits=10,
         db_comment="Total order sum",
-        editable=False,
         default=0,
         validators=[validators.MinValueValidator(0)],
     )
@@ -124,7 +121,6 @@ class OrderItem(TimedModel):
         decimal_places=2,
         max_digits=10,
         db_comment="Sum with discount",
-        editable=False,
         default=0,
         validators=[validators.MinValueValidator(0)],
     )
