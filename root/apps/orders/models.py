@@ -26,7 +26,7 @@ class Order(TimedModel):
         max_digits=5,
         db_comment="Percent of discount",
         default=0,
-        validators=[validators.MinValueValidator(0), validators.MaxValueValidator(1)],
+        validators=[validators.MinValueValidator(0), validators.MaxValueValidator(100)],
     )
     total_sum = models.DecimalField(
         _("Total order sum"),
@@ -98,7 +98,7 @@ class OrderItem(TimedModel):
         max_digits=5,
         db_comment="Percent of discount",
         default=0,
-        validators=[validators.MinValueValidator(0), validators.MaxValueValidator(1)],
+        validators=[validators.MinValueValidator(0), validators.MaxValueValidator(100)],
     )
     total_sum = models.DecimalField(
         _("Total order sum"),
