@@ -4,6 +4,11 @@ from root.core.utils import gettext_lazy as _
 from root.core.utils import pgettext_lazy
 
 
+class OrderCategoryChoices(TextChoices):
+    MAKING_JEWELRY = "MAKING_JEWELRY", _("Making jewelry")
+    SALE = "SALE", _("Sale")
+
+
 class OrderStatusChoices(TextChoices):
     NEW = "NEW", pgettext_lazy("Order", "New")
     IN_PROCESS = "IN_PROCESS", _("In process")

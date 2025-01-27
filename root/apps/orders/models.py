@@ -3,13 +3,21 @@ import uuid
 from django.core import validators
 from django.db import models
 
-from root.apps.orders.application.domain.enums import DeliveryMethodChoices, OrderStatusChoices, PaymentTypeChoices
+from root.apps.orders.application.domain.enums import (
+    DeliveryMethodChoices,
+    OrderCategoryChoices,
+    OrderStatusChoices,
+    PaymentTypeChoices,
+)
 from root.base.models import TimedModel
 from root.core.utils import gettext_lazy as _
 
 
 class Order(TimedModel):
     guid = models.UUIDField(unique=True, default=uuid.uuid4)
+    category = models.CharField(
+        _("Category"), max_length=50, db_comment="Order category", choices=OrderCategoryChoices.choices
+    )
     status = models.CharField(
         _("Order status"),
         max_length=50,
