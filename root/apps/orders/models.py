@@ -26,7 +26,12 @@ class Order(TimedModel):
         default=OrderStatusChoices.NEW,
     )
     user = models.ForeignKey(
-        "core.User", verbose_name=_("Client"), on_delete=models.CASCADE, related_name="order_client"
+        "core.User",
+        verbose_name=_("Client"),
+        on_delete=models.CASCADE,
+        related_name="order_client",
+        null=True,
+        blank=True,
     )
     discount = models.DecimalField(
         _("Percent of discount"),
@@ -61,7 +66,12 @@ class Order(TimedModel):
         validators=[validators.MinValueValidator(0)],
     )
     delivery_method = models.CharField(
-        _("Delivery method"), max_length=50, db_comment="Delivery method", choices=DeliveryMethodChoices.choices
+        _("Delivery method"),
+        max_length=50,
+        db_comment="Delivery method",
+        choices=DeliveryMethodChoices.choices,
+        blank=True,
+        null=True,
     )
     delivery_address = models.CharField(
         _("Delivery address"), max_length=255, null=True, blank=True, db_comment="Delivery address"
