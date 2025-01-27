@@ -1,18 +1,20 @@
 from decimal import Decimal
 
-from pydantic import UUID4, Field
+from pydantic import UUID4, BaseModel, Field, NonNegativeInt
 
 from root.apps.orders.application.domain.enums import DeliveryMethodChoices, OrderCategoryChoices, OrderStatusChoices
-from root.base.entity import BaseEntity, IDMixin
-from root.core.application.domain.entities import UserEntity
 
 
-class OrderEntity(IDMixin, BaseEntity):
+class OrderCreateDTO(BaseModel):
+    category: OrderCategoryChoices
+
+
+class OrderDTO(BaseModel):
+    id: NonNegativeInt
     guid: UUID4
     category: OrderCategoryChoices
     status: OrderStatusChoices
     user_id: int | None = Field(default=None)
-    user: UserEntity | None = Field(default=None)
     discount: Decimal | None = Field(default=0)
     total_sum: Decimal | None = Field(default=0)
     discount_sum: Decimal | None = Field(default=0)
