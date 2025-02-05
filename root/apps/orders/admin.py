@@ -10,6 +10,7 @@ from root.apps.orders.application.controllers.order import OrdersController
 from root.apps.orders.application.domain.enums import OrderStatusChoices
 from root.apps.orders.views import NewOrderView, OrderStatusView
 from root.contrib.utils import dotval
+from root.core.utils import gettext_lazy as _
 
 
 @admin.register(models.Order)
@@ -52,7 +53,7 @@ class OrderAdmin(admin.ModelAdmin):
             return items - 1
 
     form = OrderForm
-    list_display = ["__str__", "order_status"]
+    list_display = ["order_status", "__str__", "user"]
     list_filter = ["category", "status"]
     readonly_fields = [
         "guid",
@@ -76,6 +77,8 @@ class OrderAdmin(admin.ModelAdmin):
     def order_status(self, obj, *args, **kwargs):
         status = OrderStatusChoices(obj.status)
         return mark_safe(f'<div class="order_status {obj.status.lower()}">{status.label}</div>')
+
+    order_status.short_description = _("Status")
 
     def get_urls(self):
         from django.urls import path

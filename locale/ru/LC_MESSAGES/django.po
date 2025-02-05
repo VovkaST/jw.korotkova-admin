@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-05 21:46+0300\n"
+"POT-Creation-Date: 2025-02-05 21:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,7 +169,6 @@ msgid "Error"
 msgstr "Ошибка"
 
 #: root/apps/notifications/application/domain/enums.py:17
-#| msgid "Birth date"
 msgid "Birthday"
 msgstr "Дата рождения"
 
@@ -229,7 +228,7 @@ msgstr "Ежедневные уведомления"
 msgid "Notification type"
 msgstr "Тип уведомления"
 
-#: root/apps/notifications/models.py:42
+#: root/apps/notifications/models.py:42 root/apps/orders/admin.py:81
 msgid "Status"
 msgstr "Статус"
 
@@ -338,12 +337,10 @@ msgid "Cannot push order to given status"
 msgstr "Невозможно изменить статус заказа"
 
 #: root/apps/orders/application/interactors/order.py:97
-#| msgid "Canceled"
 msgid "Cancel"
 msgstr "Отменен"
 
 #: root/apps/orders/application/interactors/order.py:98
-#| msgid "In process"
 msgid "To process"
 msgstr "В работе"
 
