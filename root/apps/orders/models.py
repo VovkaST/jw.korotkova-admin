@@ -2,6 +2,8 @@ import uuid
 
 from django.core import validators
 from django.db import models
+from django.utils import dateformat
+from django.utils.safestring import mark_safe
 
 from root.apps.orders.application.domain.enums import (
     DeliveryMethodChoices,
@@ -84,7 +86,12 @@ class Order(TimedModel):
         verbose_name_plural = _("Orders")
 
     def __str__(self):
-        return f"{_('Order')} №{self.id} {_('from')} {self.created_at}"
+        category = OrderCategoryChoices(self.category)
+        return mark_safe(f"{_('Order')} №{self.id}: {self.order_date} &ndash; {category.label}")
+
+    @property
+    def order_date(self) -> str:
+        return dateformat.format(self.created_at, "d E Y, H:i")
 
     # def clean(self):
     #     self.discounted_sum = self.total_sum - self.discount_sum
@@ -156,6 +163,7 @@ class OrderItem(TimedModel):
 
 
 class OrderPayment(TimedModel):
+    order = models.ForeignKey(Order, verbose_name=_("Order"), on_delete=models.CASCADE, related_name="order_payments")
     type = models.CharField(_("Type"), max_length=50, db_comment="Payment type", choices=PaymentTypeChoices.choices)
     sum = models.DecimalField(
         _("Payment sum"),
