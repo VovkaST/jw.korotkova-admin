@@ -1,0 +1,22 @@
+{% extends 'admin/change_form.html' %}
+{% load i18n admin_urls %}
+
+{% block content_subtitle %}
+  <div class="d-flex flex-row justify-content-between">
+    <div class="order-title d-flex flex-row align-items-center">
+      {{ block.super }}
+      <div class="order_status {{ original.status|lower }}">{{ original.status.label }}</div>
+    </div>
+    <div class="justify-content-end">
+      <form method="post" enctype="multipart/form-data" action="{% url opts|admin_urlname:'status' object_id=object_id %}">
+        {% csrf_token %}
+        {% for code, action in actions.items %}
+          <input type="submit" name="{{ code }}" value="{{ action }}">
+        {% endfor %}
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block object-tools %}{% endblock %}
+
