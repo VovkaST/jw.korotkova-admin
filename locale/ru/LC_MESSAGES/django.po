@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-26 23:06+0300\n"
+"POT-Creation-Date: 2025-02-05 21:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,7 +169,6 @@ msgid "Error"
 msgstr "Ошибка"
 
 #: root/apps/notifications/application/domain/enums.py:17
-#, fuzzy
 #| msgid "Birth date"
 msgid "Birthday"
 msgstr "Дата рождения"
@@ -186,7 +185,7 @@ msgstr "Уведомления"
 msgid "Mailing name"
 msgstr "Название рассылки"
 
-#: root/apps/notifications/models.py:14 root/apps/orders/models.py:141
+#: root/apps/notifications/models.py:14 root/apps/orders/models.py:167
 msgid "Type"
 msgstr "Тип"
 
@@ -256,130 +255,193 @@ msgid "Notifications mailing"
 msgstr "Рассылка уведомлений"
 
 #: root/apps/orders/application/domain/enums.py:8
+#: root/apps/orders/templates/admin/orders/change_list.html:9
+msgid "Making jewelry"
+msgstr "Изготовление украшения"
+
+#: root/apps/orders/application/domain/enums.py:9
+#: root/apps/orders/templates/admin/orders/change_list.html:8
+msgid "Sale"
+msgstr "Продажа"
+
+#: root/apps/orders/application/domain/enums.py:13
 msgctxt "Order"
 msgid "New"
 msgstr "Новый"
 
-#: root/apps/orders/application/domain/enums.py:9
+#: root/apps/orders/application/domain/enums.py:14
 msgid "In process"
 msgstr "В работе"
 
-#: root/apps/orders/application/domain/enums.py:10
+#: root/apps/orders/application/domain/enums.py:15
 msgid "Waiting for payment"
 msgstr "Ожидает оплаты"
 
-#: root/apps/orders/application/domain/enums.py:11
+#: root/apps/orders/application/domain/enums.py:16
 msgid "Delivered"
 msgstr "Доставляется"
 
-#: root/apps/orders/application/domain/enums.py:12
+#: root/apps/orders/application/domain/enums.py:17
 msgid "Completed"
 msgstr "Завершен"
 
-#: root/apps/orders/application/domain/enums.py:13
+#: root/apps/orders/application/domain/enums.py:18
 msgid "Canceled"
 msgstr "Отменен"
 
-#: root/apps/orders/application/domain/enums.py:17
+#: root/apps/orders/application/domain/enums.py:22
 msgid "Pickup"
 msgstr "Самовывоз"
 
-#: root/apps/orders/application/domain/enums.py:18
+#: root/apps/orders/application/domain/enums.py:23
 msgid "Yandex"
 msgstr "Яндекс"
 
-#: root/apps/orders/application/domain/enums.py:19
+#: root/apps/orders/application/domain/enums.py:24
 msgid "Russian Post"
 msgstr "Почта России"
 
-#: root/apps/orders/application/domain/enums.py:20
+#: root/apps/orders/application/domain/enums.py:25
 msgid "CDEK"
 msgstr "СДЭК"
 
-#: root/apps/orders/application/domain/enums.py:24
+#: root/apps/orders/application/domain/enums.py:29
 msgid "Prepayment"
 msgstr "Предоплата"
 
-#: root/apps/orders/application/domain/enums.py:25
+#: root/apps/orders/application/domain/enums.py:30
 msgid "Partial payment"
 msgstr "Частичная оплата"
 
-#: root/apps/orders/application/domain/enums.py:26
+#: root/apps/orders/application/domain/enums.py:31
 msgid "Full payment"
 msgstr "Полная оплата"
 
-#: root/apps/orders/apps.py:9 root/apps/orders/models.py:66
+#: root/apps/orders/application/domain/enums.py:32
+msgid "Refund"
+msgstr "Возврат"
+
+#: root/apps/orders/application/domain/exceptions.py:8
+msgid "Validation error"
+msgstr "Ошибка валидации"
+
+#: root/apps/orders/application/domain/exceptions.py:14
+msgid "Wrong workflow status"
+msgstr "Неверный статус"
+
+#: root/apps/orders/application/interactors/order.py:31
+msgid "Client required"
+msgstr "Необходимо указать клиента"
+
+#: root/apps/orders/application/interactors/order.py:79
+msgid "Cannot push order to given status"
+msgstr "Невозможно изменить статус заказа"
+
+#: root/apps/orders/application/interactors/order.py:97
+#| msgid "Canceled"
+msgid "Cancel"
+msgstr "Отменен"
+
+#: root/apps/orders/application/interactors/order.py:98
+#| msgid "In process"
+msgid "To process"
+msgstr "В работе"
+
+#: root/apps/orders/apps.py:9 root/apps/orders/models.py:86
 msgid "Orders"
 msgstr "Заказы"
 
-#: root/apps/orders/models.py:14
+#: root/apps/orders/models.py:21 root/apps/products/models.py:36
+msgid "Category"
+msgstr "Категория"
+
+#: root/apps/orders/models.py:24
 msgid "Order status"
 msgstr "Статус заказа"
 
-#: root/apps/orders/models.py:21
+#: root/apps/orders/models.py:32
+#: root/apps/orders/templates/admin/orders/order_readonly.html:9
 msgid "Client"
 msgstr "Клиент"
 
-#: root/apps/orders/models.py:24 root/apps/orders/models.py:96
+#: root/apps/orders/models.py:39 root/apps/orders/models.py:121
+#: root/apps/orders/templates/admin/orders/order_readonly.html:14
 msgid "Percent of discount"
 msgstr "Процент скидки"
 
-#: root/apps/orders/models.py:32 root/apps/orders/models.py:104
+#: root/apps/orders/models.py:47 root/apps/orders/models.py:129
+#: root/apps/orders/templates/admin/orders/order_readonly.html:18
 msgid "Total order sum"
 msgstr "Общая сумма заказа"
 
-#: root/apps/orders/models.py:40 root/apps/orders/models.py:112
+#: root/apps/orders/models.py:55 root/apps/orders/models.py:137
+#: root/apps/orders/templates/admin/orders/order_readonly.html:22
 msgid "Sum of discount"
 msgstr "Сумма скидки"
 
-#: root/apps/orders/models.py:48 root/apps/orders/models.py:120
+#: root/apps/orders/models.py:63 root/apps/orders/models.py:145
+#: root/apps/orders/templates/admin/orders/order_readonly.html:26
 msgid "Sum with discount"
 msgstr "Сумма со скидкой"
 
-#: root/apps/orders/models.py:56
+#: root/apps/orders/models.py:71
+#: root/apps/orders/templates/admin/orders/order_readonly.html:30
 msgid "Delivery method"
 msgstr "Способ доставки"
 
-#: root/apps/orders/models.py:59
+#: root/apps/orders/models.py:79
+#: root/apps/orders/templates/admin/orders/order_readonly.html:34
 msgid "Delivery address"
 msgstr "Адрес доставки"
 
-#: root/apps/orders/models.py:61 root/apps/orders/models.py:149
+#: root/apps/orders/models.py:81 root/apps/orders/models.py:175
+#: root/apps/orders/templates/admin/orders/order_readonly.html:38
 msgid "Note"
 msgstr "Примечание"
 
-#: root/apps/orders/models.py:65 root/apps/orders/models.py:77
-#: root/apps/orders/models.py:79
+#: root/apps/orders/models.py:85 root/apps/orders/models.py:102
+#: root/apps/orders/models.py:166
 msgid "Order"
 msgstr "Заказ"
 
-#: root/apps/orders/models.py:82
+#: root/apps/orders/models.py:104
+#: root/apps/products/application/domain/enums.py:7
+#: root/apps/products/models.py:66 root/apps/products/models.py:77
+#: root/apps/products/models.py:105 root/apps/products/models.py:130
+msgid "Product"
+msgstr "Товар"
+
+#: root/apps/orders/models.py:107
 msgid "Item quantity"
 msgstr "Количество"
 
-#: root/apps/orders/models.py:89
+#: root/apps/orders/models.py:114
 msgid "Item price"
 msgstr "Цена"
 
-#: root/apps/orders/models.py:130
+#: root/apps/orders/models.py:155
 msgid "Order item"
 msgstr "Единица заказа"
 
-#: root/apps/orders/models.py:131
+#: root/apps/orders/models.py:156
 msgid "Order items"
 msgstr "Единицы заказа"
 
-#: root/apps/orders/models.py:143
+#: root/apps/orders/models.py:169
 msgid "Payment sum"
 msgstr "Сумма"
 
-#: root/apps/orders/models.py:153
+#: root/apps/orders/models.py:179
 msgid "Payment"
 msgstr "Платеж"
 
-#: root/apps/orders/models.py:154
+#: root/apps/orders/models.py:180
 msgid "Payments"
 msgstr "Платежи"
+
+#: root/apps/orders/templates/admin/orders/order_readonly.html:10
+msgid "Not set"
+msgstr "Не указан"
 
 #: root/apps/products/admin.py:52
 msgid "Message link"
@@ -394,12 +456,6 @@ msgstr "Тип товара"
 msgid "Lot"
 msgstr "Лот"
 
-#: root/apps/products/application/domain/enums.py:7
-#: root/apps/products/models.py:66 root/apps/products/models.py:77
-#: root/apps/products/models.py:105 root/apps/products/models.py:130
-msgid "Product"
-msgstr "Товар"
-
 #: root/apps/products/application/domain/enums.py:8
 msgid "Service"
 msgstr "Услуга"
@@ -411,10 +467,6 @@ msgstr "Товары"
 #: root/apps/products/models.py:25
 msgid "Product types"
 msgstr "Тип товара"
-
-#: root/apps/products/models.py:36
-msgid "Category"
-msgstr "Категория"
 
 #: root/apps/products/models.py:53 root/apps/products/models.py:111
 msgid "Price"
