@@ -1,4 +1,3 @@
-
 from black.trans import abstractmethod
 
 from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO, OrderUpdateDTO
@@ -29,7 +28,7 @@ class InProcessValidator(IStatusValidator):
 
     async def validate(self, order: OrderEntity) -> None:
         if not order.user_id:
-            raise ValidationError(_(""))
+            raise ValidationError(_("Client required"))
 
 
 class OrderInteractor(BaseInteractor):
