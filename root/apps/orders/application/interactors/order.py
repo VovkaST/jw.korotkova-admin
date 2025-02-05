@@ -40,9 +40,9 @@ class OrderInteractor(BaseInteractor):
         OrderStatusChoices.PAYMENT_AWAIT: StatusFields(
             all=["user", "order_items", "order_payments"], read_only=["user", "order_items"]
         ),
-        OrderStatusChoices.DELIVERY: [],
-        OrderStatusChoices.COMPLETED: [],
-        OrderStatusChoices.CANCELLED: [],
+        OrderStatusChoices.DELIVERY: StatusFields(),
+        OrderStatusChoices.COMPLETED: StatusFields(),
+        OrderStatusChoices.CANCELLED: StatusFields(),
     }
 
     status_validators = {
