@@ -326,7 +326,7 @@ msgstr "Процент скидки"
 
 #: root/apps/orders/models.py:32 root/apps/orders/models.py:104
 msgid "Total order sum"
-msgstr "Обшая сумма заказа"
+msgstr "Общая сумма заказа"
 
 #: root/apps/orders/models.py:40 root/apps/orders/models.py:112
 msgid "Sum of discount"
