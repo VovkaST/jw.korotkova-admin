@@ -29,3 +29,4 @@ class PaymentTypeChoices(TextChoices):
     PREPAYMENT = "PREPAYMENT", _("Prepayment")
     PARTIAL_PAYMENT = "PARTIAL_PAYMENT", _("Partial payment")
     FULL_PAYMENT = "FULL_PAYMENT", _("Full payment")
+    REFUND = "REFUND", _("Refund")
