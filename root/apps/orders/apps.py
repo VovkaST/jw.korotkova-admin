@@ -1,8 +1,9 @@
 from django.apps import AppConfig
-from django.utils.translation import gettext_lazy as _
+
+from root.core.utils import gettext_lazy as _
 
 
 class AppOrdersConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "chair.app_orders"
+    name = "root.apps.orders"
     verbose_name = _("Orders")

@@ -1,0 +1,44 @@
+{% extends 'admin/orders/change_form.html' %}
+{% load i18n admin_urls admin_utils %}
+
+{% block field_sets %}
+<div class="order-view-block">
+  <table>
+    <tbody>
+      <tr>
+        <td>{% trans 'Client' %}</td>
+        {% trans 'Not set' as no_user %}
+        <td>{{ original.user|format_empty:no_user }}</td>
+      </tr>
+      <tr>
+        <td>{% trans 'Percent of discount' %}</td>
+        <td>{{ original.discount }}</td>
+      </tr>
+      <tr>
+        <td>{% trans 'Total order sum' %}</td>
+        <td>{{ original.total_sum }}</td>
+      </tr>
+      <tr>
+        <td>{% trans 'Sum of discount' %}</td>
+        <td>{{ original.discount_sum }}</td>
+      </tr>
+      <tr>
+        <td>{% trans 'Sum with discount' %}</td>
+        <td>{{ original.discounted_sum }}</td>
+      </tr>
+      <tr>
+        <td>{% trans 'Delivery method' %}</td>
+        <td>{{ original.delivery_method|format_empty }}</td>
+      </tr>
+      <tr>
+        <td>{% trans 'Delivery address' %}</td>
+        <td>{{ original.delivery_address|format_empty }}</td>
+      </tr>
+      <tr>
+        <td>{% trans 'Note' %}</td>
+        <td>{{ original.note|format_empty:"" }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

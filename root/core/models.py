@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from django.contrib.auth.models import AbstractUser
+from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
@@ -72,6 +73,15 @@ class User(AbstractUser):
     patronymic = models.CharField(_("Patronymic"), max_length=150, blank=True, null=True, db_comment="Patronymic")
     phone = PhoneNumberField(_("Phone number"), blank=True, null=True, unique=True, db_comment="Phone number")
     birth_date = models.DateField(_("Birth date"), null=True, blank=True, db_comment="User's date of birth")
+    personal_discount = models.DecimalField(
+        _("Percent of personal discount"),
+        decimal_places=2,
+        max_digits=5,
+        db_comment="Percent of personal discount",
+        blank=True,
+        default=0,
+        validators=[validators.MinValueValidator(0), validators.MaxValueValidator(100)],
+    )
 
     class Meta:
         db_table = "auth_user"

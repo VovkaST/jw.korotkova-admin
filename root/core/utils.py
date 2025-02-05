@@ -12,6 +12,7 @@ from django.contrib import admin
 from django.utils.text import slugify as django_slugify
 from django.utils.translation import gettext as django_gettext
 from django.utils.translation import gettext_lazy as django_gettext_lazy
+from django.utils.translation import pgettext_lazy as django_pgettext_lazy
 
 
 def removable(function) -> Callable:
@@ -33,6 +34,10 @@ def gettext(message: str) -> str:
 
 def gettext_lazy(message: str) -> str:
     return django_gettext_lazy(message)
+
+
+def pgettext_lazy(context: str, message: str) -> str:
+    return django_pgettext_lazy(context, message)
 
 
 def get_app_name(file_name: str, parent_level: int = 0) -> str:

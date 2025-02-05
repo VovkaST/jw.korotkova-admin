@@ -81,7 +81,7 @@ class BaseRepository(Singleton, IBaseRepository):
 
     async def get(self, pk: ObjectId) -> base_entity_class:
         queryset = self.get_queryset()
-        instance = queryset.get(pk=pk)
+        instance = await queryset.aget(pk=pk)
         return await self.to_entity(self.base_entity_class, instance)
 
     async def update(self, pk: ObjectId, dto: update_dto_class) -> ObjectId:
