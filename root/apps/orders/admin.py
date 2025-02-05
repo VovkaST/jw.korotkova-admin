@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 from tinymce.widgets import TinyMCE
 
 from root.apps.orders import models
+from root.apps.orders.application.boundaries.dtos import StatusFields
 from root.apps.orders.application.controllers.order import OrdersController
 from root.apps.orders.application.domain.enums import OrderStatusChoices
 from root.apps.orders.views import NewOrderView, OrderStatusView
@@ -93,19 +94,19 @@ class OrderAdmin(admin.ModelAdmin):
             ),
         ]
 
-    def process_field_names(self, field_names: list[str]):
+    def process_field_names(self, field_names: StatusFields, section: str):
         fields, inlines = [], []
-        for field_name in field_names:
+        for field_name in getattr(field_names, section):
             if field_name in self.inline_names:
                 inlines.append(self.inline_names[field_name])
             else:
                 fields.append(field_name)
         return {"fields": fields, "inlines": inlines}
 
-    def get_status_fields_group(self, obj, group_name: str) -> list[str]:
+    def get_status_fields_group(self, obj, group_name: str, section: str = "all") -> list[str]:
         get_status_fields = async_to_sync(self.order_controller.get_status_fields)
         fields = get_status_fields(obj.status)
-        field_groups = self.process_field_names(fields)
+        field_groups = self.process_field_names(fields, section)
         return field_groups.get(group_name, [])
 
     def get_fieldsets(self, request, obj=None):
@@ -120,7 +121,7 @@ class OrderAdmin(admin.ModelAdmin):
         ]
 
     def get_readonly_fields(self, request, obj=None):
-        return ["total_sum"]
+        return self.get_status_fields_group(obj, "fields", section="read_only")
 
     def get_inlines(self, request, obj=None):
         return self.get_status_fields_group(obj, "inlines")

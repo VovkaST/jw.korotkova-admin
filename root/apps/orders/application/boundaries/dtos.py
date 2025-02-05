@@ -5,6 +5,11 @@ from pydantic import UUID4, BaseModel, Field, NonNegativeInt
 from root.apps.orders.application.domain.enums import DeliveryMethodChoices, OrderCategoryChoices, OrderStatusChoices
 
 
+class StatusFields(BaseModel):
+    all: list[str] = Field(default_factory=list)
+    read_only: list[str] = Field(default_factory=list)
+
+
 class OrderCreateDTO(BaseModel):
     category: OrderCategoryChoices
 

@@ -1,5 +1,4 @@
-
-from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO
+from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO, StatusFields
 from root.apps.orders.application.controllers.interfaces import IOrdersController
 from root.apps.orders.application.domain.enums import OrderStatusChoices
 from root.apps.orders.application.interactors.order import OrderInteractor
@@ -12,7 +11,7 @@ class OrdersController(IOrdersController):
     async def create(self, dto: OrderCreateDTO) -> OrderDTO:
         return await self.orders_interactor.create(dto)
 
-    async def get_status_fields(self, status: OrderStatusChoices) -> list[str]:
+    async def get_status_fields(self, status: OrderStatusChoices) -> StatusFields | None:
         return await self.orders_interactor.get_status_fields(status)
 
     async def change_status(self, order_id: ObjectId, status: OrderStatusChoices) -> ObjectId:

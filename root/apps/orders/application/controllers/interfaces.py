@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any
 
-from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO
+from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO, StatusFields
 from root.apps.orders.application.domain.enums import OrderStatusChoices
 from root.contrib.clean_architecture.interfaces import ObjectId
 
@@ -12,7 +11,7 @@ class IOrdersController(ABC):
         """Create order record"""
 
     @abstractmethod
-    async def get_status_fields(self, status: OrderStatusChoices) -> dict[str, dict[str, Any]]:
+    async def get_status_fields(self, status: OrderStatusChoices) -> StatusFields | None:
         """Get available fields for given status"""
 
     @abstractmethod

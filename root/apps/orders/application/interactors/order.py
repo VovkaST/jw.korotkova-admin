@@ -1,6 +1,6 @@
 from black.trans import abstractmethod
 
-from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO, OrderUpdateDTO
+from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO, OrderUpdateDTO, StatusFields
 from root.apps.orders.application.domain.enitites import OrderEntity
 from root.apps.orders.application.domain.enums import OrderStatusChoices
 from root.apps.orders.application.domain.exceptions import OrderWorkflowError, ValidationError
@@ -34,10 +34,12 @@ class InProcessValidator(IStatusValidator):
 class OrderInteractor(BaseInteractor):
     order_repository = OrderRepository()
 
-    status_fields_map = {
-        OrderStatusChoices.NEW: ["user", "order_payments"],
-        OrderStatusChoices.IN_PROCESS: [],
-        OrderStatusChoices.PAYMENT_AWAIT: [],
+    status_fields = {
+        OrderStatusChoices.NEW: StatusFields(all=["user", "order_payments"]),
+        OrderStatusChoices.IN_PROCESS: StatusFields(all=["user", "order_items", "order_payments"], read_only=["user"]),
+        OrderStatusChoices.PAYMENT_AWAIT: StatusFields(
+            all=["user", "order_items", "order_payments"], read_only=["user", "order_items"]
+        ),
         OrderStatusChoices.DELIVERY: [],
         OrderStatusChoices.COMPLETED: [],
         OrderStatusChoices.CANCELLED: [],
@@ -63,8 +65,8 @@ class OrderInteractor(BaseInteractor):
         entity = await self.order_repository.create(**dto.model_dump())
         return await self.entity_to_dto(OrderDTO, entity)
 
-    async def get_status_fields(self, status: OrderStatusChoices) -> list[str]:
-        return self.status_fields_map.get(status, {})
+    async def get_status_fields(self, status: OrderStatusChoices) -> StatusFields | None:
+        return self.status_fields.get(status)
 
     async def change_status(self, order_id: ObjectId, new_status: OrderStatusChoices) -> ObjectId:
         order = await self.order_repository.get(order_id)
