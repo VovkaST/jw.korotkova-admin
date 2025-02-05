@@ -101,7 +101,7 @@ class Order(TimedModel):
 class OrderItem(TimedModel):
     order = models.ForeignKey(Order, verbose_name=_("Order"), on_delete=models.CASCADE, related_name="order_items")
     product = models.ForeignKey(
-        "products.Product", verbose_name=_("Order"), on_delete=models.CASCADE, related_name="order_items"
+        "products.Product", verbose_name=_("Product"), on_delete=models.CASCADE, related_name="order_items"
     )
     quantity = models.DecimalField(
         _("Item quantity"),
