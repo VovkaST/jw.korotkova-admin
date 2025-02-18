@@ -2,7 +2,7 @@ from black.trans import abstractmethod
 
 from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO, OrderUpdateDTO, StatusFields
 from root.apps.orders.application.domain.enitites import OrderEntity
-from root.apps.orders.application.domain.enums import OrderStatusChoices
+from root.apps.orders.application.domain.enums import OrderActionsChoices, OrderStatusChoices
 from root.apps.orders.application.domain.exceptions import OrderWorkflowError, ValidationError
 from root.apps.orders.infrastructure.repositories.orders import OrderRepository
 from root.base.interactor import BaseInteractor
@@ -87,9 +87,25 @@ class OrderInteractor(BaseInteractor):
         await self.order_repository.update(order.id, dto=update_dto)
         return order.id
 
-    async def get_order_actions(self, order_id: ObjectId) -> dict[str, str]:
+    async def get_order_actions(self, order_id: ObjectId) -> dict[OrderActionsChoices, str]:
         order = await self.order_repository.get(order_id)
-        return await self.get_status_actions(order.status)
+        actions = {}
+        if await self.can_cancel(order):
+            actions[OrderActionsChoices.CANCEL] = OrderActionsChoices.CANCEL.label
+        if await self.ready_to_process(order):
+            actions[OrderActionsChoices.PROCESS] = OrderActionsChoices.PROCESS.label
+        if await self.ready_to_pay(order):
+            actions[OrderActionsChoices.PAYMENT] = OrderActionsChoices.PAYMENT.label
+        return actions
+
+    async def can_cancel(self, order: OrderEntity) -> bool:
+        return order.status not in [OrderStatusChoices.CANCELLED, OrderStatusChoices.COMPLETED]
+
+    async def ready_to_process(self, order: OrderEntity) -> bool:
+        return order.status == OrderStatusChoices.NEW and order.user_id is not None
+
+    async def ready_to_pay(self, order: OrderEntity) -> bool:
+        return order.status == OrderStatusChoices.IN_PROCESS and len(order.items) > 0
 
     async def get_status_actions(self, status: OrderStatusChoices) -> dict[str, str]:
         if status == OrderStatusChoices.NEW:

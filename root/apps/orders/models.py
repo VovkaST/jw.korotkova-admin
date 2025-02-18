@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 
 from django.core import validators
 from django.db import models
@@ -155,11 +156,12 @@ class OrderItem(TimedModel):
         verbose_name = _("Order item")
         verbose_name_plural = _("Order items")
 
-    # def clean(self):
-    #     self.total_sum = self.price * self.quantity
-    #     self.discounted_price = self.price * (Decimal(1) - self.discount_percent / Decimal(100))
-    #     self.discounted_sum = self.discounted_price * self.quantity
-    #     self.discount_sum = self.total_sum - self.discounted_sum
+    def clean(self):
+        self.price = self.product.price
+        self.total_sum = self.price * self.quantity
+        self.discounted_price = self.price * (Decimal(1) - self.discount / Decimal(100))
+        self.discounted_sum = self.discounted_price * self.quantity
+        self.discount_sum = self.total_sum - self.discounted_sum
 
 
 class OrderPayment(TimedModel):

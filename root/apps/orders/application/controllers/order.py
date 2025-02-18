@@ -20,5 +20,5 @@ class OrdersController(IOrdersController):
     async def get_actions(self, order_id: ObjectId) -> dict[str, str]:
         return await self.orders_interactor.get_order_actions(order_id)
 
-    async def get_status_actions(self, status: OrderStatusChoices) -> dict[str, str]:
-        return await self.orders_interactor.get_status_actions(status)
+    async def get_order_actions(self, order_id: ObjectId) -> dict[str, str]:
+        return await self.orders_interactor.get_order_actions(order_id)

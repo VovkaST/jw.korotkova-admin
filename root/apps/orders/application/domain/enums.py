@@ -18,6 +18,23 @@ class OrderStatusChoices(TextChoices):
     CANCELLED = "CANCELLED", _("Canceled")
 
 
+class OrderActionsChoices(TextChoices):
+    PROCESS = "PROCESS", _("To process")
+    PAYMENT = "PAYMENT", _("To payment")
+    DELIVERY = "DELIVERY", _("Delivery")
+    COMPLETE = "COMPLETE", _("Complete")
+    CANCEL = "CANCEL", _("Cancel")
+
+
+ActionsMap = {
+    OrderActionsChoices.PROCESS: OrderStatusChoices.IN_PROCESS,
+    OrderActionsChoices.PAYMENT: OrderStatusChoices.PAYMENT_AWAIT,
+    OrderActionsChoices.DELIVERY: OrderStatusChoices.DELIVERY,
+    OrderActionsChoices.COMPLETE: OrderStatusChoices.COMPLETED,
+    OrderActionsChoices.CANCEL: OrderStatusChoices.CANCELLED,
+}
+
+
 class DeliveryMethodChoices(TextChoices):
     PICKUP = "PICKUP", _("Pickup")
     YANDEX = "YANDEX", _("Yandex")

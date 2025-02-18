@@ -23,5 +23,5 @@ class IOrdersController(ABC):
         """Get available actions for given order"""
 
     @abstractmethod
-    async def get_status_actions(self, status: OrderStatusChoices) -> dict[str, str]:
-        """Get available actions for given status"""
+    async def get_order_actions(self, order_id: ObjectId) -> dict[str, str]:
+        """Get available actions for given order"""

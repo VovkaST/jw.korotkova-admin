@@ -27,7 +27,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     class OrderItemInline(admin.TabularInline):
         model = models.OrderItem
-        readonly_fields = ["price", "total_sum", "discounted_sum"]
+        readonly_fields = ["price", "total_sum", "discount_sum", "discounted_sum"]
         fields = [
             "product",
             "quantity",
@@ -142,7 +142,7 @@ class OrderAdmin(admin.ModelAdmin):
         response = super()._changeform_view(request, object_id, form_url, extra_context)
         obj = dotval(response, "context_data.original")
         if obj:
-            response.context_data["actions"] = async_to_sync(self.order_controller.get_status_actions)(obj.status)
+            response.context_data["actions"] = async_to_sync(self.order_controller.get_order_actions)(obj.id)
         return response
 
     def render_change_form(self, request, context, add=False, change=False, form_url="", obj=None):
