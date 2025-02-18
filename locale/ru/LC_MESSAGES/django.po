@@ -2,13 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-05 21:51+0300\n"
+"POT-Creation-Date: 2025-02-18 19:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -289,34 +287,56 @@ msgid "Canceled"
 msgstr "Отменен"
 
 #: root/apps/orders/application/domain/enums.py:22
+#: root/apps/orders/application/interactors/order.py:109
+msgid "To process"
+msgstr "В работу"
+
+#: root/apps/orders/application/domain/enums.py:23
+msgid "To payment"
+msgstr "К оплате"
+
+#: root/apps/orders/application/domain/enums.py:24
+msgid "Delivery"
+msgstr "В доставку"
+
+#: root/apps/orders/application/domain/enums.py:25
+msgid "Complete"
+msgstr "Завершить"
+
+#: root/apps/orders/application/domain/enums.py:26
+#: root/apps/orders/application/interactors/order.py:108
+msgid "Cancel"
+msgstr "Отменить"
+
+#: root/apps/orders/application/domain/enums.py:30
 msgid "Pickup"
 msgstr "Самовывоз"
 
-#: root/apps/orders/application/domain/enums.py:23
+#: root/apps/orders/application/domain/enums.py:31
 msgid "Yandex"
 msgstr "Яндекс"
 
-#: root/apps/orders/application/domain/enums.py:24
+#: root/apps/orders/application/domain/enums.py:32
 msgid "Russian Post"
 msgstr "Почта России"
 
-#: root/apps/orders/application/domain/enums.py:25
+#: root/apps/orders/application/domain/enums.py:33
 msgid "CDEK"
 msgstr "СДЭК"
 
-#: root/apps/orders/application/domain/enums.py:29
+#: root/apps/orders/application/domain/enums.py:37
 msgid "Prepayment"
 msgstr "Предоплата"
 
-#: root/apps/orders/application/domain/enums.py:30
+#: root/apps/orders/application/domain/enums.py:38
 msgid "Partial payment"
 msgstr "Частичная оплата"
 
-#: root/apps/orders/application/domain/enums.py:31
+#: root/apps/orders/application/domain/enums.py:39
 msgid "Full payment"
 msgstr "Полная оплата"
 
-#: root/apps/orders/application/domain/enums.py:32
+#: root/apps/orders/application/domain/enums.py:40
 msgid "Refund"
 msgstr "Возврат"
 
@@ -335,14 +355,6 @@ msgstr "Необходимо указать клиента"
 #: root/apps/orders/application/interactors/order.py:79
 msgid "Cannot push order to given status"
 msgstr "Невозможно изменить статус заказа"
-
-#: root/apps/orders/application/interactors/order.py:97
-msgid "Cancel"
-msgstr "Отменен"
-
-#: root/apps/orders/application/interactors/order.py:98
-msgid "To process"
-msgstr "В работе"
 
 #: root/apps/orders/apps.py:9 root/apps/orders/models.py:86
 msgid "Orders"
