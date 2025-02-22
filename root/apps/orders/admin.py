@@ -9,6 +9,7 @@ from root.apps.orders.application.boundaries.dtos import StatusFields
 from root.apps.orders.application.controllers.order import OrdersController
 from root.apps.orders.application.domain.enums import OrderStatusChoices
 from root.apps.orders.views import NewOrderView, OrderStatusView
+from root.base.admin import ReadOnlyMixin
 from root.contrib.utils import dotval
 from root.core.utils import gettext_lazy as _
 
@@ -25,7 +26,7 @@ class OrderAdmin(admin.ModelAdmin):
                 "note": TinyMCE(attrs={"rows": 10}),
             }
 
-    class OrderItemInline(admin.TabularInline):
+    class OrderItemInline(ReadOnlyMixin, admin.TabularInline):
         model = models.OrderItem
         readonly_fields = ["price", "total_sum", "discount_sum", "discounted_sum"]
         fields = [
@@ -43,7 +44,7 @@ class OrderAdmin(admin.ModelAdmin):
                 return 1
             return items - 1
 
-    class OrderPaymentInline(admin.TabularInline):
+    class OrderPaymentInline(ReadOnlyMixin, admin.TabularInline):
         model = models.OrderPayment
         fields = ["type", "sum", "note"]
 
@@ -127,7 +128,12 @@ class OrderAdmin(admin.ModelAdmin):
         return self.get_status_fields_group(obj, "fields", section="read_only")
 
     def get_inlines(self, request, obj=None):
-        return self.get_status_fields_group(obj, "inlines")
+        inlines = self.get_status_fields_group(obj, "inlines")
+        read_only = self.get_status_fields_group(obj, "inlines", section="read_only")
+        for inline in inlines:
+            if inline in read_only:
+                inline.read_only = True
+        return inlines
 
     def has_add_permission(self, request):
         return False

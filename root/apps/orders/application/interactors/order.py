@@ -31,6 +31,14 @@ class InProcessValidator(IStatusValidator):
             raise ValidationError(_("Client required"))
 
 
+class PaymentAwaitValidator(IStatusValidator):
+    order_repository = OrderRepository()
+
+    async def validate(self, order: OrderEntity) -> None:
+        if not order.items:
+            raise ValidationError(_("Items required"))
+
+
 class OrderInteractor(BaseInteractor):
     order_repository = OrderRepository()
 
@@ -48,7 +56,7 @@ class OrderInteractor(BaseInteractor):
     status_validators = {
         OrderStatusChoices.NEW: None,
         OrderStatusChoices.IN_PROCESS: InProcessValidator,
-        OrderStatusChoices.PAYMENT_AWAIT: None,
+        OrderStatusChoices.PAYMENT_AWAIT: PaymentAwaitValidator,
         OrderStatusChoices.DELIVERY: None,
         OrderStatusChoices.COMPLETED: None,
         OrderStatusChoices.CANCELLED: CancelValidator,
