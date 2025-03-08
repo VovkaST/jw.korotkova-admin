@@ -1,9 +1,18 @@
+from decimal import Decimal
+
 from black.trans import abstractmethod
 
-from root.apps.orders.application.boundaries.dtos import OrderCreateDTO, OrderDTO, OrderUpdateDTO, StatusFields
+from root.apps.orders.application.boundaries.dtos import (
+    OrderCreateDTO,
+    OrderDTO,
+    OrderItemUpdateDTO,
+    OrderUpdateDTO,
+    StatusFields,
+)
 from root.apps.orders.application.domain.enitites import OrderEntity
 from root.apps.orders.application.domain.enums import OrderActionsChoices, OrderStatusChoices
 from root.apps.orders.application.domain.exceptions import OrderWorkflowError, ValidationError
+from root.apps.orders.infrastructure.repositories.order_item import OrderItemRepository
 from root.apps.orders.infrastructure.repositories.orders import OrderRepository
 from root.base.interactor import BaseInteractor
 from root.contrib.clean_architecture.interfaces import ObjectId
@@ -41,12 +50,17 @@ class PaymentAwaitValidator(IStatusValidator):
 
 class OrderInteractor(BaseInteractor):
     order_repository = OrderRepository()
+    order_item_repository = OrderItemRepository()
 
     status_fields = {
         OrderStatusChoices.NEW: StatusFields(all=["user", "order_payments"]),
-        OrderStatusChoices.IN_PROCESS: StatusFields(all=["user", "order_items", "order_payments"], read_only=["user"]),
+        OrderStatusChoices.IN_PROCESS: StatusFields(
+            all=["user", "discount", "total_sum", "discount_sum", "discounted_sum", "order_items", "order_payments"],
+            read_only=["user", "total_sum", "discount_sum", "discounted_sum"],
+        ),
         OrderStatusChoices.PAYMENT_AWAIT: StatusFields(
-            all=["user", "order_items", "order_payments"], read_only=["user", "order_items"]
+            all=["user", "total_sum", "discount_sum", "discounted_sum", "order_items", "order_payments"],
+            read_only=["user", "discount", "total_sum", "discount_sum", "discounted_sum", "order_items"],
         ),
         OrderStatusChoices.DELIVERY: StatusFields(),
         OrderStatusChoices.COMPLETED: StatusFields(),
@@ -91,9 +105,31 @@ class OrderInteractor(BaseInteractor):
             validator = validator_class()
             await validator.validate(order)
 
+        from_status = order.status
+
         update_dto = OrderUpdateDTO(status=new_status)
+        if all([from_status == OrderStatusChoices.IN_PROCESS, new_status == OrderStatusChoices.PAYMENT_AWAIT]):
+            # TODO: пройти по всем товарам и проставить скидку с заказа в качестве скидки на товар
+            items_to_update = []
+            for item in order.items:
+                if item.discount:
+                    continue
+                item.set_discount(order.discount)
+                dto = await self.entity_to_dto(OrderItemUpdateDTO, item)
+                items_to_update.append(dto)
+            if items_to_update:
+                await self.order_item_repository.bulk_update(items_to_update)
+
         await self.order_repository.update(order.id, dto=update_dto)
         return order.id
+
+    async def calculate(self, pk: ObjectId) -> None:
+        order = await self.order_repository.get(pk)
+        total_sum, discount_sum = Decimal(0), Decimal(0)
+        for item in order.items:
+            total_sum += item.total_sum
+            discount_sum += item.discount_sum
+        await self.order_repository.set_totals(order.id, total_sum=total_sum, discount_sum=discount_sum)
 
     async def get_order_actions(self, order_id: ObjectId) -> dict[OrderActionsChoices, str]:
         order = await self.order_repository.get(order_id)

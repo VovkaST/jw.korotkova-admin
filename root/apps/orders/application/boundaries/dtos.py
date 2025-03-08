@@ -37,3 +37,14 @@ class OrderDTO(BaseModel):
     delivery_method: DeliveryMethodChoices | None = Field(default=None)
     delivery_address: str | None = Field(default=None)
     note: str | None = Field(default=None)
+
+
+class OrderItemUpdateDTO(BaseModel):
+    id: NonNegativeInt
+    quantity: Decimal | None = Field(default=None)
+    price: Decimal | None = Field(default=None)
+    discount: Decimal | None = Field(default=None)
+    discounted_price: Decimal | None = Field(default=None)
+    total_sum: Decimal | None = Field(default=None)
+    discount_sum: Decimal | None = Field(default=None)
+    discounted_sum: Decimal | None = Field(default=None)

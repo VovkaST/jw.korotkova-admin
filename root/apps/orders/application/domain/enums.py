@@ -42,6 +42,14 @@ class DeliveryMethodChoices(TextChoices):
     CDEK = "CDEK", _("CDEK")
 
 
+class PaymentStatusChoices(TextChoices):
+    NOT_PAID = "NOT_PAID", _("Not paid")
+    PARTIALLY_PAID = "PARTIALLY_PAID", _("Partially paid")
+    PAID = "PAID", _("Paid")
+    # REFUNDED = "REFUNDED", _("Refunded")
+    # PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED", _("Partially refunded")
+
+
 class PaymentTypeChoices(TextChoices):
     PREPAYMENT = "PREPAYMENT", _("Prepayment")
     PARTIAL_PAYMENT = "PARTIAL_PAYMENT", _("Partial payment")

@@ -19,6 +19,10 @@ class IOrdersController(ABC):
         """Push order in workflow"""
 
     @abstractmethod
+    async def calculate(self, order_id: ObjectId) -> None:
+        """Calculate order totals"""
+
+    @abstractmethod
     async def get_actions(self, order_id: ObjectId) -> dict[str, str]:
         """Get available actions for given order"""
 

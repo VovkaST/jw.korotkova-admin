@@ -564,8 +564,8 @@ msgid "Access rights"
 msgstr "Права доступа"
 
 #: root/core/admin.py:65
-msgid "Other dates"
-msgstr "Дата рождения"
+msgid "Other info"
+msgstr "Прочая информация"
 
 #: root/core/admin.py:119
 #: root/core/templates/admin/add_client_object_tools.html:7

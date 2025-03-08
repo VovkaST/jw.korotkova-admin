@@ -1,59 +1,52 @@
 from asgiref.sync import async_to_sync
-from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from tinymce.widgets import TinyMCE
 
 from root.apps.orders import models
 from root.apps.orders.application.boundaries.dtos import StatusFields
 from root.apps.orders.application.controllers.order import OrdersController
 from root.apps.orders.application.domain.enums import OrderStatusChoices
+from root.apps.orders.forms import OrderAdminForm
 from root.apps.orders.views import NewOrderView, OrderStatusView
 from root.base.admin import ReadOnlyMixin
 from root.contrib.utils import dotval
 from root.core.utils import gettext_lazy as _
 
 
+class OrderItemInline(ReadOnlyMixin, admin.TabularInline):
+    model = models.OrderItem
+    readonly_fields = ["price", "total_sum", "discount_sum", "discounted_sum"]
+    fields = [
+        "product",
+        "quantity",
+        "price",
+        "discount",
+        "total_sum",
+        "discount_sum",
+        "discounted_sum",
+    ]
+
+    def get_extra(self, request, obj: models.Order = None, **kwargs):
+        if not obj or not (items := obj.order_items.count()):
+            return 1
+        return items - 1
+
+
+class OrderPaymentInline(ReadOnlyMixin, admin.TabularInline):
+    model = models.OrderPayment
+    fields = ["type", "sum", "note"]
+
+    def get_extra(self, request, obj: models.Order = None, **kwargs):
+        if not obj or not (items := obj.order_payments.all().count()):
+            return 1
+        return items - 1
+
+
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     order_controller = OrdersController()
 
-    class OrderForm(forms.ModelForm):
-        class Meta:
-            model = models.Order
-            fields = "__all__"
-            widgets = {
-                "note": TinyMCE(attrs={"rows": 10}),
-            }
-
-    class OrderItemInline(ReadOnlyMixin, admin.TabularInline):
-        model = models.OrderItem
-        readonly_fields = ["price", "total_sum", "discount_sum", "discounted_sum"]
-        fields = [
-            "product",
-            "quantity",
-            "price",
-            "discount",
-            "total_sum",
-            "discount_sum",
-            "discounted_sum",
-        ]
-
-        def get_extra(self, request, obj: models.Order = None, **kwargs):
-            if not obj or not (items := obj.order_items.all().count()):
-                return 1
-            return items - 1
-
-    class OrderPaymentInline(ReadOnlyMixin, admin.TabularInline):
-        model = models.OrderPayment
-        fields = ["type", "sum", "note"]
-
-        def get_extra(self, request, obj: models.Order = None, **kwargs):
-            if not obj or not (items := obj.order_payments.all().count()):
-                return 1
-            return items - 1
-
-    form = OrderForm
+    form = OrderAdminForm
     list_display = ["order_status", "__str__", "user"]
     list_filter = ["category", "status"]
     readonly_fields = [
@@ -131,8 +124,7 @@ class OrderAdmin(admin.ModelAdmin):
         inlines = self.get_status_fields_group(obj, "inlines")
         read_only = self.get_status_fields_group(obj, "inlines", section="read_only")
         for inline in inlines:
-            if inline in read_only:
-                inline.read_only = True
+            inline.read_only = inline in read_only
         return inlines
 
     def has_add_permission(self, request):
@@ -163,17 +155,21 @@ class OrderAdmin(admin.ModelAdmin):
             obj.status = OrderStatusChoices(obj.status)
         return obj
 
+    def save_formset(self, request, form, formset, change):
+        is_order_changed = bool(formset.deleted_forms)
+        if formset.model is models.OrderItem:
+            for _form in formset.initial_forms:
+                if _form.cleaned_data.get("DELETE") or not _form.has_changed():
+                    continue
+                is_order_changed = True
+                if not _form.instance.discount:
+                    _form.instance.discount = form.instance.discount
 
-# def save_formset(self, request, form, formset, change):
-#     item_instances = formset.save()
-#     total_sum = Decimal(0)
-#     discount_sum = Decimal(0)
-#     discounted_sum = Decimal(0)
-#     for item in item_instances:
-#         total_sum += item.total_sum
-#         discount_sum += item.discount_sum
-#         discounted_sum += item.discounted_sum
-#     form.instance.total_sum = total_sum
-#     form.instance.discount_sum = discount_sum
-#     form.instance.discounted_sum = discounted_sum
-#     form.instance.save(update_fields=["total_sum", "discount_sum", "discounted_sum"])
+        instances = formset.save()
+        if is_order_changed:
+            if formset.model is models.OrderPayment:
+                total_sum = sum([instance.sum for instance in instances])
+
+            elif formset.model is models.OrderItem:
+                async_to_sync(self.order_controller.calculate)(form.instance.id)
+        return instances

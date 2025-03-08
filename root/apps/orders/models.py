@@ -10,6 +10,7 @@ from root.apps.orders.application.domain.enums import (
     DeliveryMethodChoices,
     OrderCategoryChoices,
     OrderStatusChoices,
+    PaymentStatusChoices,
     PaymentTypeChoices,
 )
 from root.base.models import TimedModel
@@ -80,6 +81,13 @@ class Order(TimedModel):
         _("Delivery address"), max_length=255, null=True, blank=True, db_comment="Delivery address"
     )
     note = models.CharField(_("Note"), null=True, blank=True, db_comment="Note")
+    payment_status = models.CharField(
+        _("Payment status"),
+        max_length=50,
+        db_comment="Payment status",
+        choices=PaymentStatusChoices.choices,
+        default=PaymentStatusChoices.NOT_PAID,
+    )
 
     class Meta:
         db_table = "jw_order"
@@ -94,9 +102,10 @@ class Order(TimedModel):
     def order_date(self) -> str:
         return dateformat.format(self.created_at, "d E Y, H:i")
 
-    # def clean(self):
-    #     self.discounted_sum = self.total_sum - self.discount_sum
-    #     self.tax_sum = self.discounted_sum / 100 * self.tax_percent
+    def set_totals(self, total_sum: Decimal, discount_sum: Decimal):
+        self.total_sum = total_sum
+        self.discount_sum = discount_sum
+        self.discounted_sum = self.total_sum - self.discount_sum
 
 
 class OrderItem(TimedModel):
@@ -134,6 +143,13 @@ class OrderItem(TimedModel):
         default=0,
         validators=[validators.MinValueValidator(0)],
     )
+    discounted_price = models.DecimalField(
+        _("Item price with discount"),
+        decimal_places=2,
+        max_digits=10,
+        db_comment="Item price with discount",
+        validators=[validators.MinValueValidator(0)],
+    )
     discount_sum = models.DecimalField(
         _("Sum of discount"),
         decimal_places=2,
@@ -156,12 +172,13 @@ class OrderItem(TimedModel):
         verbose_name = _("Order item")
         verbose_name_plural = _("Order items")
 
-    def clean(self):
+    def save(self, *args, **kwargs):
         self.price = self.product.price
         self.total_sum = self.price * self.quantity
         self.discounted_price = self.price * (Decimal(1) - self.discount / Decimal(100))
         self.discounted_sum = self.discounted_price * self.quantity
         self.discount_sum = self.total_sum - self.discounted_sum
+        return super().save(*args, **kwargs)
 
 
 class OrderPayment(TimedModel):

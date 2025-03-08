@@ -29,15 +29,22 @@ class ProductEntity(IDMixin, BaseEntity):
     in_stock: bool
 
 
-class OrderItemEntity(BaseEntity):
+class OrderItemEntity(IDMixin, BaseEntity):
     product: ProductEntity = Field(default=None)
     product_id: ObjectId | None = Field(default=None)
     quantity: Decimal | None = Field(default=0.01)
     price: Decimal | None = Field(default=0.0)
     discount: Decimal | None = Field(default=0)
+    discounted_price: Decimal | None = Field(default=0)
     total_sum: Decimal | None = Field(default=0)
     discount_sum: Decimal | None = Field(default=0)
     discounted_sum: Decimal | None = Field(default=0)
+
+    def set_discount(self, discount: Decimal):
+        self.discount = discount
+        self.discounted_price = self.price * (Decimal(1) - self.discount / Decimal(100))
+        self.discounted_sum = self.discounted_price * self.quantity
+        self.discount_sum = self.total_sum - self.discounted_sum
 
 
 class OrderEntity(IDMixin, BaseEntity):
