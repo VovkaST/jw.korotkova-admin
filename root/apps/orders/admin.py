@@ -155,21 +155,29 @@ class OrderAdmin(admin.ModelAdmin):
             obj.status = OrderStatusChoices(obj.status)
         return obj
 
-    def save_formset(self, request, form, formset, change):
+    def save_order_item_formset(self, order: models.Order, formset):
         is_order_changed = bool(formset.deleted_forms)
-        if formset.model is models.OrderItem:
-            for _form in formset.initial_forms:
-                if _form.cleaned_data.get("DELETE") or not _form.has_changed():
-                    continue
-                is_order_changed = True
-                if not _form.instance.discount:
-                    _form.instance.discount = form.instance.discount
-
+        for _form in formset.forms:
+            if _form.cleaned_data.get("DELETE") or not _form.has_changed():
+                continue
+            is_order_changed = True
+            if not _form.instance.discount:
+                _form.instance.discount = order.discount
         instances = formset.save()
         if is_order_changed:
-            if formset.model is models.OrderPayment:
-                total_sum = sum([instance.sum for instance in instances])
-
-            elif formset.model is models.OrderItem:
-                async_to_sync(self.order_controller.calculate)(form.instance.id)
+            async_to_sync(self.order_controller.calculate)(order.id)
         return instances
+
+    def save_order_payment_formset(self, order: models.Order, formset):
+        has_changes = [form.has_changed() or form.cleaned_data.get("DELETE") for form in formset.forms]
+        instances = formset.save()
+        if any(has_changes):
+            async_to_sync(self.order_controller.actualize_payment_status)(order.id)
+        return instances
+
+    def save_formset(self, request, form, formset, change):
+        if formset.model is models.OrderItem:
+            return self.save_order_item_formset(form.instance, formset)
+        if formset.model is models.OrderPayment:
+            return self.save_order_payment_formset(form.instance, formset)
+        return super().save_formset(request, form, formset, change)

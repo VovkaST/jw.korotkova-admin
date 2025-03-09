@@ -23,6 +23,10 @@ class IOrdersController(ABC):
         """Calculate order totals"""
 
     @abstractmethod
+    async def actualize_payment_status(self, pk: ObjectId) -> None:
+        """Actualize order payment status"""
+
+    @abstractmethod
     async def get_actions(self, order_id: ObjectId) -> dict[str, str]:
         """Get available actions for given order"""
 

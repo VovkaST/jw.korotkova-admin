@@ -10,7 +10,12 @@ from root.apps.orders.application.boundaries.dtos import (
     StatusFields,
 )
 from root.apps.orders.application.domain.enitites import OrderEntity
-from root.apps.orders.application.domain.enums import OrderActionsChoices, OrderStatusChoices
+from root.apps.orders.application.domain.enums import (
+    OrderActionsChoices,
+    OrderStatusChoices,
+    PaymentStatusChoices,
+    PaymentTypeChoices,
+)
 from root.apps.orders.application.domain.exceptions import OrderWorkflowError, ValidationError
 from root.apps.orders.infrastructure.repositories.order_item import OrderItemRepository
 from root.apps.orders.infrastructure.repositories.orders import OrderRepository
@@ -130,6 +135,26 @@ class OrderInteractor(BaseInteractor):
             total_sum += item.total_sum
             discount_sum += item.discount_sum
         await self.order_repository.set_totals(order.id, total_sum=total_sum, discount_sum=discount_sum)
+
+    async def actualize_payment_status(self, pk: ObjectId) -> None:
+        order = await self.order_repository.get(pk)
+        payment_sum = 0
+        for item in order.payments:
+            if item.type in PaymentTypeChoices.consumption_types():
+                payment_sum -= item.sum
+            else:
+                payment_sum += item.sum
+        if 0 < payment_sum < order.total_sum:
+            status = PaymentStatusChoices.PARTIALLY_PAID
+        elif payment_sum == order.total_sum:
+            status = PaymentStatusChoices.PAID
+        elif payment_sum > order.total_sum:
+            status = PaymentStatusChoices.OVERPAID
+        elif payment_sum < 0:
+            status = PaymentStatusChoices.DEBT
+        else:
+            status = PaymentStatusChoices.NOT_PAID
+        await self.order_repository.set_payment_status(order.id, status)
 
     async def get_order_actions(self, order_id: ObjectId) -> dict[OrderActionsChoices, str]:
         order = await self.order_repository.get(order_id)

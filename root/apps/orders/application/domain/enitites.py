@@ -1,13 +1,18 @@
 from __future__ import annotations
 
-__all__ = ["OrderItemEntity", "OrderEntity"]
+__all__ = ["OrderItemEntity", "OrderPaymentEntity", "OrderEntity"]
 
 
 from decimal import Decimal
 
 from pydantic import UUID4, Field
 
-from root.apps.orders.application.domain.enums import DeliveryMethodChoices, OrderCategoryChoices, OrderStatusChoices
+from root.apps.orders.application.domain.enums import (
+    DeliveryMethodChoices,
+    OrderCategoryChoices,
+    OrderStatusChoices,
+    PaymentTypeChoices,
+)
 from root.base.entity import BaseEntity, IDMixin
 from root.contrib.clean_architecture.interfaces import ObjectId
 from root.core.application.domain.entities import UserEntity
@@ -47,6 +52,13 @@ class OrderItemEntity(IDMixin, BaseEntity):
         self.discount_sum = self.total_sum - self.discounted_sum
 
 
+class OrderPaymentEntity(IDMixin, BaseEntity):
+    order_id: ObjectId
+    type: PaymentTypeChoices
+    sum: Decimal
+    note: str | None = Field(default="")
+
+
 class OrderEntity(IDMixin, BaseEntity):
     guid: UUID4
     category: OrderCategoryChoices
@@ -61,3 +73,4 @@ class OrderEntity(IDMixin, BaseEntity):
     delivery_address: str | None = Field(default=None)
     note: str | None = Field(default=None)
     items: list[OrderItemEntity] = Field(default_factory=list)
+    payments: list[OrderPaymentEntity] = Field(default_factory=list)

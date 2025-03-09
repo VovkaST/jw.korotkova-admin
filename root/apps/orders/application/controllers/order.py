@@ -20,6 +20,9 @@ class OrdersController(IOrdersController):
     async def calculate(self, order_id: ObjectId) -> None:
         return await self.orders_interactor.calculate(order_id)
 
+    async def actualize_payment_status(self, pk: ObjectId) -> None:
+        return await self.orders_interactor.actualize_payment_status(pk)
+
     async def get_actions(self, order_id: ObjectId) -> dict[str, str]:
         return await self.orders_interactor.get_order_actions(order_id)
 
