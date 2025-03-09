@@ -36,6 +36,12 @@ class OrderPaymentInline(ReadOnlyMixin, admin.TabularInline):
     model = models.OrderPayment
     fields = ["type", "sum", "note"]
 
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
     def get_extra(self, request, obj: models.Order = None, **kwargs):
         if not obj or not (items := obj.order_payments.all().count()):
             return 1
