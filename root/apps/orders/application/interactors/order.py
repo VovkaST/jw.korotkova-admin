@@ -144,11 +144,11 @@ class OrderInteractor(BaseInteractor):
                 payment_sum -= item.sum
             else:
                 payment_sum += item.sum
-        if 0 < payment_sum < order.total_sum:
+        if 0 < payment_sum < order.discounted_sum:
             status = PaymentStatusChoices.PARTIALLY_PAID
-        elif payment_sum == order.total_sum:
+        elif payment_sum == order.discounted_sum:
             status = PaymentStatusChoices.PAID
-        elif payment_sum > order.total_sum:
+        elif payment_sum > order.discounted_sum:
             status = PaymentStatusChoices.OVERPAID
         elif payment_sum < 0:
             status = PaymentStatusChoices.DEBT
