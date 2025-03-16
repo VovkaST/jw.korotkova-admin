@@ -83,6 +83,17 @@ services:
         condition: service_started
     entrypoint: ./compose/celery/entrypoint.sh
 
+  assets:
+    image: node:22.14
+    container_name: korotkova-assets
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./root/assets:/root/assets
+      - ./static:/static
+    working_dir: /root/assets/
+    command: bash -c "npm i && npm run preview"
+
 networks:
   korotkova-network:
     driver: bridge
