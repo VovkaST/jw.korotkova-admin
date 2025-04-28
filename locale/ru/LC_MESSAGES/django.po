@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-28 17:20+0300\n"
+"POT-Creation-Date: 2025-04-28 19:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,7 +226,7 @@ msgstr "Ежедневные уведомления"
 msgid "Notification type"
 msgstr "Тип уведомления"
 
-#: root/apps/notifications/models.py:42 root/apps/orders/admin.py:81
+#: root/apps/notifications/models.py:42 root/apps/orders/admin.py:96
 msgid "Status"
 msgstr "Статус"
 
@@ -251,7 +251,7 @@ msgstr "Рассылка уведомлений"
 msgid "Notifications mailing"
 msgstr "Рассылка уведомлений"
 
-#: root/apps/orders/admin.py:87 root/apps/orders/models.py:85
+#: root/apps/orders/admin.py:102 root/apps/orders/models.py:85
 msgid "Payment status"
 msgstr "Статус оплаты"
 
@@ -362,23 +362,39 @@ msgstr "Полная оплата"
 msgid "Refund"
 msgstr "Возврат"
 
-#: root/apps/orders/application/domain/exceptions.py:8
+#: root/apps/orders/application/domain/exceptions.py:10
+msgid "Product already sold in another order"
+msgstr "Товар уже продан в другом заказе"
+
+#: root/apps/orders/application/domain/exceptions.py:16
 msgid "Validation error"
 msgstr "Ошибка валидации"
 
-#: root/apps/orders/application/domain/exceptions.py:14
+#: root/apps/orders/application/domain/exceptions.py:22
 msgid "Wrong workflow status"
 msgstr "Неверный статус"
 
-#: root/apps/orders/application/interactors/order.py:45
+#: root/apps/orders/application/interactors/order.py:38
+msgid "There is not refunded payments. Please refund payments first."
+msgstr "Существуют не возвращенные платежи. Сначала необходимо возвратить их."
+
+#: root/apps/orders/application/interactors/order.py:46
 msgid "Client required"
 msgstr "Необходимо указать клиента"
 
-#: root/apps/orders/application/interactors/order.py:53
+#: root/apps/orders/application/interactors/order.py:54
 msgid "Items required"
 msgstr "Товары обязательны"
 
-#: root/apps/orders/application/interactors/order.py:110
+#: root/apps/orders/application/interactors/order.py:62
+msgid "Order is not payed or pay is invalid"
+msgstr "Заказ не оплачен или оплата неверна"
+
+#: root/apps/orders/application/interactors/order.py:70
+msgid "Order cannot be completed"
+msgstr "Заказ не может быть завершен"
+
+#: root/apps/orders/application/interactors/order.py:153
 msgid "Cannot push order to given status"
 msgstr "Невозможно изменить статус заказа"
 
