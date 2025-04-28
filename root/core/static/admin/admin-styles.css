@@ -38,7 +38,8 @@
   background-color: #fcf4e8;
   color: #d95e00;
 }
-.status_label.order.in_process {
+.status_label.order.in_process,
+.status_label.order.completed {
   background-color: #b3efc3;
   color: #007c21;
 }

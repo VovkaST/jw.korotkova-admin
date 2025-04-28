@@ -11,6 +11,7 @@ from root.apps.orders.application.domain.enums import (
     DeliveryMethodChoices,
     OrderCategoryChoices,
     OrderStatusChoices,
+    PaymentStatusChoices,
     PaymentTypeChoices,
 )
 from root.base.entity import BaseEntity, IDMixin
@@ -63,6 +64,7 @@ class OrderEntity(IDMixin, BaseEntity):
     guid: UUID4
     category: OrderCategoryChoices
     status: OrderStatusChoices
+    payment_status: PaymentStatusChoices
     user_id: ObjectId | None = Field(default=None)
     user: UserEntity | None = Field(default=None)
     discount: Decimal | None = Field(default=0)

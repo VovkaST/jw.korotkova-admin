@@ -6,7 +6,9 @@
     <div class="order-title d-flex gap-2 flex-row align-items-center">
       {{ block.super }}
       <div class="status_label order {{ original.status|lower }}">{{ original.status.label }}</div>
-      <div class="status_label payment {{ original.payment_status|lower }}">{{ original.payment_status.label }}</div>
+      {% if original.status != "NEW" and original.status != "COMPLETED" %}
+        <div class="status_label payment {{ original.payment_status|lower }}">{{ original.payment_status.label }}</div>
+      {% endif %}
     </div>
     <div class="justify-content-end">
       <form method="post" enctype="multipart/form-data" action="{% url opts|admin_urlname:'status' object_id=object_id %}">

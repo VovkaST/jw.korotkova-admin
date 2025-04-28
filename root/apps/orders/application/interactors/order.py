@@ -34,7 +34,8 @@ class CancelValidator(IStatusValidator):
     order_repository = OrderRepository()
 
     async def validate(self, order: OrderEntity) -> None:
-        pass
+        if order.payment_status != PaymentStatusChoices.NOT_PAID:
+            raise ValidationError(_("There is not refunded payments. Please refund payments first."))
 
 
 class InProcessValidator(IStatusValidator):
@@ -53,6 +54,22 @@ class PaymentAwaitValidator(IStatusValidator):
             raise ValidationError(_("Items required"))
 
 
+class DeliveryValidator(IStatusValidator):
+    order_repository = OrderRepository()
+
+    async def validate(self, order: OrderEntity) -> None:
+        if not order.payment_status == PaymentStatusChoices.PAID:
+            raise ValidationError(_("Order is not payed or pay is invalid"))
+
+
+class CompleteValidator(IStatusValidator):
+    order_repository = OrderRepository()
+
+    async def validate(self, order: OrderEntity) -> None:
+        if not any([order.status == OrderStatusChoices.DELIVERY, order.delivery_method, order.delivery_address]):
+            raise ValidationError(_("Order cannot be completed"))
+
+
 class OrderInteractor(BaseInteractor):
     order_repository = OrderRepository()
     order_item_repository = OrderItemRepository()
@@ -60,14 +77,36 @@ class OrderInteractor(BaseInteractor):
     status_fields = {
         OrderStatusChoices.NEW: StatusFields(all=["user", "order_payments"]),
         OrderStatusChoices.IN_PROCESS: StatusFields(
-            all=["user", "discount", "total_sum", "discount_sum", "discounted_sum", "order_items", "order_payments"],
+            all=[
+                "user",
+                "discount",
+                "total_sum",
+                "discount_sum",
+                "discounted_sum",
+                "order_items",
+                "order_payments",
+                "note",
+            ],
             read_only=["user", "total_sum", "discount_sum", "discounted_sum"],
         ),
         OrderStatusChoices.PAYMENT_AWAIT: StatusFields(
-            all=["user", "total_sum", "discount_sum", "discounted_sum", "order_items", "order_payments"],
+            all=["user", "total_sum", "discount_sum", "discounted_sum", "order_items", "order_payments", "note"],
             read_only=["user", "discount", "total_sum", "discount_sum", "discounted_sum", "order_items"],
         ),
-        OrderStatusChoices.DELIVERY: StatusFields(),
+        OrderStatusChoices.DELIVERY: StatusFields(
+            all=[
+                "user",
+                "total_sum",
+                "discount_sum",
+                "discounted_sum",
+                "order_items",
+                "order_payments",
+                "delivery_method",
+                "delivery_address",
+                "note",
+            ],
+            read_only=["user", "discount", "total_sum", "discount_sum", "discounted_sum", "order_items"],
+        ),
         OrderStatusChoices.COMPLETED: StatusFields(),
         OrderStatusChoices.CANCELLED: StatusFields(),
     }
@@ -76,14 +115,18 @@ class OrderInteractor(BaseInteractor):
         OrderStatusChoices.NEW: None,
         OrderStatusChoices.IN_PROCESS: InProcessValidator,
         OrderStatusChoices.PAYMENT_AWAIT: PaymentAwaitValidator,
-        OrderStatusChoices.DELIVERY: None,
-        OrderStatusChoices.COMPLETED: None,
+        OrderStatusChoices.DELIVERY: DeliveryValidator,
+        OrderStatusChoices.COMPLETED: CompleteValidator,
         OrderStatusChoices.CANCELLED: CancelValidator,
     }
 
     workflow = {
         OrderStatusChoices.NEW: [OrderStatusChoices.IN_PROCESS, OrderStatusChoices.CANCELLED],
-        OrderStatusChoices.IN_PROCESS: [OrderStatusChoices.PAYMENT_AWAIT, OrderStatusChoices.CANCELLED],
+        OrderStatusChoices.IN_PROCESS: [
+            OrderStatusChoices.PAYMENT_AWAIT,
+            OrderStatusChoices.CANCELLED,
+            OrderStatusChoices.DELIVERY,
+        ],
         OrderStatusChoices.PAYMENT_AWAIT: [
             OrderStatusChoices.IN_PROCESS,
             OrderStatusChoices.DELIVERY,
@@ -169,6 +212,10 @@ class OrderInteractor(BaseInteractor):
             actions[OrderActionsChoices.PROCESS] = OrderActionsChoices.PROCESS.label
         if await self.ready_to_pay(order):
             actions[OrderActionsChoices.PAYMENT] = OrderActionsChoices.PAYMENT.label
+        if await self.ready_to_deliver(order):
+            actions[OrderActionsChoices.DELIVERY] = OrderActionsChoices.DELIVERY.label
+        if await self.ready_to_complete(order):
+            actions[OrderActionsChoices.COMPLETE] = OrderActionsChoices.COMPLETE.label
         return actions
 
     async def can_cancel(self, order: OrderEntity) -> bool:
@@ -183,4 +230,21 @@ class OrderInteractor(BaseInteractor):
         )
 
     async def ready_to_pay(self, order: OrderEntity) -> bool:
-        return order.status == OrderStatusChoices.IN_PROCESS and len(order.items) > 0
+        return all(
+            [
+                order.status == OrderStatusChoices.IN_PROCESS,
+                len(order.items) > 0,
+                order.payment_status != PaymentStatusChoices.PAID,
+            ]
+        )
+
+    async def ready_to_deliver(self, order: OrderEntity) -> bool:
+        return all(
+            [
+                order.status in [OrderStatusChoices.IN_PROCESS, OrderStatusChoices.PAYMENT_AWAIT],
+                order.payment_status == PaymentStatusChoices.PAID,
+            ]
+        )
+
+    async def ready_to_complete(self, order: OrderEntity) -> bool:
+        return all([order.status == OrderStatusChoices.DELIVERY, order.delivery_method, order.delivery_address])

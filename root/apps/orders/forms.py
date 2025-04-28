@@ -9,6 +9,7 @@ class OrderAdminForm(forms.ModelForm):
         model = models.Order
         fields = "__all__"
         widgets = {
+            "delivery_address": forms.Textarea(attrs={"rows": 5}),
             "note": TinyMCE(attrs={"rows": 10}),
         }
 
