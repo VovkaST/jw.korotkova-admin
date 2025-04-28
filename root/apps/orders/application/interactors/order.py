@@ -84,7 +84,11 @@ class OrderInteractor(BaseInteractor):
     workflow = {
         OrderStatusChoices.NEW: [OrderStatusChoices.IN_PROCESS, OrderStatusChoices.CANCELLED],
         OrderStatusChoices.IN_PROCESS: [OrderStatusChoices.PAYMENT_AWAIT, OrderStatusChoices.CANCELLED],
-        OrderStatusChoices.PAYMENT_AWAIT: [OrderStatusChoices.DELIVERY, OrderStatusChoices.CANCELLED],
+        OrderStatusChoices.PAYMENT_AWAIT: [
+            OrderStatusChoices.IN_PROCESS,
+            OrderStatusChoices.DELIVERY,
+            OrderStatusChoices.CANCELLED,
+        ],
         OrderStatusChoices.DELIVERY: [OrderStatusChoices.COMPLETED, OrderStatusChoices.CANCELLED],
     }
 
@@ -171,14 +175,12 @@ class OrderInteractor(BaseInteractor):
         return order.status not in [OrderStatusChoices.CANCELLED, OrderStatusChoices.COMPLETED]
 
     async def ready_to_process(self, order: OrderEntity) -> bool:
-        return order.status == OrderStatusChoices.NEW and order.user_id is not None
+        return any(
+            (
+                order.status == OrderStatusChoices.NEW and order.user_id is not None,
+                order.status == OrderStatusChoices.PAYMENT_AWAIT,
+            )
+        )
 
     async def ready_to_pay(self, order: OrderEntity) -> bool:
         return order.status == OrderStatusChoices.IN_PROCESS and len(order.items) > 0
-
-    async def get_status_actions(self, status: OrderStatusChoices) -> dict[str, str]:
-        if status == OrderStatusChoices.NEW:
-            return {
-                OrderStatusChoices.CANCELLED: _("Cancel"),
-                OrderStatusChoices.IN_PROCESS: _("To process"),
-            }

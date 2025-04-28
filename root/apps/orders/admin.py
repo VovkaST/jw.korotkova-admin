@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 from root.apps.orders import models
 from root.apps.orders.application.boundaries.dtos import StatusFields
 from root.apps.orders.application.controllers.order import OrdersController
-from root.apps.orders.application.domain.enums import OrderStatusChoices
+from root.apps.orders.application.domain.enums import OrderStatusChoices, PaymentStatusChoices
 from root.apps.orders.forms import OrderAdminForm
 from root.apps.orders.views import NewOrderView, OrderStatusView
 from root.base.admin import ReadOnlyMixin
@@ -43,9 +43,9 @@ class OrderPaymentInline(ReadOnlyMixin, admin.TabularInline):
         return False
 
     def get_extra(self, request, obj: models.Order = None, **kwargs):
-        if not obj or not (items := obj.order_payments.all().count()):
+        if not obj or not obj.order_payments.exists():
             return 1
-        return items - 1
+        return 0
 
 
 @admin.register(models.Order)
@@ -53,8 +53,8 @@ class OrderAdmin(admin.ModelAdmin):
     order_controller = OrdersController()
 
     form = OrderAdminForm
-    list_display = ["order_status", "__str__", "user"]
-    list_filter = ["category", "status"]
+    list_display = ["order_status", "payment_status_label", "__str__", "user"]
+    list_filter = ["category", "status", "payment_status"]
     readonly_fields = [
         "guid",
         "total_sum",
@@ -76,9 +76,15 @@ class OrderAdmin(admin.ModelAdmin):
 
     def order_status(self, obj, *args, **kwargs):
         status = OrderStatusChoices(obj.status)
-        return mark_safe(f'<div class="order_status {obj.status.lower()}">{status.label}</div>')
+        return mark_safe(f'<div class="status_label order {obj.status.lower()}">{status.label}</div>')
 
     order_status.short_description = _("Status")
+
+    def payment_status_label(self, obj, *args, **kwargs):
+        status = PaymentStatusChoices(obj.payment_status)
+        return mark_safe(f'<div class="status_label payment {obj.payment_status.lower()}">{status.label}</div>')
+
+    payment_status_label.short_description = _("Payment status")
 
     def get_urls(self):
         from django.urls import path
@@ -159,6 +165,7 @@ class OrderAdmin(admin.ModelAdmin):
         obj = super().get_object(request, object_id, from_field)
         if obj:
             obj.status = OrderStatusChoices(obj.status)
+            obj.payment_status = PaymentStatusChoices(obj.payment_status)
         return obj
 
     def save_order_item_formset(self, order: models.Order, formset):
@@ -172,6 +179,7 @@ class OrderAdmin(admin.ModelAdmin):
         instances = formset.save()
         if is_order_changed:
             async_to_sync(self.order_controller.calculate)(order.id)
+            async_to_sync(self.order_controller.actualize_payment_status)(order.id)
         return instances
 
     def save_order_payment_formset(self, order: models.Order, formset):
