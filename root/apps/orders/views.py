@@ -30,7 +30,7 @@ class OrderStatusView(RedirectView):
             for arg in request.POST:
                 if arg in ActionsMap:
                     change_status = async_to_sync(self.order_controller.change_status)
-                    order = change_status(object_id, status=ActionsMap[arg])
+                    change_status(object_id, status=ActionsMap[arg])
         except ValidationError as error:
             messages.error(request, error.message)
         return super().post(request, object_id)

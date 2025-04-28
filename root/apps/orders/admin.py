@@ -1,4 +1,5 @@
 from asgiref.sync import async_to_sync
+from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
@@ -6,6 +7,7 @@ from root.apps.orders import models
 from root.apps.orders.application.boundaries.dtos import StatusFields
 from root.apps.orders.application.controllers.order import OrdersController
 from root.apps.orders.application.domain.enums import OrderStatusChoices, PaymentStatusChoices
+from root.apps.orders.application.domain.exceptions import ProductSoldError
 from root.apps.orders.forms import OrderAdminForm
 from root.apps.orders.views import NewOrderView, OrderStatusView
 from root.base.admin import ReadOnlyMixin
@@ -13,8 +15,21 @@ from root.contrib.utils import dotval
 from root.core.utils import gettext_lazy as _
 
 
+class OrderItemFormset(forms.BaseInlineFormSet):
+    def clean(self):
+        result = super().clean()
+        for item in self.cleaned_data:
+            if item.get("DELETE"):
+                continue
+            product = item.get("product")
+            if product.order_items.exists():
+                raise ProductSoldError
+        return result
+
+
 class OrderItemInline(ReadOnlyMixin, admin.TabularInline):
     model = models.OrderItem
+    formset = OrderItemFormset
     readonly_fields = ["price", "total_sum", "discount_sum", "discounted_sum"]
     fields = [
         "product",
