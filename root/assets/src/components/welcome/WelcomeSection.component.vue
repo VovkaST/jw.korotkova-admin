@@ -32,6 +32,7 @@ $borderColor: #939393;
   padding: 5px;
   margin: 0 auto;
   width: 470px;
+  user-select: none;
 
   &__inner-wrapper {
     padding: 10px 15px;
