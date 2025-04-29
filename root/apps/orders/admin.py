@@ -42,9 +42,9 @@ class OrderItemInline(ReadOnlyMixin, admin.TabularInline):
     ]
 
     def get_extra(self, request, obj: models.Order = None, **kwargs):
-        if not obj or not (items := obj.order_items.count()):
+        if not obj or not obj.order_items.exists():
             return 1
-        return items - 1
+        return 0
 
 
 class OrderPaymentInline(ReadOnlyMixin, admin.TabularInline):
