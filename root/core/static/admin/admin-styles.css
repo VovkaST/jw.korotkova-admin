@@ -1,0 +1,77 @@
+.d-flex {
+  display: flex!important;
+}
+
+.flex-row {
+  flex-direction: row!important;
+}
+
+.justify-content-between {
+  justify-content: space-between!important;
+}
+
+.justify-content-end {
+  justify-content: flex-end!important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.gap-2 {
+  gap: .5rem!important;
+}
+
+.order-title h2 {
+  margin: 0 1rem 0 0;
+}
+
+.status_label {
+  padding: 5px 10px;
+  height: fit-content;
+  width: max-content;
+  border-radius: 5px;
+  font-weight: 500;
+}
+.status_label.order.new,
+.status_label.order.delivery {
+  background-color: #fcf4e8;
+  color: #d95e00;
+}
+.status_label.order.in_process,
+.status_label.order.completed {
+  background-color: #b3efc3;
+  color: #007c21;
+}
+.status_label.order.payment_await {
+  background-color: #eef3ff;
+  color: #4D67A6;
+}
+.status_label.order.cancelled {
+  background-color: #ffcbc5;
+  color: #a61300;
+}
+
+.status_label.payment.paid {
+  background-color: #b3efc3;
+  color: #3a9b54;
+}
+.status_label.payment.not_paid {
+  background-color: #FFC6BF;
+  color: #A64A3E;
+}
+.status_label.payment.overpaid {
+  background-color: #AFDCE7;
+  color: #398496;
+}
+.status_label.payment.debt {
+  background-color: #D0A1BA;
+  color: #873460;
+}
+.status_label.payment.partially_paid {
+  background-color: #868FAC;
+  color: #2B3D70;
+}
+.order-view-block {
+  margin: 1rem 0 2rem;
+}

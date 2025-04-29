@@ -53,8 +53,8 @@ INSTALLED_APPS = [
     "root.contrib.singleton_model",
     # Custom apps
     "root.core",
-    # "root.apps.orders",
     "root.apps.products",
+    "root.apps.orders",
     "root.apps.bot",
     "root.apps.notifications",
     # Third-party apps

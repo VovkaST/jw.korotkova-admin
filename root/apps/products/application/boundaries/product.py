@@ -1,10 +1,15 @@
 from __future__ import annotations
 
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 
-from root.apps.products.application.domain.entities import ProductEntity
+from root.contrib.clean_architecture.interfaces import ObjectId
+
+if TYPE_CHECKING:
+    from root.apps.products.application.domain.entities import ProductEntity
 
 
 class IProductRepository(ABC):
-    async def get_products(self, product_ids: list[int]) -> list[ProductEntity]:
+    @abstractmethod
+    async def get_products(self, product_ids: list[ObjectId]) -> list[ProductEntity]:
         """Get all given products"""
