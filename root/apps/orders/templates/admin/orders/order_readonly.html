@@ -1,9 +1,10 @@
 {% extends 'admin/orders/change_form.html' %}
-{% load i18n admin_urls admin_utils %}
+{% load i18n admin_urls admin_utils order_utils %}
 
 {% block field_sets %}
 <div class="order-view-block">
   <table>
+    <caption>{% trans "Order information" %}</caption>
     <tbody>
       <tr>
         <td>{% trans 'Client' %}</td>
@@ -28,7 +29,7 @@
       </tr>
       <tr>
         <td>{% trans 'Delivery method' %}</td>
-        <td>{{ original.delivery_method|format_empty }}</td>
+        <td>{{ original.delivery_method|format_delivery_method|format_empty }}</td>
       </tr>
       <tr>
         <td>{% trans 'Delivery address' %}</td>
@@ -38,6 +39,58 @@
         <td>{% trans 'Note' %}</td>
         <td>{{ original.note|format_empty:"" }}</td>
       </tr>
+    </tbody>
+  </table>
+
+  <table style='margin-top: 1rem;'>
+    <caption>{% trans "Order items" %}</caption>
+    <thead>
+      <tr>
+        <th></th>
+        <th>{% trans "Title" %}</th>
+        <th>{% trans "Item price" %}</th>
+        <th>{% trans "Item quantity" %}</th>
+        <th>{% trans "Total order sum" %}</th>
+        <th>{% trans "Percent of discount" %},<br>%</th>
+        <th>{% trans "Sum with discount" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in original.order_items.all %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.product.title }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.total_sum }}</td>
+        <td>{{ item.discount }}%</td>
+        <td>{{ item.discounted_sum }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <table style='margin-top: 1rem;'>
+    <caption>{% trans "Payments" %}</caption>
+    <thead>
+      <tr>
+        <th></th>
+        <th>{% trans "Type" %}</th>
+        <th>{% trans "Creation date and time" %}</th>
+        <th>{% trans "Payment sum" %}</th>
+        <th>{% trans "Note" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in original.order_payments.all %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.type|format_payment_type }}</td>
+        <td>{{ item.created_at }}</td>
+        <td>{{ item.sum }}</td>
+        <td>{{ item.note|format_empty:"" }}</td>
+      </tr>
+    {% endfor %}
     </tbody>
   </table>
 </div>
