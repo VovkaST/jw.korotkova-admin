@@ -183,6 +183,10 @@ class OrderAdmin(admin.ModelAdmin):
             obj.payment_status = PaymentStatusChoices(obj.payment_status)
         return obj
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related("order_items__product", "order_payments")
+
     def save_order_item_formset(self, order: models.Order, formset):
         is_order_changed = bool(formset.deleted_forms)
         for _form in formset.forms:
