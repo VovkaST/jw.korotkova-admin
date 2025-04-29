@@ -4,6 +4,7 @@ from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from root.apps.products.application.domain.enums import ProductCategoryChoices
 from root.apps.products.managers import ProductQuerySet, ProductTypeQuerySet
 from root.apps.products.utils import upload_product_file_to
 from root.base.models import CreatedTimestampModel, TimedModel
@@ -31,8 +32,20 @@ class ProductType(models.Model):
 
 class Product(TimedModel):
     guid = models.UUIDField(unique=True, default=uuid.uuid4)
+    category = models.CharField(
+        _("Category"),
+        max_length=50,
+        db_comment="Product category",
+        choices=ProductCategoryChoices.choices,
+        default=ProductCategoryChoices.PRODUCT,
+    )
     type = models.ForeignKey(
-        ProductType, on_delete=models.PROTECT, verbose_name=_("Product type"), db_comment="Product type"
+        ProductType,
+        on_delete=models.PROTECT,
+        verbose_name=_("Product type"),
+        db_comment="Product type",
+        null=True,
+        blank=True,
     )
     title = models.CharField(_("Unique name"), max_length=255, unique=True, db_comment="Product unique name")
     description = models.CharField(_("Description"), max_length=1000, db_comment="Product`s description")

@@ -81,13 +81,13 @@ class BaseRepository(Singleton, IBaseRepository):
 
     async def get(self, pk: ObjectId) -> base_entity_class:
         queryset = self.get_queryset()
-        instance = queryset.get(pk=pk)
+        instance = await queryset.aget(pk=pk)
         return await self.to_entity(self.base_entity_class, instance)
 
     async def update(self, pk: ObjectId, dto: update_dto_class) -> ObjectId:
         instance = await self.objects.aget(pk=pk)
         real_fields = self.get_model_field_names(self.model)
-        updated_data = dto.model_dump(exclude_unset=True, include=real_fields)
+        updated_data = dto.model_dump(exclude_unset=True, include=real_fields - {"id"})
         update_fields = []
         for field_name, value in updated_data.items():
             if getattr(instance, field_name) != value:
@@ -97,6 +97,29 @@ class BaseRepository(Singleton, IBaseRepository):
         if update_fields:
             await instance.asave(update_fields=update_fields)
         return instance.pk
+
+    async def bulk_update(self, dtos: list[update_dto_class]) -> list[ObjectId]:
+        qs = self.objects.filter(pk__in=[dto.id for dto in dtos])
+        instance_by_id = {instance.pk: instance for instance in qs}
+        real_fields = self.get_model_field_names(self.model)
+        update_fields = set()
+        instance_for_update = []
+
+        for dto in dtos:
+            instance = instance_by_id.get(dto.id)
+
+            if not instance:
+                continue
+
+            updated_data = dto.model_dump(exclude_unset=True, include=real_fields - {"id"})
+            for field_name, value in updated_data.items():
+                if getattr(instance, field_name) != value:
+                    setattr(instance, field_name, value)
+                    update_fields.add(field_name)
+            instance_for_update.append(instance)
+
+        await self.objects.abulk_update(instance_for_update, update_fields)
+        return [instance.pk for instance in instance_for_update]
 
     async def delete(self, **kwargs) -> tuple[int, dict[str, int]]:
         return await self.model.objects.filter(**kwargs).adelete()

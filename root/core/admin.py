@@ -62,7 +62,7 @@ class UserAdmin(DjangoUserAdmin):
                 ),
             },
         ),
-        (_("Other dates"), {"fields": ("date_joined", "last_login")}),
+        (_("Other info"), {"fields": ("personal_discount", "date_joined", "last_login")}),
     ]
     inlines = [UserSocialInlineAdmin]
     readonly_fields = ["date_joined", "last_login"]
