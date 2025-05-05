@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # Third-party apps
     "phonenumber_field",
     "tinymce",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -201,6 +202,11 @@ USE_YANDEX_METRIKA = env.bool("USE_YANDEX_METRIKA", default=False)
 # Celery settings
 CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)
 CELERY_BROKER = env.str("CELERY_BROKER", default=REDIS_URL)
+
+# Django Rest Framework settings
+API_VERSION = "1.0.0"
+
+REST_FRAMEWORK = {}
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]

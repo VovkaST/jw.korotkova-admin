@@ -166,3 +166,5 @@ cython_debug/
 # Media dirs
 media/
 /static/
+
+*-local.*

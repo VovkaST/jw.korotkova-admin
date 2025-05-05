@@ -4,11 +4,18 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+api_schema = [
+    path("api/v1/", include("root.core.api.urls")),
+]
+
+
 urlpatterns = [
     path("", include("root.core.urls")),
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("tinymce/", include("tinymce.urls")),
+    *api_schema,
 ] + debug_toolbar_urls()
+
 urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
 urlpatterns.extend(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
