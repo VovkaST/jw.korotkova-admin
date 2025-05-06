@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { TopMenuItem } from './';
+defineProps<{
+  title: string;
+}>();
 </script>
 
 <template>
+  <span class="menu-title">{{ title }}</span>
   <nav>
     <ul class="nav-menu d-flex flex-row justify-content-between align-items-center">
       <li class="nav-menu__item">
@@ -22,6 +26,10 @@ import { TopMenuItem } from './';
 </template>
 
 <style scoped lang="scss">
+.menu-title {
+  font-family: var(--font-family-calligraphy);
+  font-size: 2rem;
+}
 .nav-menu {
   list-style: none;
 
