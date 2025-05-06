@@ -4,6 +4,7 @@ import Carousel from 'primevue/carousel';
 import { useProductsStore } from '@/stores/products.ts';
 import { TopMenu } from '@/components/top-menu';
 import { formatPrice } from '@/utils.ts';
+import { Socials, ImagedInfoContainer } from '@/components';
 
 const productsStore = useProductsStore();
 const origin = window.location.origin;
@@ -35,6 +36,7 @@ onBeforeMount(async () => {
     :numScroll="1"
     :circular="true"
     :showIndicators="false"
+    class="mt-5"
   >
     <template #item="slotProps">
       <div
@@ -54,6 +56,58 @@ onBeforeMount(async () => {
       </div>
     </template>
   </Carousel>
+  <ImagedInfoContainer class="mt-5">
+    <template #header>Свойства</template>
+    <template #image-left>
+      <img src="/internals-logo.png" alt="internals-logo" />
+    </template>
+    <template #text>
+      <p>
+        Украшения несут в&nbsp;себе состояния, которые вам сейчас необходимы. А&nbsp;мы&nbsp;все
+        находимся в состояниях, в&nbsp;каждую минуту своей жизни, только одни состояния
+        благотворные, а&nbsp;другие разрушительные. Поэтому так важно отслеживать негативные
+        проявления.
+      </p>
+      <p>
+        При создании украшений я&nbsp;изучаю вашу энергию в&nbsp;данный момент, слушаю, что требует
+        ваше тело, и&nbsp;передаю необходимое свойство через дизайн. Когда вы&nbsp;носите украшение,
+        происходит процесс изменений, вы&nbsp;напитываетесь нужным для вас состоянием. Уходит
+        напряжение из&nbsp;тела, освобождается энергия, которую вы&nbsp;удерживали и&nbsp;она
+        реализуется там, где требуется.
+      </p>
+      <p>Мои клиенты отмечают, что:</p>
+      <ul class="info-container__list">
+        <li class="info-container__list__item">️Стали легче принимать решения</li>
+        <li class="info-container__list__item">
+          ️Захотелось поработать над имиджем и&nbsp;приходят к&nbsp;своему результату
+        </li>
+        <li class="info-container__list__item">️Внутри становится спокойнее и&nbsp;гармоничнее</li>
+        <li class="info-container__list__item">️Появляется здоровая влюбленность в&nbsp;себя</li>
+        <li class="info-container__list__item">
+          Становится сложнее наступать себе на&nbsp;горло, хочется выбирать себя
+        </li>
+      </ul>
+    </template>
+  </ImagedInfoContainer>
+  <Socials class="d-flex flex-row justify-content-center align-items-center mt-5" />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+$borderColor: #939393;
+
+.info-container {
+  .info-image {
+    img {
+      height: 100%;
+    }
+  }
+
+  &__list {
+    list-style-type: '✔️';
+
+    &__item {
+      padding-left: 1rem;
+    }
+  }
+}
+</style>
