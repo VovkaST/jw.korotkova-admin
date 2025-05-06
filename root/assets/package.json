@@ -21,11 +21,14 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "schema:generate": "openapi --input src/api/schema.yaml --output ./src/api/generated/public --indent 2 --useOptions"
   },
   "dependencies": {
     "@jridgewell/sourcemap-codec": "^1.5.0",
     "@popperjs/core": "^2.11.8",
+    "@primeuix/themes": "^1.0.3",
+    "@vueuse/core": "^13.1.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "bootstrap": "^5.3.3",
     "globals": "^16.0.0",
@@ -49,6 +52,7 @@
     "eslint-plugin-vue": "~10.0.0",
     "jiti": "^2.4.2",
     "npm-run-all2": "^7.0.2",
+    "openapi-typescript-codegen": "^0.29.0",
     "prettier": "3.5.3",
     "sass": "^1.86.0",
     "typescript": "~5.8.0",
