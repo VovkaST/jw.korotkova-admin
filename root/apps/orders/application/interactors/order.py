@@ -1,6 +1,5 @@
+from abc import abstractmethod
 from decimal import Decimal
-
-from black.trans import abstractmethod
 
 from root.apps.orders.application.boundaries.dtos import (
     OrderCreateDTO,
