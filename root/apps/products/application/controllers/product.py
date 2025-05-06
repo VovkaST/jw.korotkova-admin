@@ -7,5 +7,8 @@ from root.apps.products.application.interactors import ProductInteractor
 class ProductController(IProductController):
     product_interactor = ProductInteractor()
 
+    async def get_products_in_stock(self):
+        return await self.product_interactor.get_products_in_stock()
+
     async def new_channel_post(self, channel_id: int, message: str):
         return await self.product_interactor.new_channel_post(channel_id, message)

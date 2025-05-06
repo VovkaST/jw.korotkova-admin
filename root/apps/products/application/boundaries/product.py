@@ -13,3 +13,7 @@ class IProductRepository(ABC):
     @abstractmethod
     async def get_products(self, product_ids: list[ObjectId]) -> list[ProductEntity]:
         """Get all given products"""
+
+    @abstractmethod
+    async def get_products_in_stock(self):
+        """Get all products in stock"""

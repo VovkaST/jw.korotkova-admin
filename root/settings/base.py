@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     # Contrib
     "root.contrib.singleton_model",
     # Custom apps
@@ -200,6 +201,9 @@ TELEGRAM_CHANNEL_LINK = TELEGRAM_URL_TEMPLATE.format(name=TELEGRAM_CHANNEL_NAME)
 TELEGRAM_CHANNEL_DESCRIPTION = _("Канал живых украшений и трансформаций Натальи Коротковой")
 
 # Site settings
+SITE_ID = env.int("SITE_ID", default=1)
+USE_SITE_SECURED_PROTOCOL = env.bool("USE_SITE_SECURED_PROTOCOL", default=False)
+
 USE_YANDEX_METRIKA = env.bool("USE_YANDEX_METRIKA", default=False)
 
 # Celery settings
