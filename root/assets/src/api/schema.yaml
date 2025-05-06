@@ -1,0 +1,118 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/v1/products/in_stock/:
+    get:
+      operationId: getProductsInStock
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDTO'
+          description: ''
+      tags:
+      - products
+  /api/v1/health/health/:
+    get:
+      operationId: retrieve
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - health
+components:
+  schemas:
+    ProductDTO:
+      properties:
+        guid:
+          format: uuid4
+          title: Guid
+          type: string
+        type:
+          $ref: '#/components/schemas/ProductTypeDTO'
+        type_id:
+          title: Type Id
+          type: integer
+        title:
+          title: Title
+          type: string
+        description:
+          title: Description
+          type: string
+        price:
+          anyOf:
+          - type: number
+          - type: string
+          title: Price
+        in_stock:
+          title: In Stock
+          type: boolean
+        files:
+          items:
+            $ref: '#/components/schemas/ProductFileDTO'
+          title: Files
+          type: array
+      required:
+      - guid
+      - type
+      - type_id
+      - title
+      - description
+      - price
+      - in_stock
+      title: ProductDTO
+      type: object
+    ProductFileDTO:
+      properties:
+        id:
+          minimum: 0
+          title: Id
+          type: integer
+        file:
+          title: File
+          type: string
+        description:
+          default: null
+          nullable: true
+          title: Description
+          type: string
+      required:
+      - id
+      - file
+      title: ProductFileDTO
+      type: object
+    ProductTypeDTO:
+      properties:
+        id:
+          minimum: 0
+          title: Id
+          type: integer
+        name:
+          title: Name
+          type: string
+        description:
+          default: null
+          nullable: true
+          title: Description
+          type: string
+        is_active:
+          title: Is Active
+          type: boolean
+      required:
+      - id
+      - name
+      - is_active
+      title: ProductTypeDTO
+      type: object
