@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/jewelries',
       name: 'jewelries',
-      component: () => import('@/views/jewelries/MainView.vue'),
+      component: () => import('@/views/jewelleries/MainView.vue'),
     },
     {
       path: '/wonder',

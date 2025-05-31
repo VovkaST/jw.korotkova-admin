@@ -1,8 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="info-container image-left">
-    <h2 v-if="$slots.header" class="info-container__header mb-2 ps-5">
+  <div
+    class="info-container"
+    :class="{ 'image-left': !!$slots['image-left'], 'image-right': !!$slots['image-right'] }"
+  >
+    <h2 v-if="$slots.header" class="info-container__header mb-2 px-5">
       <slot name="header" />
     </h2>
     <div class="info-container__content d-flex flex-row align-items-center justify-content-between">
@@ -29,6 +32,12 @@ $borderColor: #939393;
 .info {
   &-container {
     border-top: 1px solid $borderColor;
+
+    &.image-right {
+      [class*='__header'] {
+        text-align: center;
+      }
+    }
 
     &__header {
       margin-top: 2rem;

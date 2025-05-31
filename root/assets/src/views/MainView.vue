@@ -8,7 +8,7 @@ import Socials from '@/components/Socials.vue';
     <h1 class="welcome-screen__header text-center mb-4">Добро пожаловать!</h1>
     <router-link :to="{ name: 'jewelries' }">
       <WelcomeSection>
-        <template #title><b>J</b>e<b>w</b>elries.Korotkova</template>
+        <template #title><b>J</b>e<b>w</b>ellery.Korotkova</template>
         <template #image>
           <img class="section-image" src="/welcome/jw.korotkova-icon.png" alt="jw.korotkova-icon" />
         </template>
