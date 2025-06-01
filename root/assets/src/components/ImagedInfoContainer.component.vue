@@ -2,7 +2,6 @@
 
 <template>
   <div
-    :id="$attrs.id"
     class="info-container"
     :class="{ 'image-left': !!$slots['image-left'], 'image-right': !!$slots['image-right'] }"
   >

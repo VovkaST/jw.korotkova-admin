@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InstagramIcon, TelegramIcon, VKIcon, WhatsAppIcon } from '@/components/icons/socials';
+import { InstagramIcon, TelegramIcon, VKIcon, WhatsAppIcon } from './icons/socials';
 </script>
 
 <template>
