@@ -2,9 +2,8 @@
 import { onBeforeMount, ref } from 'vue';
 import Carousel from 'primevue/carousel';
 import { useProductsStore } from '@/stores/products.ts';
-import { TopMenu } from '@/components/top-menu';
 import { formatPrice } from '@/utils.ts';
-import { Socials, ImagedInfoContainer } from '@/components';
+import { Footer, ImagedInfoContainer, TopMenu } from '@/components';
 
 const productsStore = useProductsStore();
 const origin = window.location.origin;
@@ -186,14 +185,7 @@ onBeforeMount(async () => {
     </template>
   </ImagedInfoContainer>
 
-  <footer class="mt-5 pt-5 pb-5">
-    <Socials class="d-flex flex-row justify-content-center align-items-center" />
-    <ul class="requisites d-flex justify-content-center">
-      <li class="requisites__item">Самозанятая Короткова Н.Д.</li>
-      <li class="requisites__item">г. Москва</li>
-      <li class="requisites__item">ИНН 772775846428</li>
-    </ul>
-  </footer>
+  <Footer />
 </template>
 
 <style scoped lang="scss">
@@ -214,17 +206,6 @@ $borderColor: #939393;
     &__item {
       padding-left: 1rem;
     }
-  }
-}
-
-footer {
-  border-top: 1px solid #939393;
-
-  .requisites {
-    padding: 0;
-    margin: 2rem 0;
-    list-style: none;
-    gap: 3rem;
   }
 }
 </style>

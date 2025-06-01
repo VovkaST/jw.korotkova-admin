@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import WelcomeSection from '@/components/welcome/WelcomeSection.component.vue';
-import Socials from '@/components/Socials.vue';
+import Socials from '@/components/Socials.component.vue';
 </script>
 
 <template>
