@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import Carousel from 'primevue/carousel';
 import { useProductsStore } from '@/stores/products.ts';
 import { formatPrice } from '@/utils.ts';
 import { Footer, ImagedInfoContainer, TopMenu } from '@/components';
+
+const router = useRouter();
 
 const productsStore = useProductsStore();
 const origin = window.location.origin;
@@ -19,6 +22,12 @@ const onMenuClick = (item) => {
 };
 
 const menuItems = [
+  {
+    title: 'Главная',
+    onClick: () => {
+      router.push({ name: 'home' });
+    },
+  },
   {
     title: 'Свойства',
     onClick: () => onMenuClick(internals),
