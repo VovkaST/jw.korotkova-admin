@@ -6,7 +6,7 @@ import Socials from '@/components/Socials.vue';
 <template>
   <div class="welcome-screen d-flex flex-column justify-content-center gap-3">
     <h1 class="welcome-screen__header text-center mb-4">Добро пожаловать!</h1>
-    <router-link :to="{ name: 'jewelries' }">
+    <router-link :to="{ name: 'jewelleries' }">
       <WelcomeSection>
         <template #title><b>J</b>e<b>w</b>ellery.Korotkova</template>
         <template #image>

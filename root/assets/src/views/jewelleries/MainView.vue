@@ -9,7 +9,30 @@ import { Socials, ImagedInfoContainer } from '@/components';
 const productsStore = useProductsStore();
 const origin = window.location.origin;
 
+const internals = ref<typeof ImagedInfoContainer>(null);
+const care = ref<typeof ImagedInfoContainer>(null);
+const order = ref<typeof ImagedInfoContainer>(null);
+
 const products = ref([]);
+
+const onMenuClick = (item) => {
+  item.value.$el.scrollIntoView({ behavior: 'smooth' });
+};
+
+const menuItems = [
+  {
+    title: 'Свойства',
+    onClick: () => onMenuClick(internals),
+  },
+  {
+    title: 'Уход',
+    onClick: () => onMenuClick(care),
+  },
+  {
+    title: 'Заказ',
+    onClick: () => onMenuClick(order),
+  },
+];
 
 onBeforeMount(async () => {
   await productsStore.getProductsInStock().then((response) => {
@@ -28,7 +51,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <TopMenu title="Jewellery" />
+  <TopMenu title="Jewellery" :items="menuItems" />
   <Carousel
     v-if="products.length"
     :value="products"
@@ -56,7 +79,7 @@ onBeforeMount(async () => {
       </div>
     </template>
   </Carousel>
-  <ImagedInfoContainer class="mt-5">
+  <ImagedInfoContainer class="mt-5" id="services" ref="internals">
     <template #header>Свойства</template>
     <template #image-left>
       <img src="/internals-logo.png" alt="internals-logo" />
@@ -90,7 +113,7 @@ onBeforeMount(async () => {
     </template>
   </ImagedInfoContainer>
 
-  <ImagedInfoContainer class="mt-5">
+  <ImagedInfoContainer class="mt-5" ref="care">
     <template #header>Уход</template>
     <template #text>
       <p>Факторы, которые могут повлиять на&nbsp;внешний вид изделий:</p>
@@ -129,7 +152,7 @@ onBeforeMount(async () => {
     </template>
   </ImagedInfoContainer>
 
-  <ImagedInfoContainer class="mt-5">
+  <ImagedInfoContainer class="mt-5" ref="order">
     <template #header>Заказ</template>
     <template #text>
       <p>Для заказа нужно:</p>

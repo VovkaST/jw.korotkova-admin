@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { TopMenuItem } from './';
+export interface MenuItem {
+  title: string;
+  onClick: void;
+}
+
 defineProps<{
   title: string;
+  items: Array<MenuItem>;
 }>();
 </script>
 
@@ -9,17 +14,8 @@ defineProps<{
   <span class="menu-title">{{ title }}</span>
   <nav>
     <ul class="nav-menu d-flex flex-row justify-content-between align-items-center">
-      <li class="nav-menu__item">
-        <top-menu-item to="services"> Услуги </top-menu-item>
-      </li>
-      <li>
-        <top-menu-item to="reviews"> Отзывы </top-menu-item>
-      </li>
-      <li>
-        <top-menu-item to="about"> Обо мне </top-menu-item>
-      </li>
-      <li>
-        <top-menu-item to="contacts"> Контакты </top-menu-item>
+      <li class="nav-menu__item" v-for="item in items">
+        <a @click.prevent="item.onClick" href="#">{{ item.title }}</a>
       </li>
     </ul>
   </nav>
