@@ -2,18 +2,20 @@
 import { onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Carousel from 'primevue/carousel';
+import ScrollTop from 'primevue/scrolltop';
+import Image from 'primevue/image';
 import { useProductsStore } from '@/stores/products.ts';
 import { formatPrice } from '@/utils.ts';
-import { Footer, ImagedInfoContainer, TopMenu } from '@/components';
+import { Footer, InfoContainer, TopMenu } from '@/components';
 
 const router = useRouter();
 
 const productsStore = useProductsStore();
 const origin = window.location.origin;
 
-const internals = ref<typeof ImagedInfoContainer>(null);
-const care = ref<typeof ImagedInfoContainer>(null);
-const order = ref<typeof ImagedInfoContainer>(null);
+const internals = ref<typeof InfoContainer>(null);
+const care = ref<typeof InfoContainer>(null);
+const order = ref<typeof InfoContainer>(null);
 
 const products = ref([]);
 
@@ -60,6 +62,7 @@ onBeforeMount(async () => {
 
 <template>
   <TopMenu title="Jewellery" :items="menuItems" />
+
   <Carousel
     v-if="products.length"
     :value="products"
@@ -75,7 +78,25 @@ onBeforeMount(async () => {
       >
         <div class="mb-4">
           <div class="relative mx-auto">
-            <img :src="slotProps.data.image" :alt="slotProps.data.name" class="w-full rounded" />
+            <Image
+              :src="slotProps.data.image"
+              :alt="slotProps.data.name"
+              class="w-full rounded"
+              width="100%"
+              preview
+              zoom-in-disabled
+              zoom-out-disabled
+              :pt="{ rotateLeftButton: { disabled: true }, rotateRightButton: { disabled: true } }"
+            >
+              <template #preview="slotProps">
+                <img
+                  src="https://primefaces.org/cdn/primevue/images/galleria/galleria11.jpg"
+                  alt="preview"
+                  :style="slotProps.style"
+                  @click="slotProps.onClick"
+                />
+              </template>
+            </Image>
           </div>
         </div>
         <div class="mb-4 font-medium">{{ slotProps.data.name }}</div>
@@ -87,11 +108,9 @@ onBeforeMount(async () => {
       </div>
     </template>
   </Carousel>
-  <ImagedInfoContainer class="mt-5" id="services" ref="internals">
-    <template #header>Свойства</template>
-    <template #image-left>
-      <img src="/internals-logo.png" alt="internals-logo" />
-    </template>
+
+  <InfoContainer class="mt-5" id="services" ref="internals">
+    <template #circle-left> Свойства </template>
     <template #text>
       <p>
         Украшения несут в&nbsp;себе состояния, которые вам сейчас необходимы. А&nbsp;мы&nbsp;все
@@ -119,10 +138,9 @@ onBeforeMount(async () => {
         </li>
       </ul>
     </template>
-  </ImagedInfoContainer>
+  </InfoContainer>
 
-  <ImagedInfoContainer class="mt-5" ref="care">
-    <template #header>Уход</template>
+  <InfoContainer class="mt-5" ref="care">
     <template #text>
       <p>Факторы, которые могут повлиять на&nbsp;внешний вид изделий:</p>
       <ul class="info-container__list">
@@ -155,13 +173,10 @@ onBeforeMount(async () => {
         </li>
       </ul>
     </template>
-    <template #image-right>
-      <img src="/internals-logo.png" alt="internals-logo" />
-    </template>
-  </ImagedInfoContainer>
+    <template #circle-right> Уход </template>
+  </InfoContainer>
 
-  <ImagedInfoContainer class="mt-5" ref="order">
-    <template #header>Заказ</template>
+  <InfoContainer class="mt-5" ref="order">
     <template #text>
       <p>Для заказа нужно:</p>
       <ul class="info-container__list check-style">
@@ -189,19 +204,19 @@ onBeforeMount(async () => {
         укажите. Если оплата не производится, заказ аннулируется.
       </p>
     </template>
-    <template #image-left>
-      <img src="/internals-logo.png" alt="internals-logo" />
-    </template>
-  </ImagedInfoContainer>
+    <template #circle-left> Заказ </template>
+  </InfoContainer>
 
   <Footer />
+
+  <ScrollTop />
 </template>
 
 <style scoped lang="scss">
 $borderColor: #939393;
 
 .info-container {
-  .info-image {
+  .info-circle {
     img {
       height: 100%;
     }
@@ -214,6 +229,19 @@ $borderColor: #939393;
 
     &__item {
       padding-left: 1rem;
+    }
+  }
+}
+
+.p-button {
+  background: var(--p-button-secondary-color);
+  border: 1px solid var(--p-button-secondary-border-color);
+
+  &:not(:disabled) {
+    &:hover,
+    &:active {
+      background: var(--p-button-secondary-hover-background);
+      border: 1px solid var(--p-button-secondary-hover-border-color);
     }
   }
 }

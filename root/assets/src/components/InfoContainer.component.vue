@@ -3,23 +3,23 @@
 <template>
   <div
     class="info-container"
-    :class="{ 'image-left': !!$slots['image-left'], 'image-right': !!$slots['image-right'] }"
+    :class="{ 'circle-left': !!$slots['circle-left'], 'circle-right': !!$slots['circle-right'] }"
   >
     <h2 v-if="$slots.header" class="info-container__header mb-2 px-5">
       <slot name="header" />
     </h2>
     <div class="info-container__content d-flex flex-row align-items-center justify-content-between">
-      <div v-if="$slots['image-left']" class="info-image left">
+      <div v-if="$slots['circle-left']" class="info-circle left">
         <div class="inner-circle">
-          <slot name="image-left" />
+          <slot name="circle-left" />
         </div>
       </div>
       <div class="info-text">
         <slot name="text" />
       </div>
-      <div v-if="$slots['image-right']" class="info-image right">
+      <div v-if="$slots['circle-right']" class="info-circle right">
         <div class="inner-circle">
-          <slot name="image-right" />
+          <slot name="circle-right" />
         </div>
       </div>
     </div>
@@ -28,24 +28,26 @@
 
 <style scoped lang="scss">
 $borderColor: #939393;
+$borderColorLight: #edebeb;
 
 .info {
   &-container {
     border-top: 1px solid $borderColor;
+    padding-top: 2rem;
 
-    &.image-right {
+    &.circle-right {
       [class*='__header'] {
         text-align: center;
       }
     }
 
     &__header {
-      margin-top: 2rem;
+      margin-top: 1rem;
       text-transform: uppercase;
     }
 
     &__content {
-      .info-image {
+      .info-circle {
         padding: 10px;
         border: 1px solid $borderColor;
         border-radius: 50%;
@@ -54,9 +56,18 @@ $borderColor: #939393;
         flex-basis: 30%;
 
         .inner-circle {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
           height: 100%;
+          border: 1px solid $borderColorLight;
           border-radius: 50%;
           overflow: hidden;
+
+          font-family: var(--font-family-handwritten);
+          font-size: 3.5rem;
         }
 
         img {
