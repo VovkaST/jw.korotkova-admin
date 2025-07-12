@@ -9,6 +9,7 @@ const router = useRouter();
 
 const origin = window.location.origin;
 
+const products = ref<typeof InfoContainer>(null);
 const internals = ref<typeof InfoContainer>(null);
 const care = ref<typeof InfoContainer>(null);
 const order = ref<typeof InfoContainer>(null);
@@ -24,6 +25,10 @@ const menuItems = [
   //     router.push({ name: 'home' });
   //   },
   // },
+  {
+    title: 'Мои работы',
+    onClick: () => onMenuClick(products),
+  },
   {
     title: 'Свойства',
     onClick: () => onMenuClick(internals),
@@ -44,7 +49,7 @@ const menuItems = [
 
   <BusinessCard class="mt-4" />
 
-  <Products header="Мои изделия" class="mt-5" />
+  <Products header="Мои работы" class="mt-5" ref="products" />
 
   <InfoContainer class="mt-5" id="services" ref="internals">
     <template #circle-left> Свойства </template>
