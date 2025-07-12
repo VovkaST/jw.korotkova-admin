@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ScrollTop from 'primevue/scrolltop';
-
 import { BusinessCard, Footer, InfoContainer, Products, TopMenu } from '@/components';
 
 const router = useRouter();
 
-const origin = window.location.origin;
+enum Anchors {
+  PRODUCTS = 'products',
+  INTERNALS = 'internals',
+  CARE = 'care',
+  ORDER = 'order',
+}
 
-const products = ref<typeof InfoContainer>(null);
-const internals = ref<typeof InfoContainer>(null);
-const care = ref<typeof InfoContainer>(null);
-const order = ref<typeof InfoContainer>(null);
-
-const onMenuClick = (item) => {
-  router.push({ name: 'home', hash: `#${item.value.$el.id}` });
+const onMenuClick = (item: Anchors) => {
+  router.push({ name: 'home', hash: `#${item}` });
 };
 
 const menuItems = [
@@ -27,19 +25,19 @@ const menuItems = [
   // },
   {
     title: 'Мои работы',
-    onClick: () => onMenuClick(products),
+    onClick: () => onMenuClick(Anchors.PRODUCTS),
   },
   {
     title: 'Свойства',
-    onClick: () => onMenuClick(internals),
+    onClick: () => onMenuClick(Anchors.INTERNALS),
   },
   {
     title: 'Уход',
-    onClick: () => onMenuClick(care),
+    onClick: () => onMenuClick(Anchors.CARE),
   },
   {
     title: 'Заказ',
-    onClick: () => onMenuClick(order),
+    onClick: () => onMenuClick(Anchors.ORDER),
   },
 ];
 </script>
@@ -49,9 +47,9 @@ const menuItems = [
 
   <BusinessCard class="mt-4" />
 
-  <Products header="Мои работы" class="mt-5" id="products" ref="products" />
+  <Products header="Мои работы" class="mt-5" :id="Anchors.PRODUCTS" />
 
-  <InfoContainer class="mt-5" id="internals" ref="internals">
+  <InfoContainer class="mt-5" :id="Anchors.INTERNALS">
     <template #circle-left> Свойства </template>
     <template #text>
       <p>
@@ -82,7 +80,7 @@ const menuItems = [
     </template>
   </InfoContainer>
 
-  <InfoContainer class="mt-5" id="care" ref="care">
+  <InfoContainer class="mt-5" :id="Anchors.CARE">
     <template #text>
       <p>Факторы, которые могут повлиять на&nbsp;внешний вид изделий:</p>
       <ul class="info-container__list">
@@ -118,7 +116,7 @@ const menuItems = [
     <template #circle-right> Уход </template>
   </InfoContainer>
 
-  <InfoContainer class="mt-5" id="order" ref="order">
+  <InfoContainer class="mt-5" :id="Anchors.ORDER">
     <template #text>
       <p>Для заказа нужно:</p>
       <ul class="info-container__list check-style">
