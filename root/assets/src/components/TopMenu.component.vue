@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 
 export interface MenuItem {
   title: string;
-  onClick: void;
+  onClick: () => void;
 }
 
 defineProps<{
