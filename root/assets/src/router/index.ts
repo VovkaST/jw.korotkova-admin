@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import MainView from '@/views/MainView.vue';
+import JewelleriesMainView from '@/views/jewelleries/MainView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,17 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: MainView,
-    },
-    {
-      path: '/jewelleries',
-      name: 'jewelleries',
-      component: () => import('@/views/jewelleries/MainView.vue'),
-    },
-    {
-      path: '/wonder',
-      name: 'wonder',
-      component: () => import('@/views/wonder/MainView.vue'),
+      component: JewelleriesMainView,
     },
   ],
 });

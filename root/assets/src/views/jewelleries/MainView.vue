@@ -24,12 +24,12 @@ const onMenuClick = (item) => {
 };
 
 const menuItems = [
-  {
-    title: 'Главная',
-    onClick: () => {
-      router.push({ name: 'home' });
-    },
-  },
+  // {
+  //   title: 'Главная',
+  //   onClick: () => {
+  //     router.push({ name: 'home' });
+  //   },
+  // },
   {
     title: 'Свойства',
     onClick: () => onMenuClick(internals),
@@ -61,7 +61,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <TopMenu title="Jewellery" :items="menuItems" />
+  <TopMenu title="JW.Korotkova" :items="menuItems" />
 
   <Carousel
     v-if="products.length"
