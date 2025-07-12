@@ -13,7 +13,8 @@ const currentYear = new Date().getFullYear();
       <li class="requisites__item">ИНН 772775846428</li>
     </ul>
     <span>
-      Разработка: <a href="https://t.me/KorotkoVladimir" target="_blank">@KorotkoVladimir</a>
+      Разработка:
+      <a href="https://t.me/KorotkoVladimir" target="_blank" class="author">@KorotkoVladimir</a>
     </span>
     <span>&copy; {{ currentYear }}</span>
   </footer>
@@ -28,6 +29,12 @@ footer {
     margin: 2rem 0;
     list-style: none;
     gap: 3rem;
+  }
+
+  .author {
+    &:hover {
+      font-weight: 300;
+    }
   }
 }
 </style>
