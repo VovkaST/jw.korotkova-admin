@@ -57,14 +57,14 @@ onBeforeMount(async () => {
                   rotateRightButton: { disabled: true },
                 }"
               >
-                <template #preview="slotProps">
-                  <img
-                    src="https://primefaces.org/cdn/primevue/images/galleria/galleria11.jpg"
-                    alt="preview"
-                    :style="slotProps.style"
-                    @click="slotProps.onClick"
-                  />
-                </template>
+                <!--                <template #preview="slotProps">-->
+                <!--                  <img-->
+                <!--                    src="https://primefaces.org/cdn/primevue/images/galleria/galleria11.jpg"-->
+                <!--                    alt="preview"-->
+                <!--                    :style="slotProps.style"-->
+                <!--                    @click="slotProps.onClick"-->
+                <!--                  />-->
+                <!--                </template>-->
               </Image>
             </div>
           </div>
