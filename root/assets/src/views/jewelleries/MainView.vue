@@ -15,7 +15,7 @@ const care = ref<typeof InfoContainer>(null);
 const order = ref<typeof InfoContainer>(null);
 
 const onMenuClick = (item) => {
-  item.value.$el.scrollIntoView({ behavior: 'smooth' });
+  router.push({ name: 'home', hash: `#${item.value.$el.id}` });
 };
 
 const menuItems = [
@@ -49,9 +49,9 @@ const menuItems = [
 
   <BusinessCard class="mt-4" />
 
-  <Products header="Мои работы" class="mt-5" ref="products" />
+  <Products header="Мои работы" class="mt-5" id="products" ref="products" />
 
-  <InfoContainer class="mt-5" id="services" ref="internals">
+  <InfoContainer class="mt-5" id="internals" ref="internals">
     <template #circle-left> Свойства </template>
     <template #text>
       <p>
@@ -82,7 +82,7 @@ const menuItems = [
     </template>
   </InfoContainer>
 
-  <InfoContainer class="mt-5" ref="care">
+  <InfoContainer class="mt-5" id="care" ref="care">
     <template #text>
       <p>Факторы, которые могут повлиять на&nbsp;внешний вид изделий:</p>
       <ul class="info-container__list">
@@ -118,7 +118,7 @@ const menuItems = [
     <template #circle-right> Уход </template>
   </InfoContainer>
 
-  <InfoContainer class="mt-5" ref="order">
+  <InfoContainer class="mt-5" id="order" ref="order">
     <template #text>
       <p>Для заказа нужно:</p>
       <ul class="info-container__list check-style">
