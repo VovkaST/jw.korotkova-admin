@@ -10,7 +10,7 @@
     </h2>
     <div class="info-container__content d-flex flex-row align-items-center justify-content-between">
       <div v-if="$slots['circle-left']" class="info-circle left">
-        <div class="inner-circle">
+        <div class="inner-circle font-handwritten">
           <slot name="circle-left" />
         </div>
       </div>
@@ -18,7 +18,7 @@
         <slot name="text" />
       </div>
       <div v-if="$slots['circle-right']" class="info-circle right">
-        <div class="inner-circle">
+        <div class="inner-circle font-handwritten">
           <slot name="circle-right" />
         </div>
       </div>
@@ -66,7 +66,6 @@ $borderColorLight: #edebeb;
           border-radius: 50%;
           overflow: hidden;
 
-          font-family: var(--font-family-handwritten);
           font-size: 3.5rem;
         }
 

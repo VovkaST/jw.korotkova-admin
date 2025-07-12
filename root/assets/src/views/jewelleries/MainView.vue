@@ -1,23 +1,17 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Carousel from 'primevue/carousel';
 import ScrollTop from 'primevue/scrolltop';
-import Image from 'primevue/image';
-import { useProductsStore } from '@/stores/products.ts';
-import { formatPrice } from '@/utils.ts';
-import { Footer, InfoContainer, TopMenu } from '@/components';
+
+import { BusinessCard, Footer, InfoContainer, Products, TopMenu } from '@/components';
 
 const router = useRouter();
 
-const productsStore = useProductsStore();
 const origin = window.location.origin;
 
 const internals = ref<typeof InfoContainer>(null);
 const care = ref<typeof InfoContainer>(null);
 const order = ref<typeof InfoContainer>(null);
-
-const products = ref([]);
 
 const onMenuClick = (item) => {
   item.value.$el.scrollIntoView({ behavior: 'smooth' });
@@ -43,71 +37,14 @@ const menuItems = [
     onClick: () => onMenuClick(order),
   },
 ];
-
-onBeforeMount(async () => {
-  await productsStore.getProductsInStock().then((response) => {
-    response.forEach((item) => {
-      products.value.push({
-        guid: item.guid,
-        name: item.title,
-        description: item.description,
-        image: item.files.length ? item.files[0].file : '',
-        price: item.price,
-        category: item.type.name,
-      });
-    });
-  });
-});
 </script>
 
 <template>
   <TopMenu title="JW.Korotkova" :items="menuItems" />
 
-  <Carousel
-    v-if="products.length"
-    :value="products"
-    :numVisible="3"
-    :numScroll="1"
-    :circular="true"
-    :showIndicators="false"
-    class="mt-5"
-  >
-    <template #item="slotProps">
-      <div
-        class="product-container border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
-      >
-        <div class="mb-4">
-          <div class="relative mx-auto">
-            <Image
-              :src="slotProps.data.image"
-              :alt="slotProps.data.name"
-              class="w-full rounded"
-              width="100%"
-              preview
-              zoom-in-disabled
-              zoom-out-disabled
-              :pt="{ rotateLeftButton: { disabled: true }, rotateRightButton: { disabled: true } }"
-            >
-              <template #preview="slotProps">
-                <img
-                  src="https://primefaces.org/cdn/primevue/images/galleria/galleria11.jpg"
-                  alt="preview"
-                  :style="slotProps.style"
-                  @click="slotProps.onClick"
-                />
-              </template>
-            </Image>
-          </div>
-        </div>
-        <div class="mb-4 font-medium">{{ slotProps.data.name }}</div>
-        <div class="flex justify-content-between align-items-center">
-          <div class="mt-0 font-semibold text-xl">
-            {{ formatPrice(slotProps.data.price) }}
-          </div>
-        </div>
-      </div>
-    </template>
-  </Carousel>
+  <BusinessCard class="mt-4" />
+
+  <Products header="Мои изделия" class="mt-5" />
 
   <InfoContainer class="mt-5" id="services" ref="internals">
     <template #circle-left> Свойства </template>
