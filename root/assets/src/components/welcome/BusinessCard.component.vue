@@ -2,23 +2,32 @@
 
 <template>
   <div class="business-card-container d-flex flex-row justify-content-end align-items-center">
-    <div class="business-card-container__image">
-      <img src="/internals-logo.png" alt="JW.Korotkova" />
-    </div>
     <div class="business-card-container__info">
       <div class="name">Наталья Короткова</div>
       <div class="position">Дизайнер индивидуальных украшений</div>
+    </div>
+    <div class="business-card-container__image">
+      <img src="/BusinessCardPhoto.jpg" alt="JW.Korotkova" />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .business-card-container {
+  background: linear-gradient(to top, #b3b3a8 20%, #bfbfb8 50%, #bab8ae 80%);
+
   &__image {
     width: 50%;
 
     img {
       width: 100%;
+      object-fit: cover;
+      mask-image: radial-gradient(
+        circle at center,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 70%,
+        rgba(0, 0, 0, 0) 100%
+      );
     }
   }
 
@@ -31,12 +40,12 @@
     .name {
       font-size: 4rem;
       line-height: 4rem;
-      font-weight: 300;
+      font-weight: 400;
     }
 
     .position {
       margin-top: 2rem;
-      font-size: 2rem;
+      font-size: 1.7rem;
       line-height: 2rem;
     }
   }
