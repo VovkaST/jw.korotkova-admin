@@ -8,6 +8,7 @@ from root.apps.products.application.domain.enums import ProductCategoryChoices
 from root.apps.products.managers import ProductQuerySet, ProductTypeQuerySet
 from root.apps.products.utils import upload_product_file_to
 from root.base.models import CreatedTimestampModel, TimedModel
+from root.core.enums import FileTypesChoices
 
 
 class ProductType(models.Model):
@@ -80,8 +81,19 @@ class ProductFiles(CreatedTimestampModel):
         db_comment="Product",
     )
     file = models.FileField(verbose_name=_("File's link"), upload_to=upload_product_file_to)
+    type = models.CharField(_("File's type"), max_length=50, db_comment="File`s type", choices=FileTypesChoices.choices)
+    meta = models.JSONField(verbose_name=_("File's meta"), default=dict, db_comment="File`s meta")
     description = models.CharField(
         _("Description"), null=True, blank=True, max_length=1000, db_comment="File`s description"
+    )
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        verbose_name=_("Parent file"),
+        related_name="children",
+        null=True,
+        blank=True,
+        db_comment="Parent file",
     )
 
     class Meta:
@@ -93,6 +105,8 @@ class ProductFiles(CreatedTimestampModel):
         return self.description or self.file.url
 
     def delete(self, using=None, keep_parents=False):
+        for child in self.children.all():
+            child.delete()
         result = super().delete(using=using, keep_parents=keep_parents)
         self.file.storage.delete(self.file.name)
         return result

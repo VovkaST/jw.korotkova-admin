@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "tinymce",
     "rest_framework",
     "corsheaders",
+    "easy_thumbnails",
 ]
 
 MIDDLEWARE = [
@@ -210,10 +211,26 @@ USE_YANDEX_METRIKA = env.bool("USE_YANDEX_METRIKA", default=False)
 CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)
 CELERY_BROKER = env.str("CELERY_BROKER", default=REDIS_URL)
 
+# Thumbnail settings
+THUMBNAIL_SIZES = {
+    "XL": 4096,
+    "L": (960, 1280),
+    "M": (300, 400),
+    "S": 90,
+}
+PRODUCT_PREVIEW_SIZE = (300, 400)
+THUMBNAIL_ALIASES = {
+    "": {
+        "products": {"size": (960, 1280), "crop": True},
+    },
+}
+
 # Django Rest Framework settings
 API_VERSION = "1.0.0"
 
 REST_FRAMEWORK = {}
+
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]

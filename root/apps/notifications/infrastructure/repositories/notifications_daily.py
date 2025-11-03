@@ -27,9 +27,6 @@ class NotificationsDailyRepository(BaseRepository, INotificationsDailyRepository
         entities = []
         async for notification in queryset:
             entity = await self.to_entity(self.base_entity_class, notification)
-            entity.users = [
-                await self.to_entity(UserEntity, user, include_relation={"socials"}, depth=1)
-                async for user in notification.users.all()
-            ]
+            entity.users = [await self.to_entity(UserEntity, user) async for user in notification.users.all()]
             entities.append(entity)
         return entities

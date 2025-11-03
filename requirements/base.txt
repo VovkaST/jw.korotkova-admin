@@ -18,6 +18,7 @@ pytest-asyncio==0.25.2
 pytest-cov==6.0.0
 pytest-django==4.9.0
 redis==5.0.3
+easy-thumbnails==2.10.1
 transliterate==1.10.2
 uvicorn==0.34.0
 uvicorn-worker==0.3.0

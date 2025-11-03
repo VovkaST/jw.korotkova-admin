@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from root.apps.orders.application.boundaries.dtos import OrderUpdateDTO
 from root.apps.orders.application.boundaries.order import IOrderRepository
-from root.apps.orders.application.domain.enitites import OrderEntity, OrderItemEntity, OrderPaymentEntity
+from root.apps.orders.application.domain.entities import OrderEntity, OrderItemEntity, OrderPaymentEntity
 from root.apps.orders.application.domain.enums import PaymentStatusChoices
 from root.apps.orders.models import Order
 from root.base.repository import BaseRepository

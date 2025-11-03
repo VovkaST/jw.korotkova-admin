@@ -9,7 +9,7 @@ from root.apps.products.application.boundaries.dtos import (
     ProductChannelPublicationUpdateDTO,
 )
 from root.apps.products.application.domain.entities import ProductChannelPublicationEntity
-from root.apps.products.infrastrucure.repositories import ProductChannelPublicationRepository, ProductRepository
+from root.apps.products.infrastructure.repositories import ProductChannelPublicationRepository, ProductRepository
 
 
 class ProductChannelPublicationInteractor:

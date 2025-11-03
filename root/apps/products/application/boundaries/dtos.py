@@ -1,6 +1,9 @@
 from decimal import Decimal
+from typing import Any
 
 from pydantic import UUID4, BaseModel, Field, NonNegativeInt
+
+from root.core.enums import FileTypesChoices
 
 
 class ProductChannelPublicationCreateDTO(BaseModel):
@@ -38,3 +41,9 @@ class ProductDTO(BaseModel):
     price: Decimal
     in_stock: bool
     files: list[ProductFileDTO] = Field(default_factory=list)
+
+
+class ProductFileCreateDTO(BaseModel):
+    file: Any
+    type: FileTypesChoices
+    description: str | None = Field(default=None)
