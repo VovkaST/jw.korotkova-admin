@@ -8,7 +8,7 @@ from pydantic_core.core_schema import ValidationInfo
 
 from root.contrib.utils import resource_url
 from root.core.enums import ImageSizesChoices
-from root.core.utils import gettext_lazy as _
+from root.core.utils import gettext as _
 
 _EntityValue = TypeVar("_EntityValue")
 
