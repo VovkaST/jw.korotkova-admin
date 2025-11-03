@@ -3,6 +3,7 @@ from typing import Any
 
 from pydantic import UUID4, BaseModel, Field, NonNegativeInt
 
+from root.base.entity import ImageMeta
 from root.core.enums import FileTypesChoices
 
 
@@ -30,6 +31,7 @@ class ProductFileDTO(BaseModel):
     id: NonNegativeInt
     file: str
     description: str | None = Field(default=None)
+    meta: ImageMeta = Field(default_factory=ImageMeta)
 
 
 class ProductDTO(BaseModel):

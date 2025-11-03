@@ -74,6 +74,36 @@ components:
       - in_stock
       title: ProductDTO
       type: object
+    ImageMeta:
+      properties:
+        size_code:
+          $ref: '#/components/schemas/ImageSizesChoices'
+          default: null
+          description: Images size code
+          nullable: true
+        size:
+          default: null
+          description: Images size (WxH)
+          nullable: true
+          title: Size
+          type: string
+        length:
+          default: 0
+          description: Images size in bytes
+          nullable: true
+          title: Length
+          type: integer
+      title: ImageMeta
+      type: object
+    ImageSizesChoices:
+      enum:
+      - ORIGINAL
+      - XL
+      - L
+      - M
+      - S
+      title: ImageSizesChoices
+      type: string
     ProductFileDTO:
       properties:
         id:
@@ -88,6 +118,8 @@ components:
           nullable: true
           title: Description
           type: string
+        meta:
+          $ref: '#/components/schemas/ImageMeta'
       required:
       - id
       - file
