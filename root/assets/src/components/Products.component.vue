@@ -66,6 +66,7 @@ onBeforeMount(async () => {
     });
   });
 });
+
 onMounted(() => {
   mobileMediaQuery = window.matchMedia('(max-width: 767px)');
   tabletMediaQuery = window.matchMedia('(min-width: 768px) and (max-width: 1023px)');

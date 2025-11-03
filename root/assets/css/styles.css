@@ -13,6 +13,7 @@ a {
 }
 .main-substrate {
   background-color: #fbfbfb;
+  width: 100%;
 }
 .tm-label-block {
   display: -webkit-box;
