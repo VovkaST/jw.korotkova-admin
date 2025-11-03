@@ -14,7 +14,7 @@ from root.core.application.domain.entities import SiteSettingsEntity
 from root.core.enums import SocialsChoices
 
 
-class SiteSettings(SingletonModel):
+class SiteSettings(SingletonModel[SiteSettingsEntity]):
     """Site settings singleton models"""
 
     entity_class = SiteSettingsEntity

@@ -1,10 +1,13 @@
+from typing import ClassVar, Generic
+
 from django.db import models
-from django.forms import model_to_dict
+
+from root.base.entity import BaseEntityType
 
 
-class SingletonModel(models.Model):
+class SingletonModel(models.Model, Generic[BaseEntityType]):
     instance = None
-    entity_class = None
+    entity_class: ClassVar[type[BaseEntityType]]  # pyright: ignore[reportGeneralTypeIssues]
 
     class Meta:
         abstract = True
@@ -29,7 +32,7 @@ class SingletonModel(models.Model):
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        pass
+        return (0, {})
 
-    def as_entity(self):
-        return self.entity_class(**{k: v for k, v in model_to_dict(self).items() if v is not None})
+    def as_entity(self) -> BaseEntityType:
+        return self.entity_class.model_validate(self, from_attributes=True)
