@@ -121,7 +121,6 @@ onUnmounted(() => {
                     :src="slotProps.data.image"
                     alt="preview"
                     :style="imageSlotProps.style"
-                    @click="imageSlotProps.onClick"
                   />
                 </template>
               </Image>

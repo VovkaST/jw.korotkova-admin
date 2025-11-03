@@ -13,7 +13,7 @@ defineProps<{
 
 const titleEl = ref();
 const titleWidth = computed(() => {
-  return titleEl.value ? `${titleEl.value.offsetWidth}px` : null;
+  return titleEl.value ? `${titleEl.value.offsetWidth}px` : '';
 });
 </script>
 

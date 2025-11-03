@@ -7,7 +7,7 @@ const baseCopyrightYear = 2025;
 const copyrightPeriod = computed<string>(() => {
   const currentYear = new Date().getFullYear();
   if (currentYear === baseCopyrightYear) {
-    return baseCopyrightYear;
+    return String(baseCopyrightYear);
   }
   return `${baseCopyrightYear} - ${currentYear}`;
 });
