@@ -9,6 +9,7 @@ import Aura from '@primeuix/themes/aura';
 
 import 'bootstrap/dist/css/bootstrap-reboot.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 import './assets/main.scss';
 

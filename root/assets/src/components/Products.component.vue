@@ -1,14 +1,32 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import Carousel from 'primevue/carousel';
 import Image from 'primevue/image';
 import { formatPrice } from '@/utils.ts';
 import { useProductsStore } from '@/stores/products.ts';
 
-const props = withDefaults(defineProps<{ header: string }>(), { header: 'Товары' });
+withDefaults(defineProps<{ header: string }>(), { header: 'Товары' });
 
 const productsStore = useProductsStore();
 const products = ref([]);
+
+const isMobile = ref<boolean>(false);
+const isTablet = ref<boolean>(false);
+
+let mobileMediaQuery: MediaQueryList;
+let tabletMediaQuery: MediaQueryList;
+
+const checkBreakpoints = () => {
+  isMobile.value = mobileMediaQuery.matches;
+  isTablet.value = tabletMediaQuery.matches;
+};
+
+const numVisibleProducts = computed<number>(() => {
+  if (isMobile.value) return 1;
+  if (isTablet.value) return 2;
+  return 3;
+});
+const carouselKey = computed<string>(() => `carousel-${numVisibleProducts.value}`);
 
 onBeforeMount(async () => {
   await productsStore.getProductsInStock().then((response) => {
@@ -24,6 +42,20 @@ onBeforeMount(async () => {
     });
   });
 });
+onMounted(() => {
+  mobileMediaQuery = window.matchMedia('(max-width: 767px)');
+  tabletMediaQuery = window.matchMedia('(min-width: 768px) and (max-width: 1023px)');
+
+  checkBreakpoints();
+
+  mobileMediaQuery.addEventListener('change', checkBreakpoints);
+  tabletMediaQuery.addEventListener('change', checkBreakpoints);
+});
+
+onUnmounted(() => {
+  mobileMediaQuery.removeEventListener('change', checkBreakpoints);
+  tabletMediaQuery.removeEventListener('change', checkBreakpoints);
+});
 </script>
 
 <template>
@@ -32,8 +64,9 @@ onBeforeMount(async () => {
 
     <Carousel
       v-if="products.length"
+      :key="carouselKey"
       :value="products"
-      :numVisible="3"
+      :numVisible="numVisibleProducts"
       :numScroll="1"
       :circular="true"
       :showIndicators="false"
@@ -85,11 +118,23 @@ $borderColor: #939393;
 
 .products-container {
   border-top: 1px solid $borderColor;
+  margin-top: 3rem;
 
   .header {
     margin: 1rem 0 2rem;
     font-size: 3rem;
     font-weight: 300;
+  }
+}
+@media (max-width: 1024px) {
+  .products-container {
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+
+    .header {
+      margin: 0.5rem 0 1rem;
+      font-size: 2.5rem;
+    }
   }
 }
 </style>

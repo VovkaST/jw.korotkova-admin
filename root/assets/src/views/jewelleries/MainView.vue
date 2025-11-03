@@ -45,11 +45,12 @@ const menuItems = [
 <template>
   <TopMenu title="JW.Korotkova" :items="menuItems" />
 
-  <BusinessCard class="mt-4" />
+  <BusinessCard />
 
-  <Products header="Мои работы" class="mt-5" :id="Anchors.PRODUCTS" />
+  <Products header="Мои работы" :id="Anchors.PRODUCTS" />
 
-  <InfoContainer class="mt-5" :id="Anchors.INTERNALS">
+  <InfoContainer :id="Anchors.INTERNALS">
+    <template #header> Свойства </template>
     <template #circle-left> Свойства </template>
     <template #text>
       <p>
@@ -80,7 +81,8 @@ const menuItems = [
     </template>
   </InfoContainer>
 
-  <InfoContainer class="mt-5" :id="Anchors.CARE">
+  <InfoContainer :id="Anchors.CARE">
+    <template #header> Уход </template>
     <template #text>
       <p>Факторы, которые могут повлиять на&nbsp;внешний вид изделий:</p>
       <ul class="info-container__list">
@@ -116,7 +118,8 @@ const menuItems = [
     <template #circle-right> Уход </template>
   </InfoContainer>
 
-  <InfoContainer class="mt-5" :id="Anchors.ORDER">
+  <InfoContainer :id="Anchors.ORDER">
+    <template #header> Заказ </template>
     <template #text>
       <p>Для заказа нужно:</p>
       <ul class="info-container__list check-style">

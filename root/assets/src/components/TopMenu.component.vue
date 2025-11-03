@@ -18,17 +18,29 @@ const titleWidth = computed(() => {
 </script>
 
 <template>
-  <div class="top-menu-container d-flex flex-row nowrap justify-content-between align-items-center">
-    <span class="menu-title" ref="titleEl">{{ title }}</span>
-    <nav>
-      <ul class="nav-menu m-0 p-0 d-flex flex-row">
-        <li class="nav-menu__item" v-for="item in items">
-          <a @click.prevent="item.onClick" href="#">{{ item.title }}</a>
-        </li>
-      </ul>
-    </nav>
-    <div class="user-section" :style="{ width: titleWidth }"></div>
-  </div>
+  <nav class="top-menu-container navbar navbar-expand-lg navbar-white bg-white">
+    <div class="container-fluid">
+      <span class="menu-title navbar-brand" ref="titleEl">{{ title }}</span>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#topMenu"
+        aria-controls="topMenu"
+        aria-expanded="false"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topMenu">
+        <ul class="nav-menu navbar-nav me-auto m-0 p-0">
+          <li class="nav-menu__item" v-for="item in items">
+            <a @click.prevent="item.onClick" href="#">{{ item.title }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="user-section" :style="{ width: titleWidth }"></div>
+    </div>
+  </nav>
 </template>
 
 <style scoped lang="scss">
@@ -58,6 +70,20 @@ $borderColor: #939393;
         color: hsl(from $textColor h s calc(l - 100));
         border-bottom: 1px solid $borderColor;
       }
+    }
+  }
+}
+.user-section {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  // For Bootstrap navbar
+  .nav-menu {
+    gap: unset;
+
+    &__item a:hover {
+      border-bottom: 1px solid transparent;
     }
   }
 }

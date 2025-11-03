@@ -15,6 +15,7 @@
 <style scoped lang="scss">
 .business-card-container {
   background: linear-gradient(to top, #b3b3a8 20%, #bfbfb8 50%, #bab8ae 80%);
+  margin-top: 1.5rem;
 
   &__image {
     width: 50%;
@@ -32,6 +33,7 @@
   }
 
   &__info {
+    margin-left: 2rem;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -47,6 +49,31 @@
       margin-top: 2rem;
       font-size: 1.7rem;
       line-height: 2rem;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .business-card-container {
+    margin-top: 0;
+
+    &__info {
+      margin-left: 2.5rem;
+
+      .name {
+        font-size: 3rem;
+        line-height: 3rem;
+      }
+
+      .position {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        line-height: 1.8rem;
+      }
+    }
+
+    &__image {
+      width: 70%;
     }
   }
 }
