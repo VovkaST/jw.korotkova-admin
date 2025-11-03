@@ -4,11 +4,34 @@ import Carousel from 'primevue/carousel';
 import Image from 'primevue/image';
 import { formatPrice } from '@/utils.ts';
 import { useProductsStore } from '@/stores/products.ts';
+import { ImageSizes, type IProductFile } from '@/stores/types';
+
+type ProductData = {
+  guid: string;
+  name: string;
+  description: string;
+  previewImage: string;
+  image: string;
+  price: number;
+  category: string;
+};
+
+function filterImage(files: IProductFile[], sizeCode: ImageSizes): string {
+  for (const file of files) {
+    if (file.meta && file.meta.size_code === sizeCode.toString()) {
+      return file.file;
+    }
+  }
+  if (files.length > 0) {
+    return files[0].file;
+  }
+  return '';
+}
 
 withDefaults(defineProps<{ header: string }>(), { header: 'Товары' });
 
 const productsStore = useProductsStore();
-const products = ref([]);
+const products = ref<ProductData[]>([]);
 
 const isMobile = ref<boolean>(false);
 const isTablet = ref<boolean>(false);
@@ -35,8 +58,9 @@ onBeforeMount(async () => {
         guid: item.guid,
         name: item.title,
         description: item.description,
-        image: item.files.length ? item.files[0].file : '',
-        price: item.price,
+        previewImage: filterImage(item.files || [], ImageSizes.M),
+        image: filterImage(item.files || [], ImageSizes.ORIGINAL),
+        price: item.price as number,
         category: item.type.name,
       });
     });
@@ -78,7 +102,7 @@ onUnmounted(() => {
           <div class="product-image">
             <div class="relative mx-auto">
               <Image
-                :src="slotProps.data.image"
+                :src="slotProps.data.previewImage"
                 :alt="slotProps.data.name"
                 class="w-full rounded"
                 width="100%"
@@ -90,14 +114,15 @@ onUnmounted(() => {
                   rotateRightButton: { disabled: true },
                 }"
               >
-                <!--                <template #preview="slotProps">-->
-                <!--                  <img-->
-                <!--                    src="https://primefaces.org/cdn/primevue/images/galleria/galleria11.jpg"-->
-                <!--                    alt="preview"-->
-                <!--                    :style="slotProps.style"-->
-                <!--                    @click="slotProps.onClick"-->
-                <!--                  />-->
-                <!--                </template>-->
+                <template #preview="imageSlotProps">
+                  <img
+                    class="p-image-original"
+                    :src="slotProps.data.image"
+                    alt="preview"
+                    :style="imageSlotProps.style"
+                    @click="imageSlotProps.onClick"
+                  />
+                </template>
               </Image>
             </div>
           </div>
