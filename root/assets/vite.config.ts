@@ -6,7 +6,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import { resolve } from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [vue(), vueJsx(), vueDevTools()],
   server: {
@@ -23,19 +22,12 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, './src/main.ts'),
       name: 'Assets',
-      // the proper extensions will be added
       fileName: 'assets',
     },
     rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
-      external: ['vue'],
+      external: [],
       output: {
-        // Provide global variables to use in the UMD build
-        // for externalized deps
-        globals: {
-          vue: 'Vue',
-        },
+        globals: {},
       },
     },
   },

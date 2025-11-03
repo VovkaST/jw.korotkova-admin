@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BusinessCardPhoto from '@/assets/images/BusinessCardPhoto.jpg';
+</script>
 
 <template>
   <div class="business-card-container d-flex flex-row justify-content-end align-items-center">
@@ -7,7 +9,7 @@
       <div class="position">Дизайнер индивидуальных украшений</div>
     </div>
     <div class="business-card-container__image">
-      <img src="/BusinessCardPhoto.jpg" alt="JW.Korotkova" />
+      <img :src="BusinessCardPhoto" alt="JW.Korotkova" />
     </div>
   </div>
 </template>
