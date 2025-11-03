@@ -7,7 +7,7 @@
       <div class="position">Дизайнер индивидуальных украшений</div>
     </div>
     <div class="business-card-container__image">
-      <img src="/BusinessCardPhoto.jpg" alt="JW.Korotkova" />
+      <img src="/assets/images/BusinessCardPhoto.jpg" alt="JW.Korotkova" />
     </div>
   </div>
 </template>
