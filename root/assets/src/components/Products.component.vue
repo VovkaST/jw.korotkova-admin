@@ -73,9 +73,9 @@ onUnmounted(() => {
     >
       <template #item="slotProps">
         <div
-          class="product-container border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
+          class="product-container border border-surface-200 dark:border-surface-700 rounded m-2"
         >
-          <div class="mb-4">
+          <div class="product-image">
             <div class="relative mx-auto">
               <Image
                 :src="slotProps.data.image"
@@ -101,7 +101,7 @@ onUnmounted(() => {
               </Image>
             </div>
           </div>
-          <div class="mb-4 font-medium">{{ slotProps.data.name }}</div>
+          <div class="product-name font-medium">{{ slotProps.data.name }}</div>
           <div class="flex justify-content-between align-items-center">
             <div class="mt-0 font-semibold text-xl">
               {{ formatPrice(slotProps.data.price) }}
@@ -125,6 +125,17 @@ $borderColor: #939393;
     font-size: 3rem;
     font-weight: 300;
   }
+
+  .product-container {
+    padding: 1.5rem;
+
+    .product-image {
+      margin-bottom: 1.5rem;
+    }
+    .product-name {
+      margin-bottom: 1.5rem;
+    }
+  }
 }
 @media (max-width: 1024px) {
   .products-container {
@@ -134,6 +145,18 @@ $borderColor: #939393;
     .header {
       margin: 0.5rem 0 1rem;
       font-size: 2.5rem;
+    }
+
+    .product-container {
+      padding: 1.5rem;
+      padding: 1rem;
+
+      .product-image {
+        margin-bottom: 0.5rem;
+      }
+      .product-name {
+        margin-bottom: 0.5rem;
+      }
     }
   }
 }
