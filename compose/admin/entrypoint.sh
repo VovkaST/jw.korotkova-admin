@@ -9,7 +9,7 @@ source ./compose/migrations.sh
 source ./compose/make_messages.sh
 
 echo -e "${GREEN}Collecting static files...${NORMAL}"
-python manage.py collectstatic --no-input
+python manage.py collectstatic --clear --no-input
 
 echo -e "${GREEN}Run server...${NORMAL}"
 python3 -m gunicorn root.asgi:application -k uvicorn_worker.UvicornWorker -b 0.0.0.0:8000
