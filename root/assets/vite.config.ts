@@ -8,6 +8,10 @@ import { resolve } from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    'process.env': {}, // Пустой объект для process.env
+    'process': { env: {} }, // Полифил для process
+  },
   plugins: [vue(), vueJsx(), vueDevTools()],
   server: {
     host: '0.0.0.0',
