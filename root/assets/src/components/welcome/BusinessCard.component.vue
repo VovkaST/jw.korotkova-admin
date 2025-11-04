@@ -23,6 +23,7 @@
 
   &__image {
     width: 50%;
+    overflow: hidden;
 
     img {
       width: 100%;
