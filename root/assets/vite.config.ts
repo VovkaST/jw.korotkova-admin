@@ -4,11 +4,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import vueDevTools from 'vite-plugin-vue-devtools';
-import { createHtmlPlugin } from 'vite-plugin-html';
 import { resolve } from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,14 +12,7 @@ export default defineConfig({
     'process.env': {}, // Пустой объект для process.env
     'process': { env: {} }, // Полифил для process
   },
-  plugins: [vue(), vueJsx(), vueDevTools(), createHtmlPlugin({
-    inject: {
-      data: {
-        siteTitle: process.env.VITE_SITE_TITLE,
-        apiUrl: process.env.VITE_API_URL,
-      },
-    },
-  }),],
+  plugins: [vue(), vueJsx(), vueDevTools()],
   server: {
     host: '0.0.0.0',
     port: 8080,
