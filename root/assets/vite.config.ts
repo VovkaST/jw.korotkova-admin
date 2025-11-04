@@ -6,11 +6,10 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import { resolve } from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
   define: {
-    'process.env': {}, // Пустой объект для process.env
-    'process': { env: {} }, // Полифил для process
+    'process.env': {},
+    'process': { env: {} },
   },
   plugins: [
     vue(),
@@ -31,19 +30,14 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, './src/main.ts'),
       name: 'Assets',
-      // the proper extensions will be added
       fileName: 'assets',
     },
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'), // Убедитесь, что указан правильный путь к index.html
+        main: resolve(__dirname, 'index.html'),
       },
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
       external: [],
       output: {
-        // Provide global variables to use in the UMD build
-        // for externalized deps
         globals: {},
       },
     },
