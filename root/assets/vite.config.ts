@@ -38,7 +38,9 @@ export default defineConfig({
       },
       external: [],
       output: {
-        globals: {},
+        entryFileNames: `[name].[hash].js`,
+        chunkFileNames: `[name].[hash].js`,
+        assetFileNames: `[name].[hash].[ext]`
       },
     },
   },
