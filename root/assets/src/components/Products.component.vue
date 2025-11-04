@@ -84,7 +84,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="products-container">
+  <div v-if="products.length" class="products-container">
     <h2 class="header font-handwritten">{{ header }}</h2>
 
     <Carousel
