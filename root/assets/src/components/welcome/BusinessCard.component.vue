@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="business-card-container d-flex flex-row justify-content-end align-items-center">
+  <div class="business-card-container d-flex">
     <div class="business-card-container__info">
       <div class="name">Наталья Короткова</div>
       <div class="position">Дизайнер индивидуальных украшений</div>
@@ -16,6 +16,10 @@
 .business-card-container {
   background: linear-gradient(to top, #b3b3a8 20%, #bfbfb8 50%, #bab8ae 80%);
   margin-top: 1.5rem;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
 
   &__image {
     width: 50%;
@@ -80,23 +84,57 @@
 
 @media (max-width: 767px) {
   .business-card-container {
+    flex-direction: column-reverse;
+
     &__info {
       margin-left: 1.5rem;
-
-      .name {
-        font-size: 2.3rem;
-        line-height: 2rem;
-      }
+      align-self: flex-start;
+      align-items: flex-start;
+      position: absolute;
+      z-index: 10;
+      bottom: calc(50% - 6rem);
+      width: 33%;
 
       .position {
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-        line-height: 1.2rem;
+        font-size: 1rem;
+        line-height: 1.3rem;
       }
     }
 
     &__image {
-      width: 100%;
+      width: 95%;
+      align-self: flex-end;
+
+      img {
+        width: 110%;
+      }
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .business-card-container {
+    &__info {
+      .name {
+        font-size: 2.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 470px) {
+  .business-card-container {
+    &__info {
+      bottom: calc(50% - 5rem);
+
+      .name {
+        font-size: 2.1rem;
+        line-height: 2rem;
+      }
+      .position {
+        font-size: 0.9rem;
+        line-height: 1.2rem;
+      }
     }
   }
 }
