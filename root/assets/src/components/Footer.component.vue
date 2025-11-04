@@ -59,4 +59,13 @@ footer {
     }
   }
 }
+@media (max-width: 767px) {
+  footer {
+    .requisites {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+  }
+}
 </style>

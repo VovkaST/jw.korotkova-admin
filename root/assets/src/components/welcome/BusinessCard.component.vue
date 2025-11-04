@@ -77,4 +77,27 @@
     }
   }
 }
+
+@media (max-width: 767px) {
+  .business-card-container {
+    &__info {
+      margin-left: 1.5rem;
+
+      .name {
+        font-size: 2.3rem;
+        line-height: 2rem;
+      }
+
+      .position {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        line-height: 1.2rem;
+      }
+    }
+
+    &__image {
+      width: 100%;
+    }
+  }
+}
 </style>

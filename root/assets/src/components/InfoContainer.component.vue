@@ -105,11 +105,29 @@ $circleSize: 384px;
       &__content {
         .info-circle {
           display: none;
+
+          &.left + .info-text {
+            padding: 0 10px;
+          }
         }
         .info-text {
           flex-basis: 100%;
-          padding: 0;
+          padding: 0 10px;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .info-container {
+    &__header {
+      font-size: 2rem;
+    }
+
+    &__content {
+      .info-text {
+        line-height: 1.8;
       }
     }
   }

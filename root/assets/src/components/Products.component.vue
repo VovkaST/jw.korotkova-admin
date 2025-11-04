@@ -185,4 +185,11 @@ $borderColor: #939393;
     }
   }
 }
+@media (max-width: 767px) {
+  .products-container {
+    .header {
+      font-size: 2rem;
+    }
+  }
+}
 </style>
