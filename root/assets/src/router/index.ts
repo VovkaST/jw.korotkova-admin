@@ -10,7 +10,7 @@ const router = createRouter({
       component: JewelleriesMainView,
     },
   ],
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to) {
     if (to.hash) {
       return {
         el: to.hash,

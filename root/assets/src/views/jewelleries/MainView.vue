@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import ScrollTop from 'primevue/scrolltop';
-import { BusinessCard, Footer, InfoContainer, Products, TopMenu } from '@/components';
+import {
+  BusinessCard,
+  Footer,
+  InfoContainer,
+  Products,
+  TopMenu,
+  YandexMetrika,
+} from '@/components';
 
 const router = useRouter();
 
@@ -43,6 +50,7 @@ const menuItems = [
 </script>
 
 <template>
+  <YandexMetrika />
   <TopMenu title="JW.Korotkova" :items="menuItems" />
 
   <BusinessCard />

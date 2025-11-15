@@ -4,5 +4,6 @@ import InfoContainer from '@/components/InfoContainer.component.vue';
 import Products from '@/components/Products.component.vue';
 import Socials from '@/components/Socials.component.vue';
 import TopMenu from '@/components/TopMenu.component.vue';
+import YandexMetrika from '@/components/YandexMetrika.component.vue';
 
-export { BusinessCard, Footer, Socials, InfoContainer, Products, TopMenu };
+export { BusinessCard, Footer, Socials, InfoContainer, Products, TopMenu, YandexMetrika };
