@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+from asgiref.sync import sync_to_async
 from django.db.models import QuerySet
 from django.db.models.base import Model
 
@@ -22,21 +23,21 @@ class BaseRepository(Singleton, IBaseRepository):
         return self.model.objects
 
     @staticmethod
-    def _model_to_entity(entity_class: type[BaseEntityType], obj: Model, from_attributes: bool) -> BaseEntityType:
+    async def _model_to_entity(entity_class: type[BaseEntityType], obj: Model, from_attributes: bool) -> BaseEntityType:
         assert issubclass(entity_class, BaseEntity), _("Entity must be a subclass of BaseEntity")
-        return entity_class.model_validate(obj, from_attributes=from_attributes)
+        return await sync_to_async(entity_class.model_validate)(obj, from_attributes=from_attributes)
 
     async def to_entity(
         self, entity_class: type[BaseEntityType], obj: Model, from_attributes: bool = True
     ) -> BaseEntityType:
-        return self._model_to_entity(entity_class, obj, from_attributes=from_attributes)
+        return await self._model_to_entity(entity_class, obj, from_attributes=from_attributes)
 
     async def to_entities(
         self, entity_class: type[BaseEntityType], queryset: QuerySet, from_attributes: bool = True
     ) -> Sequence[BaseEntityType]:
         return [
-            self._model_to_entity(entity_class, instance, from_attributes=from_attributes)
-            async for instance in queryset.aiterator()
+            await self._model_to_entity(entity_class, instance, from_attributes=from_attributes)
+            async for instance in queryset.all()
         ]
 
     def get_queryset(self) -> QuerySet:

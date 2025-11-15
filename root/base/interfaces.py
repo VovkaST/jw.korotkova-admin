@@ -3,6 +3,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
+from django.db.models import QuerySet
+
 from root.base.entity import BaseEntity, BaseEntityType
 from root.contrib.clean_architecture.interfaces import ObjectId
 
@@ -12,7 +14,7 @@ class IBaseRepository(ABC):
 
     @property
     @abstractmethod
-    def objects(self):
+    def objects(self) -> QuerySet:
         """Get objects queryset"""
 
     @abstractmethod
@@ -26,7 +28,7 @@ class IBaseRepository(ABC):
         """Convert model queryset to entities"""
 
     @abstractmethod
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         """Get queryset to begin search objects"""
 
     @abstractmethod

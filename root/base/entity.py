@@ -22,7 +22,7 @@ class BaseEntity(BaseModel):
         if not isinstance(value, BaseManager):
             return value
         if hasattr(value, "all"):
-            return value.all()
+            return list(value.all())
 
 
 class IDMixin:
