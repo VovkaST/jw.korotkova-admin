@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap-reboot.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
+import './assets/Yandex.Metrika.js'
 import './assets/main.scss';
 
 const app = createApp(App);
