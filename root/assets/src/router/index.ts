@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import JewelleriesMainView from '@/views/jewelleries/MainView.vue';
+import NotFound from '@/components/NotFound.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +10,11 @@ const router = createRouter({
       name: 'home',
       component: JewelleriesMainView,
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
+    }
   ],
   scrollBehavior(to) {
     if (to.hash) {
