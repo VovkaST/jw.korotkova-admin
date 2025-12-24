@@ -10,7 +10,7 @@ from root.core.utils import get_app_name
 app_name = get_app_name(__file__)
 
 router = DefaultRouter()
-router.register("health", HealthViewSet, basename="health")
+router.register("", HealthViewSet, basename="health")
 
 api_v1_urlpatterns = [
     path("products/", include(("root.apps.products.api.urls", "products"), namespace="products")),
