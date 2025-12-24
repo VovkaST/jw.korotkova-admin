@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { NotFound } from '@/components';
 import JewelleriesMainView from '@/views/jewelleries/MainView.vue';
-import NotFound from '@/components/NotFound.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +13,11 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: NotFound
+      component: NotFound,
+      meta: {
+        requiresAuth: false,
+        noindex: true,
+      }
     }
   ],
   scrollBehavior(to) {
@@ -25,5 +29,12 @@ const router = createRouter({
     }
   },
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'NotFound') {
+    document.title = '404 - Страница не найдена'
+  }
+  next()
+})
 
 export default router;
