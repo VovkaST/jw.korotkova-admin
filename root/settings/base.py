@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 from logging import getLevelName
 from pathlib import Path
 
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     # Contrib
     "root.contrib.singleton_model",
     # Custom apps
@@ -59,12 +61,17 @@ INSTALLED_APPS = [
     # Third-party apps
     "phonenumber_field",
     "tinymce",
+    "rest_framework",
+    "corsheaders",
+    "easy_thumbnails",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "django.contrib.sites.middleware.CurrentSiteMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -195,11 +202,69 @@ TELEGRAM_CHANNEL_LINK = TELEGRAM_URL_TEMPLATE.format(name=TELEGRAM_CHANNEL_NAME)
 TELEGRAM_CHANNEL_DESCRIPTION = _("Канал живых украшений и трансформаций Натальи Коротковой")
 
 # Site settings
+SITE_ID = env.int("SITE_ID", default=1)
+USE_SITE_SECURED_PROTOCOL = env.bool("USE_SITE_SECURED_PROTOCOL", default=False)
+
 USE_YANDEX_METRIKA = env.bool("USE_YANDEX_METRIKA", default=False)
 
 # Celery settings
 CELERY_ALWAYS_EAGER = env.bool("CELERY_ALWAYS_EAGER", default=False)
 CELERY_BROKER = env.str("CELERY_BROKER", default=REDIS_URL)
+
+# Thumbnail settings
+THUMBNAIL_SIZES = {
+    "XL": 4096,
+    "L": (960, 1280),
+    "M": (300, 400),
+    "S": 90,
+}
+PRODUCT_PREVIEW_SIZE = (300, 400)
+THUMBNAIL_ALIASES = {
+    "": {
+        "products": {"size": (960, 1280), "crop": True},
+    },
+}
+
+# Django Rest Framework settings
+API_VERSION = "1.0.0"
+
+REST_FRAMEWORK = {}
+
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]

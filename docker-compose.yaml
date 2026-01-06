@@ -13,9 +13,9 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#    command: ["postgres", "-c", "log_statement=all"]
+    #    command: ["postgres", "-c", "log_statement=all"]
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,7 +32,7 @@ services:
     expose:
       - "6379"
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -82,6 +82,15 @@ services:
       admin:
         condition: service_started
     entrypoint: ./compose/celery/entrypoint.sh
+
+  assets:
+    image: node:22.14
+    container_name: korotkova-assets
+    volumes:
+      - ./root/assets:/root/assets
+      - ./static:/static
+    working_dir: /root/assets/
+    command: bash -c "yarn install && yarn schema:generate && yarn run build"
 
 networks:
   korotkova-network:

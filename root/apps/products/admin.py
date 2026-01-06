@@ -1,33 +1,30 @@
-from django import forms
 from django.conf import settings
 from django.contrib import admin
+from django.db.models.query import QuerySet
+from django.http import HttpRequest
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from tinymce.widgets import TinyMCE
 
 from root.apps.products import models
+from root.apps.products.forms import ProductFileAdminForm, ProductForm
 from root.core.utils import ReadOnlyAdminMixin, named_filter
 
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    class ProductForm(forms.ModelForm):
-        class Meta:
-            model = models.Product
-            fields = "__all__"
-            widgets = {
-                "description": TinyMCE(attrs={"rows": 10}),
-            }
-
     class ProductFilesInline(admin.TabularInline):
         model = models.ProductFiles
-        fields = ["file", "description", "created_at"]
-        readonly_fields = ["created_at"]
+        form = ProductFileAdminForm
+        fields = ["file", "description", "meta", "created_at"]
+        readonly_fields = ["meta", "created_at"]
 
         def get_extra(self, request, obj: models.Product = None, **kwargs):
             if not obj or not (obj.files.all().exists()):
                 return 1
             return 0
+
+        def get_queryset(self, request: HttpRequest) -> QuerySet:
+            return super().get_queryset(request).filter(parent__isnull=True)
 
     class ProductPriceHistoryInline(ReadOnlyAdminMixin, admin.TabularInline):
         model = models.ProductPriceHistory
@@ -67,7 +64,7 @@ class ProductAdmin(admin.ModelAdmin):
         return qs.select_related("type")
 
     def get_lot(self, obj: models.Product) -> str:
-        return f'{_("Lot")} #{obj.id}'
+        return f"{_('Lot')} #{obj.id}"
 
     get_lot.short_description = _("Lot")
 

@@ -1,6 +1,5 @@
+from abc import abstractmethod
 from decimal import Decimal
-
-from black.trans import abstractmethod
 
 from root.apps.orders.application.boundaries.dtos import (
     OrderCreateDTO,
@@ -9,7 +8,7 @@ from root.apps.orders.application.boundaries.dtos import (
     OrderUpdateDTO,
     StatusFields,
 )
-from root.apps.orders.application.domain.enitites import OrderEntity
+from root.apps.orders.application.domain.entities import OrderEntity
 from root.apps.orders.application.domain.enums import (
     OrderActionsChoices,
     OrderStatusChoices,

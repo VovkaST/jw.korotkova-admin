@@ -1,6 +1,10 @@
-from __future__ import annotations
+from decimal import Decimal
+from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import UUID4, BaseModel, Field, NonNegativeInt
+
+from root.base.entity import ImageMeta
+from root.core.enums import FileTypesChoices
 
 
 class ProductChannelPublicationCreateDTO(BaseModel):
@@ -14,3 +18,34 @@ class ProductChannelPublicationCreateDTO(BaseModel):
 class ProductChannelPublicationUpdateDTO(BaseModel):
     text: str | None = Field(default=None)
     is_main: bool | None = Field(default=None)
+
+
+class ProductTypeDTO(BaseModel):
+    id: NonNegativeInt
+    name: str
+    description: str | None = Field(default=None)
+    is_active: bool
+
+
+class ProductFileDTO(BaseModel):
+    id: NonNegativeInt
+    file: str
+    description: str | None = Field(default=None)
+    meta: ImageMeta = Field(default_factory=ImageMeta)
+
+
+class ProductDTO(BaseModel):
+    guid: UUID4
+    type: ProductTypeDTO
+    type_id: int
+    title: str
+    description: str
+    price: Decimal
+    in_stock: bool
+    files: list[ProductFileDTO] = Field(default_factory=list)
+
+
+class ProductFileCreateDTO(BaseModel):
+    file: Any
+    type: FileTypesChoices
+    description: str | None = Field(default=None)

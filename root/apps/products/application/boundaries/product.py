@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 from root.contrib.clean_architecture.interfaces import ObjectId
@@ -11,5 +12,9 @@ if TYPE_CHECKING:
 
 class IProductRepository(ABC):
     @abstractmethod
-    async def get_products(self, product_ids: list[ObjectId]) -> list[ProductEntity]:
+    async def get_products(self, product_ids: list[ObjectId]) -> Sequence[ProductEntity]:
         """Get all given products"""
+
+    @abstractmethod
+    async def get_products_in_stock(self) -> Sequence[ProductEntity]:
+        """Get all products in stock"""

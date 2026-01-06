@@ -8,6 +8,7 @@ from pathlib import Path
 
 import django
 import transliterate
+from django.conf import settings
 from django.contrib import admin
 from django.utils.text import slugify as django_slugify
 from django.utils.translation import gettext as django_gettext
@@ -73,6 +74,10 @@ def named_filter(title: str):
             return instance
 
     return NamedFieldListFilter
+
+
+def is_app_installed(app: str) -> bool:
+    return app in settings.INSTALLED_APPS
 
 
 class Singleton:

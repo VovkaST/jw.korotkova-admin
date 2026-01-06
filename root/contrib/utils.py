@@ -1,6 +1,8 @@
-from __future__ import annotations
-
 from inspect import isfunction
+
+from django.apps import apps
+from django.conf import settings
+from django.contrib.sites.requests import RequestSite
 
 
 def dotval(obj, dottedpath, default=None):
@@ -29,3 +31,23 @@ def dotval(obj, dottedpath, default=None):
             if isfunction(val):
                 val = val()
     return val
+
+
+def get_current_site(request=None):
+    if apps.is_installed("django.contrib.sites"):
+        from django.contrib.sites.models import Site
+
+        return Site.objects.get_current(request)
+    if request is not None:
+        return RequestSite(request)
+
+
+def resource_url(url: str) -> str:
+    """
+    Возвращает полный url для ресурса сайта
+    """
+    if not url.startswith("/"):
+        url = f"/{url}"
+    site = get_current_site()
+    schema = "https" if settings.USE_SITE_SECURED_PROTOCOL else "http"
+    return f"{schema}://{site.domain}{url}"

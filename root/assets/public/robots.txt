@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# Время задержки между запросами (в секундах)
+Crawl-delay: 1
+
+# Запрещаем индексацию служебных файлов
+Disallow: /404
+Disallow: /api/
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /_vite/
+
+# Разрешаем индексацию основного контента
+Allow: /assets/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Sitemap
+Sitemap: https://jw-korotkova.ru/sitemap.xml
