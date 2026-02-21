@@ -7,13 +7,12 @@ from django.db.models import QuerySet
 from django.db.models.base import Model
 
 from root.base.entity import BaseDTOType, BaseEntity, BaseEntityType
-from root.base.interfaces import IBaseRepository
 from root.contrib.clean_architecture.interfaces import ObjectId
 from root.core.utils import Singleton
 from root.core.utils import gettext_lazy as _
 
 
-class BaseRepository(Singleton, IBaseRepository):
+class BaseRepository(Singleton):
     model: Model
     base_entity_class: type[BaseEntityType]
     update_dto_class: type[BaseDTOType]
