@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 
-from root.apps.bot.infrastructure.repositories import ChannelRepository
+from root.apps.bot.repositories import ChannelRepository
 from root.apps.products.application.boundaries.dtos import (
     ProductChannelPublicationCreateDTO,
     ProductChannelPublicationUpdateDTO,

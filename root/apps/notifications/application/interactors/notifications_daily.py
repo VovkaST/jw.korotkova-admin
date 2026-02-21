@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from root.apps.bot.application.services import bot as bot_instance
-from root.apps.bot.infrastructure.repositories.user_chats import UserChatRepository
+from root.apps.bot.repositories import UserChatRepository
+from root.apps.bot.services import bot as bot_instance
 from root.apps.notifications.application.domain.enums import NotificationDailyType
 from root.apps.notifications.infrastructure.repositories.notifications_daily import NotificationsDailyRepository
 from root.core.application.domain.entities import ClientEntity, UserEntity

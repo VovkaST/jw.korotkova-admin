@@ -1,9 +1,16 @@
+from __future__ import annotations
+
 from telebot import logger, types
 
 from root.apps.bot.application.decorators import store_chat
+<<<<<<< Current (Your changes)
 from root.apps.bot.application.domain.enums import Commands, Messages
 from root.apps.bot.application.domain.exceptions import UnknownButton
-from root.apps.bot.application.services import bot as bot_instance
+=======
+from root.apps.bot.enums import Commands, Messages
+from root.apps.bot.exceptions import UnknownButton
+>>>>>>> Incoming (Background Agent changes)
+from root.apps.bot.services import bot as bot_instance
 
 
 @bot_instance.bot.message_handler(commands=["start", Commands.RESTART.name.lower()])

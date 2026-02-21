@@ -1,5 +1,6 @@
-__all__ = ["bot"]
+from root.apps.bot.application.services.initialization import init_bot, set_commands
 
-from .bot import JWBot
-
-bot = JWBot()
+__all__ = [
+    "init_bot",
+    "set_commands",
+]

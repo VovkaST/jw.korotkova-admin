@@ -2,7 +2,7 @@ import asyncio
 
 from django.core.management import BaseCommand
 
-from root.apps.bot.application.services import bot
+from root.apps.bot.services import bot
 
 
 class Command(BaseCommand):
