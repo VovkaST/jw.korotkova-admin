@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from root.apps.bot import bot_config
-from root.apps.bot.application.boundaries.dtos import BotDTO
+from root.apps.bot.dtos import BotDTO
 from root.apps.bot.repositories import BotRepository
 from root.contrib.clean_architecture.utils import create_dto_object
 

@@ -10,7 +10,5 @@ class Command(BaseCommand):
         await bot.start()
 
     def handle(self, *args, **options):
-        # loop = asyncio.get_event_loop()
-        # loop.run_until_complete(self.run())
         asyncio.run(self.run())
         self.stdout.write(self.style.SUCCESS("Bot stopped."))

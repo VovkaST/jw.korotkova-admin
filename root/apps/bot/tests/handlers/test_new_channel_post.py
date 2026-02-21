@@ -1,7 +1,7 @@
 import pytest
 from telebot.async_telebot import AsyncTeleBot
 
-from root.apps.bot.application.handlers import handler_new_channel_post
+from root.apps.bot.handlers import handler_new_channel_post
 
 pytestmark = [pytest.mark.django_db, pytest.mark.asyncio]
 
