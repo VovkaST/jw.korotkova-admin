@@ -14,9 +14,7 @@ class UserChatsService:
         username: str | None = None,
         comparison: ComparisonType = ComparisonType.OR,
     ) -> str | None:
-        return await self.user_chats_repo.get_chat(
-            user_id=user_id, username=username, comparison=comparison
-        )
+        return await self.user_chats_repo.get_chat(user_id=user_id, username=username, comparison=comparison)
 
     async def create_user_chat(
         self,
@@ -24,6 +22,4 @@ class UserChatsService:
         chat_id: str | int,
         username: str | None = None,
     ) -> None:
-        await self.user_chats_repo.create(
-            user_id=user_id, chat_id=chat_id, username=username
-        )
+        await self.user_chats_repo.create(user_id=user_id, chat_id=chat_id, username=username)

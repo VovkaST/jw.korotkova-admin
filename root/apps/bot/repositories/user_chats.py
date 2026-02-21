@@ -8,7 +8,7 @@ from root.base.repository import BaseRepository
 from root.core.errors import InterceptError
 
 
-class UserChatRepository(BaseRepository):
+class UserChatRepository(BaseRepository[UserChat]):
     model = UserChat
 
     @InterceptError.allow_does_not_exists
@@ -31,7 +31,7 @@ class UserChatRepository(BaseRepository):
             else:
                 query = Q(user_id=user_id) | Q(username=username)
 
-        instance = await self.model.objects.aget(query)
+        instance = await self.objects.aget(query)
         return instance.chat_id
 
     async def create(
@@ -43,6 +43,4 @@ class UserChatRepository(BaseRepository):
     ) -> UserChat:
         if username and not username.startswith("@"):
             username = f"@{username}"
-        return await self.model.objects.acreate(
-            user_id=str(user_id), chat_id=str(chat_id), username=username
-        )
+        return await self.objects.acreate(user_id=str(user_id), chat_id=str(chat_id), username=username)

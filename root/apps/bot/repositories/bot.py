@@ -5,9 +5,9 @@ from root.base.repository import BaseRepository
 from root.core.errors import InterceptError
 
 
-class BotRepository(BaseRepository):
+class BotRepository(BaseRepository[Bot]):
     model = Bot
 
     @InterceptError.allow_does_not_exists
     async def get_bot(self, bot_name: str) -> Bot | None:
-        return await self.model.objects.aget(name=bot_name)
+        return await self.objects.aget(name=bot_name)

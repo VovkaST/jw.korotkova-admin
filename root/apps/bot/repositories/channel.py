@@ -5,7 +5,7 @@ from root.base.repository import BaseRepository
 from root.core.errors import InterceptError
 
 
-class ChannelRepository(BaseRepository):
+class ChannelRepository(BaseRepository[Channel]):
     model = Channel
 
     @InterceptError.allow_does_not_exists
@@ -23,6 +23,4 @@ class ChannelRepository(BaseRepository):
         title: str,
         link: str | None = None,
     ) -> Channel:
-        return await self.model.objects.acreate(
-            chat_id=chat_id, title=title, link=link
-        )
+        return await self.objects.acreate(chat_id=chat_id, title=title, link=link)
