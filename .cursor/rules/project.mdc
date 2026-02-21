@@ -1,0 +1,25 @@
+---
+description: Описание проекта и базовые соглашения
+alwaysApply: true
+---
+
+# jw.korotkova-admin
+
+**Стек:** Django 5 (backend), Vue 3 + Vite + TypeScript (frontend в `root/assets`). API — OpenAPI, клиент генерируется в `root/assets/src/api/generated/`.
+
+**Backend (root/):** Clean Architecture по приложениям. В каждом app:
+- `application/` — domain (entities, enums), interactors, controllers, boundaries (DTO, порты)
+- `infrastructure/` — репозитории (наследуют `BaseRepository` из `root/base/repository.py`)
+- Сущности — Pydantic-модели, наследующие `BaseEntity` из `root/base/entity.py`
+- Импорты от корня: `from root.apps.<app>...`, `from root.base...`, `from root.core...`
+
+**Frontend:** Vue 3 (Composition API), Pinia, Vue Router, PrimeVue. Стили — SCSS. Использовать сгенерированные сервисы API из `src/api/generated/`.
+
+**Django-приложения (root/apps/):**
+- **bot** — Telegram-бот: настройки (Bot), чаты пользователей (UserChat), кнопки (Buttons), каналы (Channel). Обработчики, отправка сообщений.
+- **notifications** — Рассылки: ежедневные (NotificationDaily — тип, email/telegram, шаблон, подписчики) и разовые (NotificationMailing). Задачи в `tasks.py`.
+- **products** — Каталог: типы (ProductType), товары (Product), файлы (ProductFiles), история цен (ProductPriceHistory), публикации в каналах (ProductChannelPublication).
+- **orders** — Заказы: Order (клиент, скидка, доставка, статус), OrderItem, OrderPayment.
+- **administration** — Кастомная админка (CoreAdminSite).
+
+**Общее:** Код на английском. Комментарии и сообщения пользователю — по контексту (рус/англ). Async/await в backend для I/O.
