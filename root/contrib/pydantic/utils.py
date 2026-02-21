@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from django.utils.translation import gettext
-from pydantic import ValidationError
+from typing import Any
 
+from django.utils.translation import gettext
+from pydantic import TypeAdapter, ValidationError
+
+from root.base.entity import BaseDTOType
 from root.contrib.pydantic.types import ErrorItem
 
 
@@ -14,3 +17,7 @@ def validation_error_format(
     for _error in errors:
         result.append(ErrorItem(code=_error["type"], detail=gettext(_error["msg"]), location=_error["loc"]))
     return result
+
+
+def convert(dto_class: type[BaseDTOType], instance: Any, from_attributes: bool = True) -> BaseDTOType:
+    return TypeAdapter(dto_class).validate_python(instance, from_attributes=from_attributes)
