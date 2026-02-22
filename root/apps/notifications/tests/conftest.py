@@ -2,7 +2,7 @@ from collections.abc import Callable
 
 import pytest
 
-from root.apps.notifications.application.domain.enums import NotificationDailyType
+from root.apps.notifications.enums import NotificationDailyType
 from root.apps.notifications.models import NotificationDaily
 from root.core.models import User
 from root.core.utils import removable

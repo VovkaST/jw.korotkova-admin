@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from root.apps.notifications.application.domain.enums import NotificationDailyType, NotificationStatus, NotificationType
+from root.apps.notifications.enums import NotificationDailyType, NotificationStatus, NotificationType
 from root.base.models import CreatedTimestampModel, TimedModel
 
 

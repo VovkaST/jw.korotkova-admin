@@ -5,3 +5,5 @@ DEBUG = True
 REDIS_URL = env.str("REDIS_URL_TEST", default=REDIS_URL)
 
 LANGUAGES = (("ru", _("Russian")),)
+
+BOT_TOKEN = "10000000000:token_test"

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field, NonNegativeInt
 
-from root.apps.notifications.application.domain.enums import NotificationDailyType
+from root.apps.notifications.enums import NotificationDailyType
 
 
 class NotificationsDailyUpdateDTO(BaseModel):
