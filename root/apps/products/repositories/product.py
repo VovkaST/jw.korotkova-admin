@@ -1,17 +1,16 @@
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable
 
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.db.models import QuerySet
 from easy_thumbnails.engine import generate_source_image
 from easy_thumbnails.files import get_thumbnailer
 from easy_thumbnails.namers import source_hashed
 
-from root.apps.products.application.boundaries.dtos import ProductFileCreateDTO
-from root.apps.products.application.boundaries.product import IProductRepository
-from root.apps.products.application.domain.entities import ProductEntity
+from root.apps.products.dtos import ProductFileCreateDTO
 from root.apps.products.models import Product, ProductFiles
 from root.base.entity import ImageMeta
 from root.base.repository import BaseRepository
@@ -20,26 +19,25 @@ from root.core.enums import FileTypesChoices, ImageSizesChoices
 from root.core.types import ThumbnailSizes
 
 
-class ProductRepository(BaseRepository, IProductRepository):
+class ProductRepository(BaseRepository[Product]):
     model = Product
     product_file_model = ProductFiles
-    base_entity_class = ProductEntity
 
-    def get_queryset(self):
-        return super().get_queryset().select_related("type").prefetch_related("files")
+    def get_queryset(self) -> QuerySet[Product]:
+        return self.model.objects.all().select_related("type").prefetch_related("files")
 
-    async def get_products(self, product_ids: list[ObjectId]) -> Sequence[ProductEntity]:
-        """Get all given products"""
-        publications = self.get_queryset().filter(id__in=product_ids)
-        return await self.to_entities(self.base_entity_class, publications)
+    def get_products_in_stock(self) -> QuerySet[Product]:
+        return self.get_queryset().filter(in_stock=True)
 
-    async def get_products_in_stock(self) -> Sequence[ProductEntity]:
-        qs = self.get_queryset().filter(in_stock=True)
-        return await self.to_entities(self.base_entity_class, qs)
+    def get_products(self, product_ids: list[ObjectId]) -> QuerySet[Product]:
+        return self.get_queryset().filter(id__in=product_ids)
 
     async def add_images(
-        self, product_id: ObjectId, files: list[ProductFileCreateDTO], sizes: ThumbnailSizes | None = None
-    ) -> Sequence[ObjectId]:
+        self,
+        product_id: ObjectId,
+        files: list[ProductFileCreateDTO],
+        sizes: ThumbnailSizes | None = None,
+    ) -> list[int]:
         product = await self.model.objects.aget(id=product_id)
         instances = []
         ids = []
@@ -68,11 +66,16 @@ class ProductRepository(BaseRepository, IProductRepository):
                     )
                     instances.append(instance)
         await self.product_file_model.objects.abulk_create(instances, batch_size=20)
-        ids.extend([instance.pk for instance in instances])
+        ids.extend(inst.pk for inst in instances)
         return ids
 
     async def make_thumbnails(
-        self, obj, relative_name: str, sizes: ThumbnailSizes | None = None, namer: Callable = source_hashed, crop=True
+        self,
+        obj: File,
+        relative_name: str,
+        sizes: ThumbnailSizes | None = None,
+        namer: Callable = source_hashed,
+        crop: bool = True,
     ) -> list[tuple[str, ImageMeta]]:
         sizes = sizes or {}
         thumbnailer = get_thumbnailer(obj, relative_name=relative_name)

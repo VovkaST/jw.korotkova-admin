@@ -5,7 +5,7 @@ from collections.abc import Callable
 import pytest
 
 from root.apps.bot.models import Channel
-from root.apps.products.application.domain.enums import ProductCategoryChoices
+from root.apps.products.enums import ProductCategoryChoices
 from root.apps.products.models import Product, ProductChannelPublication, ProductType
 from root.core.utils import removable
 

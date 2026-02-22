@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.db.models import QuerySet
 
-from root.apps.products.application.domain.enums import ProductCategoryChoices
+from root.apps.products.enums import ProductCategoryChoices
 
 
 class ProductTypeQuerySet(QuerySet):

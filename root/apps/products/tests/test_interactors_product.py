@@ -1,14 +1,14 @@
 import pytest
 
-from root.apps.products.application.interactors import ProductInteractor
+from root.apps.products.services import ProductService
 
 pytestmark = [pytest.mark.django_db, pytest.mark.asyncio]
 
 
-class TestProductInteractor:
+class TestProductService:
     async def test_get_products_in_stock_empty(self):
-        interactor = ProductInteractor()
-        result = await interactor.get_products_in_stock()
+        service = ProductService()
+        result = await service.get_products_in_stock_dto()
         assert result == []
 
     async def test_get_products_in_stock_filters_by_in_stock(self, test_product_type, test_product):
@@ -17,7 +17,7 @@ class TestProductInteractor:
             test_product(ptype, title="A", in_stock=True),
             test_product(ptype, title="B", in_stock=False),
         ):
-            interactor = ProductInteractor()
-            result = await interactor.get_products_in_stock()
+            service = ProductService()
+            result = await service.get_products_in_stock_dto()
         assert len(result) == 1
         assert result[0].title == "A"

@@ -10,13 +10,13 @@ from root.apps.bot.dtos import BotDTO
 from root.apps.bot.enums import Commands
 from root.apps.bot.services.bot_settings import BotSettingsService
 from root.apps.bot.services.buttons import ButtonsService
-from root.apps.products.application.controllers import ProductChannelPublicationController
+from root.apps.products.services import ProductChannelPublicationService
 
 
 class JWBot:
     bot_settings_service = BotSettingsService()
     buttons_service = ButtonsService()
-    product_channel_publication_controller = ProductChannelPublicationController()
+    product_channel_publication_service = ProductChannelPublicationService()
 
     def __init__(self) -> None:
         self.config = bot_config
@@ -74,10 +74,10 @@ class JWBot:
         return await self.buttons_service.get_button_answer(bot_name, button_text)
 
     async def new_channel_post(self, channel_id: int, message_id: int, text: str | None) -> None:
-        await self.product_channel_publication_controller.new_channel_post(channel_id, message_id, text)
+        await self.product_channel_publication_service.new_channel_post(channel_id, message_id, text)
 
     async def edited_channel_post(self, channel_id: int, message_id: int, text: str | None) -> None:
-        await self.product_channel_publication_controller.edited_channel_post(channel_id, message_id, text)
+        await self.product_channel_publication_service.edited_channel_post(channel_id, message_id, text)
 
     async def get_version(self) -> str:
         bot_name = await self.get_name()

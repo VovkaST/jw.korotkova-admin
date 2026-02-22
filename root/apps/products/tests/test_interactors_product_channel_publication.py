@@ -1,32 +1,30 @@
 import pytest
 
-from root.apps.products.application.interactors.product_channel_publication import (
-    ProductChannelPublicationInteractor,
-)
 from root.apps.products.models import ProductChannelPublication
+from root.apps.products.services import ProductChannelPublicationService
 
 pytestmark = [pytest.mark.django_db, pytest.mark.asyncio]
 
 
 class TestExtractProductIds:
     async def test_extract_product_ids_empty(self):
-        interactor = ProductChannelPublicationInteractor()
-        result = await interactor.extract_product_ids("no lot here")
+        service = ProductChannelPublicationService()
+        result = await service.extract_product_ids("no lot here")
         assert result == []
 
     async def test_extract_product_ids_single(self):
-        interactor = ProductChannelPublicationInteractor()
-        result = await interactor.extract_product_ids("Лот #42")
+        service = ProductChannelPublicationService()
+        result = await service.extract_product_ids("Лот #42")
         assert result == [42]
 
     async def test_extract_product_ids_multiple(self):
-        interactor = ProductChannelPublicationInteractor()
-        result = await interactor.extract_product_ids("Лот #1 и лот #22, лот #333")
+        service = ProductChannelPublicationService()
+        result = await service.extract_product_ids("Лот #1 и лот #22, лот #333")
         assert result == [1, 22, 333]
 
     async def test_extract_product_ids_case_insensitive(self):
-        interactor = ProductChannelPublicationInteractor()
-        result = await interactor.extract_product_ids("ЛОТ #7")
+        service = ProductChannelPublicationService()
+        result = await service.extract_product_ids("ЛОТ #7")
         assert result == [7]
 
 
@@ -37,8 +35,8 @@ class TestNewChannelPost:
             test_product(ptype, title="P"),
             test_channel(chat_id=111) as channel,
         ):
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.new_channel_post(channel_id=channel.chat_id, message_id=1, text="no lot mentioned")
+            service = ProductChannelPublicationService()
+            await service.new_channel_post(channel_id=channel.chat_id, message_id=1, text="no lot mentioned")
         count = await ProductChannelPublication.objects.acount()
         assert count == 0
 
@@ -48,8 +46,8 @@ class TestNewChannelPost:
             test_product(ptype, title="P1") as product,
             test_channel(chat_id=222) as channel,
         ):
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.new_channel_post(channel_id=channel.chat_id, message_id=10, text=f"Лот #{product.id}")
+            service = ProductChannelPublicationService()
+            await service.new_channel_post(channel_id=channel.chat_id, message_id=10, text=f"Лот #{product.id}")
             count = await ProductChannelPublication.objects.filter(channel=channel, message_id=10).acount()
             assert count == 1
             pub = await ProductChannelPublication.objects.aget(channel=channel, message_id=10)
@@ -63,9 +61,9 @@ class TestNewChannelPost:
             test_product(ptype, title="P1") as product,
             test_channel(chat_id=333) as channel,
         ):
-            interactor = ProductChannelPublicationInteractor()
+            service = ProductChannelPublicationService()
             # 99999 does not exist
-            await interactor.new_channel_post(
+            await service.new_channel_post(
                 channel_id=channel.chat_id, message_id=20, text=f"Лот #{product.id} и Лот #99999"
             )
             count = await ProductChannelPublication.objects.filter(channel=channel, message_id=20).acount()
@@ -81,8 +79,8 @@ class TestNewChannelPost:
             await ProductChannelPublication.objects.acreate(
                 product=product, channel=channel, message_id=21, text=f"Лот #{product.id}", is_main=True
             )
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.new_channel_post(channel_id=channel.chat_id, message_id=22, text=f"Лот #{product.id}")
+            service = ProductChannelPublicationService()
+            await service.new_channel_post(channel_id=channel.chat_id, message_id=22, text=f"Лот #{product.id}")
             pub22 = await ProductChannelPublication.objects.aget(channel=channel, message_id=22)
             assert pub22.product_id == product.id
             assert pub22.is_main is False
@@ -98,8 +96,8 @@ class TestEditedChannelPost:
             pub = await ProductChannelPublication.objects.acreate(
                 product=product, channel=channel, message_id=30, text="old", is_main=True
             )
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.edited_channel_post(channel_id=channel.chat_id, message_id=30, text="no lot in text")
+            service = ProductChannelPublicationService()
+            await service.edited_channel_post(channel_id=channel.chat_id, message_id=30, text="no lot in text")
             await pub.arefresh_from_db()
             assert pub.text == "old"
 
@@ -112,8 +110,8 @@ class TestEditedChannelPost:
             pub = await ProductChannelPublication.objects.acreate(
                 product=product, channel=channel, message_id=30, text="old text", is_main=True
             )
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.edited_channel_post(
+            service = ProductChannelPublicationService()
+            await service.edited_channel_post(
                 channel_id=channel.chat_id, message_id=30, text=f"Лот #{product.id} new text"
             )
             await pub.arefresh_from_db()
@@ -130,8 +128,8 @@ class TestEditedChannelPost:
             await ProductChannelPublication.objects.acreate(
                 product=p1, channel=channel, message_id=31, text=f"Лот #{p1.id}", is_main=True
             )
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.edited_channel_post(
+            service = ProductChannelPublicationService()
+            await service.edited_channel_post(
                 channel_id=channel.chat_id,
                 message_id=31,
                 text=f"Лот #{p1.id} и Лот #{p2.id}",
@@ -151,8 +149,8 @@ class TestEditedChannelPost:
             pub = await ProductChannelPublication.objects.acreate(
                 product=product, channel=channel, message_id=32, text=f"Лот #{product.id}", is_main=False
             )
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.edited_channel_post(
+            service = ProductChannelPublicationService()
+            await service.edited_channel_post(
                 channel_id=channel.chat_id, message_id=32, text=f"Лот #{product.id} updated"
             )
             await pub.arefresh_from_db()
@@ -178,8 +176,8 @@ class TestEditedChannelPost:
             pub_p2_other = await ProductChannelPublication.objects.acreate(
                 product=p2, channel=channel, message_id=99, text=f"Лот #{p2.id}", is_main=False
             )
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.edited_channel_post(channel_id=channel.chat_id, message_id=33, text=f"Лот #{p1.id}")
+            service = ProductChannelPublicationService()
+            await service.edited_channel_post(channel_id=channel.chat_id, message_id=33, text=f"Лот #{p1.id}")
             count_msg33 = await ProductChannelPublication.objects.filter(channel=channel, message_id=33).acount()
             assert count_msg33 == 1
             await pub_p2_other.arefresh_from_db()
@@ -210,8 +208,8 @@ class TestEditedChannelPost:
             await ProductChannelPublication.objects.acreate(
                 product=p2, channel=channel, message_id=99, text=f"Лот #{p2.id}", is_main=True
             )
-            interactor = ProductChannelPublicationInteractor()
-            await interactor.edited_channel_post(channel_id=channel.chat_id, message_id=34, text=f"Лот #{p1.id}")
+            service = ProductChannelPublicationService()
+            await service.edited_channel_post(channel_id=channel.chat_id, message_id=34, text=f"Лот #{p1.id}")
             count_msg34 = await ProductChannelPublication.objects.filter(channel=channel, message_id=34).acount()
             assert count_msg34 == 1
             count_p3 = await ProductChannelPublication.objects.filter(product=p3).acount()

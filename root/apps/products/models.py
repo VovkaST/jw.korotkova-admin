@@ -4,7 +4,7 @@ from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from root.apps.products.application.domain.enums import ProductCategoryChoices
+from root.apps.products.enums import ProductCategoryChoices
 from root.apps.products.managers import ProductQuerySet, ProductTypeQuerySet
 from root.apps.products.utils import upload_product_file_to
 from root.base.models import CreatedTimestampModel, TimedModel
