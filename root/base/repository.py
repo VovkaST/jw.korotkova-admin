@@ -46,7 +46,7 @@ class BaseRepository(Singleton, Generic[T]):
     def get_queryset(self) -> QuerySet[T]:
         return self.objects.all()
 
-    def get_model_field_names(self, model: Model) -> set[str]:
+    def get_model_field_names(self, model: type[Model]) -> set[str]:
         return {f.column for f in model._meta.fields if not f.primary_key}
 
     async def create(self, **kwargs) -> BaseEntity:

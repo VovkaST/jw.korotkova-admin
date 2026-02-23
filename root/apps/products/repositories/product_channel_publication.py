@@ -19,10 +19,6 @@ class ProductChannelPublicationRepository(BaseRepository[ProductChannelPublicati
     def get_queryset(self) -> QuerySet[ProductChannelPublication]:
         return self.model.objects.all()
 
-    @staticmethod
-    def _get_model_field_names(model: type[ProductChannelPublication]) -> set[str]:
-        return {f.column for f in model._meta.fields if not f.primary_key}
-
     async def create(self, dto: ProductChannelPublicationCreateDTO) -> ProductChannelPublication:
         instance = await self.model.objects.acreate(**dto.model_dump())
         return instance
@@ -33,7 +29,7 @@ class ProductChannelPublicationRepository(BaseRepository[ProductChannelPublicati
         dto: ProductChannelPublicationUpdateDTO,
     ) -> int:
         instance = await self.model.objects.aget(pk=pk)
-        real_fields = self._get_model_field_names(self.model)
+        real_fields = self.get_model_field_names(self.model)
         updated_data = dto.model_dump(exclude_unset=True)
         update_fields = [
             name for name in updated_data if name in real_fields and getattr(instance, name) != updated_data[name]
