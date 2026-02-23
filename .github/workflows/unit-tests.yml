@@ -41,7 +41,7 @@ jobs:
           pip install -r requirements/base.txt
 
       - name: Test and Coverage
-        run: python -m pytest --cov --cov-report xml
+        run: python -m pytest --cov --cov-report json
         env:
           DJANGO_SECRET_KEY: ${{ vars.DJANGO_SECRET_KEY }}
           DJANGO_SETTINGS_MODULE: root.settings.test
@@ -50,7 +50,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          file: ./coverage.xml
+          file: ./coverage.json
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
