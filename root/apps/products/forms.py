@@ -3,7 +3,8 @@ from django import forms
 from tinymce.widgets import TinyMCE
 
 from root.apps.products import models
-from root.apps.products.application.boundaries.dtos import ProductFileCreateDTO
+from root.apps.products.dtos import ProductFileCreateDTO
+from root.apps.products.services import ProductService
 from root.core.enums import FileTypesChoices
 
 
@@ -23,15 +24,14 @@ class ProductFileAdminForm(forms.ModelForm):
 
     def save(self, commit=True):
         if self.files:
-            from root.apps.products.application.controllers.product import ProductController
-
             dtos = [
                 ProductFileCreateDTO(
-                    file=file, description=self.cleaned_data["description"], type=FileTypesChoices.IMAGE
+                    file=file,
+                    description=self.cleaned_data["description"],
+                    type=FileTypesChoices.IMAGE,
                 )
                 for file in self.files.values()
             ]
-
-            async_to_sync(ProductController().add_images)(product_id=self.instance.product_id, files=dtos)
+            async_to_sync(ProductService().add_images)(product_id=self.instance.product_id, files=dtos)
             return self.instance
         return super().save(commit)

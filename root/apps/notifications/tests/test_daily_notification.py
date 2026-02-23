@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from root.apps.notifications.application.interactors.notifications_daily import NotificationsDailyInteractor
+from root.apps.notifications.services import NotificationsDailyService
 from root.core.enums import SocialsChoices
 
 pytestmark = [pytest.mark.django_db, pytest.mark.asyncio]
@@ -17,14 +17,14 @@ d3 = date(yesterday.year - 20, yesterday.month, yesterday.day)
 
 class TestDailyNotification:
     async def test_no_notifications_planned(self):
-        notifications_interactor = NotificationsDailyInteractor()
-        result = await notifications_interactor.send_daily_notifications()
+        service = NotificationsDailyService()
+        result = await service.send_daily_notifications()
         assert result == "No notifications planned"
 
     async def test_no_birthdays(self, test_notification_daily):
-        notifications_interactor = NotificationsDailyInteractor()
+        service = NotificationsDailyService()
         async with test_notification_daily(mailing_name="birthday mailing"):
-            result = await notifications_interactor.send_daily_notifications()
+            result = await service.send_daily_notifications()
         assert result == "No birthday boys found"
 
     async def test_admin_no_socials(self, test_user, test_staff, test_notification_daily, mock_bot):
@@ -32,10 +32,10 @@ class TestDailyNotification:
             "some_admin1"
         ) as admin1, test_notification_daily(mailing_name="birthday mailing", users=[admin1], by_telegram=True):
             with patch(
-                "root.apps.notifications.application.interactors.notifications_daily.bot_instance", mock_bot
+                "root.apps.notifications.services.notifications_daily.bot_instance", mock_bot
             ) as patched_bot:
-                notifications_interactor = NotificationsDailyInteractor()
-                result = await notifications_interactor.send_daily_notifications()
+                service = NotificationsDailyService()
+                result = await service.send_daily_notifications()
         assert result == "Notifications to send: 1, target users: 1, was sent: 0"
         patched_bot.send_message.assert_not_called()
 
@@ -48,10 +48,10 @@ class TestDailyNotification:
             SocialsChoices.TELEGRAM, admin1, social_user_id="@admin1_telegram"
         ), test_notification_daily(mailing_name="birthday mailing", users=[admin1], by_telegram=True):
             with patch(
-                "root.apps.notifications.application.interactors.notifications_daily.bot_instance", mock_bot
+                "root.apps.notifications.services.notifications_daily.bot_instance", mock_bot
             ) as patched_bot:
-                notifications_interactor = NotificationsDailyInteractor()
-                result = await notifications_interactor.send_daily_notifications()
+                service = NotificationsDailyService()
+                result = await service.send_daily_notifications()
         assert result == "Notifications to send: 1, target users: 1, was sent: 0"
         patched_bot.send_message.assert_not_called()
 
@@ -77,9 +77,9 @@ class TestDailyNotification:
         ) as admin2_chat, test_notification_daily(
             mailing_name="birthday mailing", users=[admin1, admin2], by_telegram=True
         ):
-            with patch("root.apps.notifications.application.interactors.notifications_daily.bot_instance", mock_bot):
-                notifications_interactor = NotificationsDailyInteractor()
-                result = await notifications_interactor.send_daily_notifications()
+            with patch("root.apps.notifications.services.notifications_daily.bot_instance", mock_bot):
+                service = NotificationsDailyService()
+                result = await service.send_daily_notifications()
         assert result == "Notifications to send: 1, target users: 2, was sent: 2"
         assert mock_bot.bot.send_message.await_count == 2
         send1 = mock_bot.bot.send_message.call_args_list[0]

@@ -26,20 +26,7 @@ TypedDictObjectType = TypeVar("TypedDictObjectType")
 
 logger = logging.getLogger(__name__)
 
-BASE_TYPES = Union[
-    str,
-    int,
-    float,
-    Decimal,
-    bool,
-    datetime,
-    NoneType,
-    date,
-    time,
-    timedelta,
-    Enum,
-    dict,
-]
+BASE_TYPES = Union[str, int, float, Decimal, bool, datetime, NoneType, date, time, timedelta, Enum, dict]
 
 SEQUENCE_TYPE_NAMES = ["List", "Sequence", "Tuple", "list", "tuple"]
 

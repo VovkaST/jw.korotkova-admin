@@ -1,0 +1,9 @@
+---
+description: Запуск тестов агентами
+alwaysApply: false
+---
+# Запуск тестов
+
+- **Интерпретатор:** использовать виртуальное окружение из `.vscode/settings.json` — ключ `python.defaultInterpreterPath`. Запускать pytest через этот интерпретатор (например: `"<interpreter_path>" -m pytest`).
+- **Конфигурация:** pytest запускать из **корня проекта**; `pytest.ini` в корне подхватывается автоматически (asyncio_mode, addopts, test paths и т.д.).
+- **Команда:** из корня репозитория: `<python.defaultInterpreterPath> -m pytest [путь/к тестам]`. Без пути — прогон всех тестов по правилам `pytest.ini`.

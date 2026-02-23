@@ -1,11 +1,11 @@
-from typing import ClassVar, Generic
+from typing import ClassVar
 
 from django.db import models
 
 from root.base.entity import BaseEntityType
 
 
-class SingletonModel(models.Model, Generic[BaseEntityType]):
+class SingletonModel(models.Model):
     instance = None
     entity_class: ClassVar[type[BaseEntityType]]  # pyright: ignore[reportGeneralTypeIssues]
 

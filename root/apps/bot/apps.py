@@ -7,3 +7,6 @@ class AppBotConfig(AppConfig):
     name = "root.apps.bot"
     verbose_name = _("Bot")
     verbose_name_plural = _("Bots")
+
+    def ready(self):
+        import root.apps.bot.handlers  # noqa: F401 — register handlers with bot

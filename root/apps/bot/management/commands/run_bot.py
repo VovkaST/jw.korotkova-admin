@@ -2,7 +2,7 @@ import asyncio
 
 from django.core.management import BaseCommand
 
-from root.apps.bot.application.services import bot
+from root.apps.bot.services import bot
 
 
 class Command(BaseCommand):
@@ -10,7 +10,5 @@ class Command(BaseCommand):
         await bot.start()
 
     def handle(self, *args, **options):
-        # loop = asyncio.get_event_loop()
-        # loop.run_until_complete(self.run())
         asyncio.run(self.run())
         self.stdout.write(self.style.SUCCESS("Bot stopped."))

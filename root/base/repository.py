@@ -1,26 +1,29 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import ClassVar, Generic, TypeVar
 
 from asgiref.sync import sync_to_async
 from django.db.models import QuerySet
 from django.db.models.base import Model
 
 from root.base.entity import BaseDTOType, BaseEntity, BaseEntityType
-from root.base.interfaces import IBaseRepository
 from root.contrib.clean_architecture.interfaces import ObjectId
+from root.core.types import DeleteResult
 from root.core.utils import Singleton
 from root.core.utils import gettext_lazy as _
 
+T = TypeVar("T", bound=Model)
 
-class BaseRepository(Singleton, IBaseRepository):
-    model: Model
+
+class BaseRepository(Singleton, Generic[T]):
+    model: ClassVar[type[T]]
     base_entity_class: type[BaseEntityType]
     update_dto_class: type[BaseDTOType]
 
     @property
-    def objects(self):
-        return self.model.objects
+    def objects(self) -> QuerySet[T]:
+        return self.model.objects.all()
 
     @staticmethod
     async def _model_to_entity(entity_class: type[BaseEntityType], obj: Model, from_attributes: bool) -> BaseEntityType:
@@ -40,10 +43,10 @@ class BaseRepository(Singleton, IBaseRepository):
             async for instance in queryset.all()
         ]
 
-    def get_queryset(self) -> QuerySet:
-        return self.model.objects.all()
+    def get_queryset(self) -> QuerySet[T]:
+        return self.objects.all()
 
-    def get_model_field_names(self, model: Model) -> set[str]:
+    def get_model_field_names(self, model: type[Model]) -> set[str]:
         return {f.column for f in model._meta.fields if not f.primary_key}
 
     async def create(self, **kwargs) -> BaseEntity:
@@ -92,5 +95,5 @@ class BaseRepository(Singleton, IBaseRepository):
         await self.objects.abulk_update(instance_for_update, fields=list(update_fields))
         return [instance.pk for instance in instance_for_update]
 
-    async def delete(self, **kwargs) -> tuple[int, dict[str, int]]:
-        return await self.model.objects.filter(**kwargs).adelete()
+    async def delete(self, **kwargs) -> DeleteResult:
+        return await self.objects.filter(**kwargs).adelete()
