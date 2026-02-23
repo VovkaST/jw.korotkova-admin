@@ -6,9 +6,32 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  POSTGRES_HOST: localhost
+  POSTGRES_DB: test-korotkova-db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_PORT: 5432
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+        ports:
+          - "${{ env.POSTGRES_PORT }}:${{ env.POSTGRES_PORT }}"
+        options: >
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -28,3 +51,4 @@ jobs:
         run: python -m pytest --cov --cov-report xml
         env:
           DJANGO_SECRET_KEY: ${{ vars.DJANGO_SECRET_KEY }}
+          DATABASE_URL: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}
