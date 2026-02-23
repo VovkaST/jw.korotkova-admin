@@ -26,3 +26,5 @@ jobs:
 
       - name: Test and Coverage
         run: python -m pytest --cov --cov-report xml
+        env:
+          DJANGO_SECRET_KEY: ${{ vars.DJANGO_SECRET_KEY }}
