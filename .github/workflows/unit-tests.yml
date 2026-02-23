@@ -41,13 +41,14 @@ jobs:
           pip install -r requirements/base.txt
 
       - name: Test and Coverage
-        run: python -m pytest --cov --cov-report=xml
+        run: python -m pytest --cov --junitxml=junit.xml -o junit_family=legacy
         env:
           DJANGO_SECRET_KEY: ${{ vars.DJANGO_SECRET_KEY }}
           DJANGO_SETTINGS_MODULE: root.settings.test
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test-korotkova-db
 
       - name: Upload coverage to Codecov
+        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
