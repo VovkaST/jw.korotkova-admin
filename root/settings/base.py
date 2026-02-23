@@ -188,7 +188,7 @@ PHONENUMBER_DEFAULT_REGION = "RU"
 TM_LABEL_TEXT = env.str("TM_LABEL_TEXT", default="JW.Korotkova")
 
 # Bot settings
-BOT_TOKEN = env.str("BOT_TOKEN")
+BOT_TOKEN = env.str("BOT_TOKEN", default="")
 BOT_LOGGING_LEVEL = getLevelName(env.str("BOT_LOGGING_LEVEL", default="INFO"))
 BOT_REDIS_URL = REDIS_URL
 
