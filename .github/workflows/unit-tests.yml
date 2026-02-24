@@ -41,7 +41,7 @@ jobs:
           pip install -r requirements/base.txt
 
       - name: Test and Coverage
-        run: python -m pytest --cov --junitxml=junit.xml -o junit_family=legacy
+        run: python -m pytest --cov --cov-report=xml
         env:
           DJANGO_SECRET_KEY: ${{ vars.DJANGO_SECRET_KEY }}
           DJANGO_SETTINGS_MODULE: root.settings.test
