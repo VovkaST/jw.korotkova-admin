@@ -36,7 +36,17 @@ import { Award, Quote } from "lucide-vue-next";
             <ul class="space-y-2 text-brand-muted">
               <li class="flex items-start gap-3">
                 <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
-                <span>Сертификат по методу «Терапия Души»</span>
+                <span>Сертификат и диплом по методу «Терапия Души»</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
+                <span>
+                  Диплом о повышении квалификации «Психолог-консультант»
+                </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
+                <span> Сертификат по Цифровой психологии </span>
               </li>
             </ul>
           </div>
