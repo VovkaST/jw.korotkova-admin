@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.conf import settings
+from django.contrib.postgres.fields import DateTimeRangeField
 from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -18,10 +19,11 @@ class Consultation(TimedModel):
         verbose_name=_("Клиент"),
         db_comment="Клиент (пользователь)",
     )
-    appointment_at = models.DateTimeField(
-        _("Дата и время приёма"),
+    appointment_at = DateTimeRangeField(
+        _("Интервал приёма"),
         db_index=True,
-        db_comment="Дата и время проведения консультации",
+        db_comment="Интервал начала и окончания консультации (PostgreSQL tstzrange)",
+        help_text=_("Укажите время начала и окончания консультации."),
     )
     description = models.TextField(
         _("Описание и результаты"),
@@ -53,4 +55,12 @@ class Consultation(TimedModel):
 
     def __str__(self) -> str:
         client_name = self.client.get_full_name() or self.client.username
-        return f"{client_name} — {self.appointment_at:%d.%m.%Y %H:%M}"
+        r = self.appointment_at
+        if r is None or getattr(r, "isempty", False):
+            return str(client_name)
+        lo, hi = r.lower, r.upper
+        if lo is not None and hi is not None:
+            return f"{client_name} — {lo:%d.%m.%Y %H:%M}–{hi:%H:%M}"
+        if lo is not None:
+            return f"{client_name} — с {lo:%d.%m.%Y %H:%M}"
+        return str(client_name)

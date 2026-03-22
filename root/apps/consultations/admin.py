@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
@@ -11,7 +13,7 @@ class ConsultationAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "client",
-        "appointment_at",
+        "consultation_datetime",
         "price",
         "created_by",
         "created_at",
@@ -19,7 +21,6 @@ class ConsultationAdmin(admin.ModelAdmin):
     )
     list_display_links = ("id", "client")
     ordering = ("-appointment_at",)
-    date_hierarchy = "appointment_at"
     autocomplete_fields = ("client",)
     search_fields = (
         "client__username",
@@ -49,6 +50,11 @@ class ConsultationAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+    def consultation_datetime(self, obj) -> datetime | None:
+        return obj.appointment_at.lower if obj.appointment_at else None
+
+    consultation_datetime.short_description = _("Дата и время приёма")
 
     def save_model(self, request, obj, form, change):
         if not change:
