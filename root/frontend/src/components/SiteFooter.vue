@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useConfig } from "@/composables";
+
+const { authorSiteUrl } = useConfig();
+</script>
+
 <template>
   <footer
     class="py-12 px-6 md:px-12 lg:px-24 border-t border-black/5 bg-white"
@@ -9,7 +15,7 @@
         © 2026 Наталья Короткова. Все права защищены.
       </p>
       <a
-        href="https://korotkovladimir.ru/"
+        :href="authorSiteUrl"
         target="_blank"
         rel="noopener noreferrer"
         class="text-xs text-brand-muted hover:text-brand-accent transition-colors"

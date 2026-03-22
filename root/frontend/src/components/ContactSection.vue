@@ -1,47 +1,8 @@
 <script setup lang="ts">
 import { Compass, Mail, MessageCircle, Phone, Send } from "lucide-vue-next";
+import { useConfig } from "@/composables";
 
-const messengerLinks = [
-  {
-    label: "Telegram",
-    description: "Удобно с телефона и десктопа",
-    href: "https://t.me/",
-    icon: "telegram",
-  },
-  {
-    label: "ВКонтакте",
-    description: "Личные сообщения ВКонтакте",
-    href: "https://vk.me/",
-    icon: "vk",
-  },
-  {
-    label: "Max",
-    description: "Написать в Max",
-    href: "#",
-    icon: "max",
-  },
-] as const;
-
-const compassChannelLinks = [
-  {
-    label: "Telegram",
-    href: "https://t.me/",
-    icon: "telegram",
-    cta: "Перейти в канал",
-  },
-  {
-    label: "ВКонтакте",
-    href: "https://vk.com/",
-    icon: "vk",
-    cta: "Перейти в сообщество",
-  },
-  {
-    label: "Max",
-    href: "#",
-    icon: "max",
-    cta: "Перейти в канал",
-  },
-] as const;
+const { messengerLinks, compassChannelLinks, email, phone, inn } = useConfig();
 </script>
 
 <template>
@@ -153,7 +114,10 @@ const compassChannelLinks = [
         class="max-w-3xl mx-auto flex flex-col md:flex-row gap-12 md:gap-16 justify-center items-start"
       >
         <div class="space-y-8 w-full md:flex-1">
-          <a href="tel:+79991234567" class="flex items-start gap-6 group">
+          <a
+            :href="`tel:${phone.telHref}`"
+            class="flex items-start gap-6 group"
+          >
             <div
               class="w-12 h-12 bg-brand-accent/10 rounded-xl flex items-center justify-center text-brand-accent shrink-0 group-hover:bg-brand-accent group-hover:text-white transition-all"
             >
@@ -161,14 +125,11 @@ const compassChannelLinks = [
             </div>
             <div>
               <p class="text-sm text-brand-muted mb-1">Телефон</p>
-              <p class="text-xl font-medium">+7 (999) 123-45-67</p>
+              <p class="text-xl font-medium">{{ phone.label }}</p>
             </div>
           </a>
 
-          <a
-            href="mailto:hello@soultherapy.ru"
-            class="flex items-start gap-6 group"
-          >
+          <a :href="'mailto:' + email" class="flex items-start gap-6 group">
             <div
               class="w-12 h-12 bg-brand-accent/10 rounded-xl flex items-center justify-center text-brand-accent shrink-0 group-hover:bg-brand-accent group-hover:text-white transition-all"
             >
@@ -176,7 +137,7 @@ const compassChannelLinks = [
             </div>
             <div>
               <p class="text-sm text-brand-muted mb-1">Email</p>
-              <p class="text-xl font-medium">hello@soultherapy.ru</p>
+              <p class="text-xl font-medium">{{ email }}</p>
             </div>
           </a>
         </div>
@@ -190,7 +151,7 @@ const compassChannelLinks = [
             </p>
             <p class="text-xs text-brand-muted leading-relaxed">
               Самозанятая, г. Москва<br />
-              ИНН: 772775846428
+              ИНН: {{ inn }}
             </p>
           </div>
         </div>

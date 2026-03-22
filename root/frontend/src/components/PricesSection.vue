@@ -1,15 +1,18 @@
 <script setup lang="ts">
+import { useConfig } from "@/composables";
 import { Motion } from "@motionone/vue";
 import { Clock, Sparkles } from "lucide-vue-next";
 
 const emit = defineEmits<{ contact: [] }>();
 
+const { consultation } = useConfig();
+
 const prices = [
   {
-    title: "Консультация «Терапия Души»",
-    time: "60 мин",
-    price: "3 000 ₽",
-    desc: "Единичная сессия по вашему запросу",
+    title: consultation.title,
+    time: consultation.duration,
+    price: consultation.price,
+    desc: consultation.description,
     popular: true,
   },
 ] as const;
@@ -37,7 +40,7 @@ const prices = [
             <Clock class="w-5 h-5" /> {{ item.time }}
           </p>
           <div class="text-5xl md:text-6xl font-bold mb-8">
-            {{ item.price }}
+            {{ item.price }} ₽
           </div>
           <p class="text-xl mb-12 text-white/90 leading-relaxed">
             {{ item.desc }}
