@@ -10,16 +10,8 @@ from root.apps.consultations.models import Consultation
 @admin.register(Consultation)
 class ConsultationAdmin(admin.ModelAdmin):
     form = ConsultationAdminForm
-    list_display = (
-        "id",
-        "client",
-        "consultation_datetime",
-        "price",
-        "created_by",
-        "created_at",
-        "updated_at",
-    )
-    list_display_links = ("id", "client")
+    list_display = ("id", "client", "consultation_datetime", "price")
+    list_display_links = ("client",)
     ordering = ("-appointment_at",)
     autocomplete_fields = ("client",)
     search_fields = (
