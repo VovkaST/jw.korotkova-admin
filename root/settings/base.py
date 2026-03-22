@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "root.apps.orders",
     "root.apps.bot",
     "root.apps.notifications",
+    "root.apps.reviews",
     # Third-party apps
     "phonenumber_field",
     "tinymce",
@@ -162,7 +163,9 @@ LOCALE_PATHS = (BASE_DIR / "locale",)
 
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "root" / "assets"]
+STATICFILES_DIRS = [
+    BASE_DIR / "root" / "frontend" / "public",
+]
 
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "media/"
