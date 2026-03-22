@@ -13,6 +13,7 @@ router = DefaultRouter()
 router.register("", HealthViewSet, basename="health")
 
 api_v1_urlpatterns = [
+    path("reviews/", include(("root.apps.reviews.api.urls", "reviews"), namespace="reviews")),
     path("products/", include(("root.apps.products.api.urls", "products"), namespace="products")),
 ] + router.urls
 

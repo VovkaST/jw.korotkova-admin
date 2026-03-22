@@ -89,6 +89,9 @@ class User(AbstractUser):
         verbose_name = _("User")
         verbose_name_plural = _("Users")
 
+    def __str__(self):
+        return f"{self.last_name} {self.first_name} {self.patronymic or ''}".strip()
+
 
 class UserSocial(TimedModel):
     social_type = models.CharField(

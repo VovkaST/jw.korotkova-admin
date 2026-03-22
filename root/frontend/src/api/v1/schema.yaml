@@ -1,0 +1,207 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/v1/reviews/public/:
+    get:
+      operationId: getPublic
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewDTO'
+          description: ''
+      tags:
+      - reviews
+  /api/v1/products/in_stock/:
+    get:
+      operationId: getProductsInStock
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDTO'
+          description: ''
+      tags:
+      - products
+  /api/v1/health/:
+    get:
+      operationId: retrieve
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - health
+components:
+  schemas:
+    ReviewDTO:
+      properties:
+        id:
+          minimum: 0
+          title: Id
+          type: integer
+        screenshot_url:
+          description: Public URL of the screenshot
+          title: Screenshot Url
+          type: string
+        client_label:
+          default: null
+          description: Optional caption
+          nullable: true
+          title: Client Label
+          type: string
+        quote:
+          default: null
+          description: Optional quote
+          nullable: true
+          title: Quote
+          type: string
+        rating:
+          default: null
+          description: "Optional 1\u20135"
+          maximum: 5
+          minimum: 1
+          nullable: true
+          title: Rating
+          type: integer
+        sort_order:
+          default: 0
+          minimum: 0
+          title: Sort Order
+          type: integer
+      required:
+      - id
+      - screenshot_url
+      title: ReviewDTO
+      type: object
+    ProductDTO:
+      properties:
+        guid:
+          format: uuid4
+          title: Guid
+          type: string
+        type:
+          $ref: '#/components/schemas/ProductTypeDTO'
+        type_id:
+          title: Type Id
+          type: integer
+        title:
+          title: Title
+          type: string
+        description:
+          title: Description
+          type: string
+        price:
+          anyOf:
+          - type: number
+          - pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+            type: string
+          title: Price
+        in_stock:
+          title: In Stock
+          type: boolean
+        files:
+          items:
+            $ref: '#/components/schemas/ProductFileDTO'
+          title: Files
+          type: array
+      required:
+      - guid
+      - type
+      - type_id
+      - title
+      - description
+      - price
+      - in_stock
+      title: ProductDTO
+      type: object
+    ImageMeta:
+      properties:
+        size_code:
+          $ref: '#/components/schemas/ImageSizesChoices'
+          default: null
+          description: Images size code
+          nullable: true
+        size:
+          default: null
+          description: Images size (WxH)
+          nullable: true
+          title: Size
+          type: string
+        length:
+          default: 0
+          description: Images size in bytes
+          nullable: true
+          title: Length
+          type: integer
+      title: ImageMeta
+      type: object
+    ImageSizesChoices:
+      enum:
+      - ORIGINAL
+      - XL
+      - L
+      - M
+      - S
+      title: ImageSizesChoices
+      type: string
+    ProductFileDTO:
+      properties:
+        id:
+          minimum: 0
+          title: Id
+          type: integer
+        file:
+          title: File
+          type: string
+        description:
+          default: null
+          nullable: true
+          title: Description
+          type: string
+        meta:
+          $ref: '#/components/schemas/ImageMeta'
+      required:
+      - id
+      - file
+      title: ProductFileDTO
+      type: object
+    ProductTypeDTO:
+      properties:
+        id:
+          minimum: 0
+          title: Id
+          type: integer
+        name:
+          title: Name
+          type: string
+        description:
+          default: null
+          nullable: true
+          title: Description
+          type: string
+        is_active:
+          title: Is Active
+          type: boolean
+      required:
+      - id
+      - name
+      - is_active
+      title: ProductTypeDTO
+      type: object
