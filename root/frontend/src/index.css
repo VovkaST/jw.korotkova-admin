@@ -1,25 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Manrope", sans-serif;
-  
-  --color-brand-beige: #F5F2ED;
-  --color-brand-accent: #2C5F5D; /* Muted emerald */
-  --color-brand-accent-light: #3D7A78;
-  --color-brand-text: #1A1A1A;
+
+  --color-brand-beige: #f5f2ed;
+  --color-brand-accent: #2c5f5d; /* Muted emerald */
+  --color-brand-accent-light: #3d7a78;
+  --color-brand-text: #1a1a1a;
   --color-brand-muted: #666666;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    user-select: none;
   }
   body {
     @apply bg-white text-brand-text font-sans antialiased;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-display font-bold tracking-tight;
   }
 }
