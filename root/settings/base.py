@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "root.apps.bot",
     "root.apps.notifications",
     "root.apps.reviews",
+    "root.apps.consultations",
     # Third-party apps
     "phonenumber_field",
     "tinymce",
