@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_CONSULTATION_TITLE?: string;
   readonly VITE_CONSULTATION_DURATION?: string;
   readonly VITE_CONSULTATION_PRICE?: string;
+  readonly VITE_CONSULTATION_SPECIAL_OFFER?: string;
   readonly VITE_CONSULTATION_DESC?: string;
   readonly VITE_SOCIAL_TELEGRAM_DM?: string;
   readonly VITE_SOCIAL_VK_DM?: string;

@@ -26,6 +26,7 @@ export interface ConsultationConfig {
   duration: string;
   price: string;
   description: string;
+  specialOffer: string;
 }
 
 export interface AppConfig {
@@ -77,6 +78,7 @@ export function useConfig(): AppConfig {
         "VITE_CONSULTATION_DESC",
         "Единичная сессия по вашему запросу",
       ),
+      specialOffer: envString("VITE_CONSULTATION_SPECIAL_OFFER", ""),
     },
     messengerLinks: [
       {

@@ -55,13 +55,14 @@ const prices = [
         </Motion>
       </div>
       <div
+        v-if="consultation.specialOffer"
         class="mt-16 p-8 bg-brand-accent/5 rounded-3xl text-center border border-brand-accent/10 max-w-2xl mx-auto"
       >
         <p
           class="text-brand-accent font-semibold text-lg flex items-center justify-center gap-3"
         >
           <Sparkles class="w-6 h-6" />
-          Спецпредложение: консультация за донат до 31 марта
+          Спецпредложение: {{ consultation.specialOffer }}
         </p>
       </div>
     </div>
