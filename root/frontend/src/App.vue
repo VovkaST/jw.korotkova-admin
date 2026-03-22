@@ -4,7 +4,6 @@ import {
   ConfidentialitySection,
   ContactSection,
   ExpertSection,
-  FaqSection,
   HeroSection,
   MobileStickyCta,
   PricesSection,
@@ -70,7 +69,6 @@ const scrollToTop = () => {
     <ExpertSection />
     <ReviewsSection />
     <PricesSection @contact="scrollToContact" />
-    <FaqSection @contact="scrollToContact" />
     <ConfidentialitySection />
     <ContactSection />
     <SiteFooter />

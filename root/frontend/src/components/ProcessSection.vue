@@ -5,17 +5,17 @@ const steps = [
   {
     num: "1",
     title: "Запрос",
-    desc: "Формулирование вашего запроса и подготовка к сессии",
+    desc: "Формулирование вашего запроса и готовность идти в глубину",
   },
   {
     num: "2",
     title: "Онлайн-сессия",
-    desc: "Глубокий разбор и проработка в рамках часовой встречи",
+    desc: "Глубокий разбор и проработка, перезапись нейронных связей",
   },
   {
     num: "3",
     title: "Результат",
-    desc: "Получение ответов и инструментов для самостоятельной работы",
+    desc: "Ваше новое состояние и высвобожденная энергия на новые действия",
   },
 ] as const;
 </script>
@@ -23,9 +23,7 @@ const steps = [
 <template>
   <section id="process" class="py-20 px-6 md:px-12 lg:px-24 bg-white">
     <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl md:text-4xl text-center mb-16">
-        Этапы работы по методу «Терапия Души»
-      </h2>
+      <h2 class="text-3xl md:text-4xl text-center mb-16">Этапы работы</h2>
       <div class="relative max-w-4xl mx-auto">
         <div class="space-y-12 relative">
           <div

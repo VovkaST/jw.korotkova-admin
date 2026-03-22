@@ -5,7 +5,7 @@ import { Award, Quote } from "lucide-vue-next";
 <template>
   <section id="expert" class="py-20 px-6 md:px-12 lg:px-24 bg-brand-beige">
     <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl md:text-4xl text-center mb-16">Об эксперте</h2>
+      <h2 class="text-3xl md:text-4xl text-center mb-16">Обо мне</h2>
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="aspect-square rounded-3xl overflow-hidden shadow-xl">
           <img
@@ -25,10 +25,11 @@ import { Award, Quote } from "lucide-vue-next";
           </div>
 
           <p class="text-lg text-brand-muted leading-relaxed">
-            Меня зовут Наталья Короткова. Я&nbsp;сертифицированный специалист
-            по&nbsp;методу &laquo;Терапия Души&raquo; Евгения Теребенина.
-            Помогаю клиентам обрести внутреннюю гармонию и&nbsp;научиться
-            управлять своей жизнью осознанно.
+            Меня зовут Наталья Короткова. Работаю с&nbsp;мировоззрением
+            и&nbsp;помогаю обрести внутреннюю гармонию, научиться управлять
+            своей жизнью осознанно, бережно заглянуть в&nbsp;глубь себя, открыть
+            свое сердце для любви и&nbsp;понимания, освободиться
+            от&nbsp;барьеров на&nbsp;пути к&nbsp;себе.
           </p>
 
           <div class="space-y-4">
@@ -36,7 +37,7 @@ import { Award, Quote } from "lucide-vue-next";
             <ul class="space-y-2 text-brand-muted">
               <li class="flex items-start gap-3">
                 <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
-                <span>Сертификат и диплом по методу «Терапия Души»</span>
+                <span>Диплом по методу «Терапия Души»</span>
               </li>
               <li class="flex items-start gap-3">
                 <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
@@ -46,20 +47,26 @@ import { Award, Quote } from "lucide-vue-next";
               </li>
               <li class="flex items-start gap-3">
                 <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
-                <span> Сертификат по Цифровой психологии </span>
+                <span> Сертификат Цифровая психология: «Код личности» </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
+                <span>
+                  Сертификат «Основы работы с психологическим портретом»
+                </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
+                <span> Сертификат «Проработка связок, паттернов» </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <Award class="w-5 h-5 text-brand-accent shrink-0 mt-1" />
+                <span>
+                  Свидетельство о прохождении программы «Метод легализации
+                  правды»
+                </span>
               </li>
             </ul>
-          </div>
-
-          <div
-            class="relative p-8 bg-white rounded-2xl italic text-brand-muted border-l-4 border-brand-accent"
-          >
-            <Quote
-              class="absolute top-4 right-4 w-12 h-12 text-brand-accent/10"
-            />
-            <p class="text-xl">
-              «Терапия не учит — она освобождает дорогу от барьеров»
-            </p>
           </div>
         </div>
       </div>

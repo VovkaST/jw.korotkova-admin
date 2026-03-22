@@ -2,10 +2,11 @@
 import { Menu, X } from "lucide-vue-next";
 
 const navLinks = [
-  { name: "О методе", href: "#about" },
+  { name: "Принципы работы", href: "#about" },
   { name: "Запросы", href: "#requests" },
   { name: "Этапы", href: "#process" },
-  { name: "Эксперт", href: "#expert" },
+  { name: "Обо мне", href: "#expert" },
+  { name: "Отзывы", href: "#reviews" },
   { name: "Цены", href: "#prices" },
 ] as const;
 
@@ -28,9 +29,13 @@ function onContact(): void {
     >
       <a
         href="#"
-        class="text-xl font-display font-bold tracking-tight text-brand-accent uppercase"
+        class="group relative inline-block text-xl font-display font-bold tracking-tight uppercase text-brand-accent transition-[color,transform] duration-300 ease-out hover:-translate-y-px hover:text-brand-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/40 focus-visible:ring-offset-2 rounded-sm"
       >
-        Наталья Короткова
+        <span class="relative z-10">Наталья Короткова</span>
+        <span
+          aria-hidden="true"
+          class="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-[2px] origin-center scale-x-0 rounded-full bg-gradient-to-r from-transparent via-brand-accent/70 to-transparent transition-transform duration-300 ease-out group-hover:scale-x-100"
+        />
       </a>
 
       <div class="hidden md:flex items-center gap-8">

@@ -1,19 +1,27 @@
 <script setup lang="ts">
 import { Motion } from "@motionone/vue";
-import { Sparkles, Target, UserCircle2, Zap } from "lucide-vue-next";
+import { Brain, HeartHandshake, Shield, Sprout } from "lucide-vue-next";
 
 const aboutItems = [
-  { icon: Zap, title: "Быстрый результат", desc: "изменения после 1–2 сессий" },
-  { icon: Target, title: "Глубокая проработка", desc: "работа с причинами" },
   {
-    icon: UserCircle2,
-    title: "Индивидуальный подход",
-    desc: "адаптация под клиента",
+    icon: HeartHandshake,
+    title: "Бережное отношение",
+    desc: "уважение к вашему личному опыту",
   },
   {
-    icon: Sparkles,
-    title: "Самопомощь",
-    desc: "обучение самостоятельной работе",
+    icon: Sprout,
+    title: "Раскрытие ресурсов",
+    desc: "активизация внутренних сил и возможностей",
+  },
+  {
+    icon: Shield,
+    title: "Безопасное пространство",
+    desc: "атмосфера доверия и конфиденциальности",
+  },
+  {
+    icon: Brain,
+    title: "Осознанный выбор",
+    desc: "поддержка в принятии решений",
   },
 ] as const;
 </script>
@@ -22,18 +30,20 @@ const aboutItems = [
   <section id="about" class="py-20 px-6 md:px-12 lg:px-24 bg-white">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-3xl md:text-4xl text-center mb-16">
-        Что такое «Терапия Души»?
+        Принципы психологической работы
       </h2>
       <div class="max-w-3xl mx-auto text-center mb-16">
         <p class="text-xl md:text-2xl leading-relaxed text-brand-muted">
-          &laquo;Терапия Души&raquo;&nbsp;&mdash; авторский метод психолога
-          Евгения Теребенина. Он&nbsp;помогает быстро проработать глубинные
-          причины проблем: непрожитые эмоции, травмы, родовые сценарии.
+          Психологическая поддержка помогает проработать глубинные причины
+          проблем: непрожитые эмоции, травмы, повторяющиеся жизненные сценарии.
           Результат ощущается уже после первых сессий.
         </p>
       </div>
 
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      <div
+        class="grid grid-cols-2 gap-6 md:gap-8"
+        :class="`lg:grid-cols-${aboutItems.length}`"
+      >
         <Motion
           v-for="(item, i) in aboutItems"
           :key="i"

@@ -7,6 +7,7 @@ const emit = defineEmits<{ contact: [] }>();
 
 <template>
   <section
+    id="home"
     class="pt-32 pb-20 px-6 md:px-12 lg:px-24 min-h-[90vh] flex items-center bg-brand-beige"
   >
     <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -16,8 +17,8 @@ const emit = defineEmits<{ contact: [] }>();
         :transition="{ duration: 0.8, easing: 'ease-out' }"
       >
         <h1 class="text-4xl md:text-6xl lg:text-7xl leading-[1.1] mb-6">
-          Путь к внутренней свободе через
-          <span class="text-brand-accent">«Терапию Души»</span>
+          Путь к внутренней
+          <span class="text-brand-accent">свободе и любви</span>
         </h1>
         <p class="text-lg md:text-xl text-brand-muted mb-10 max-w-lg">
           Освободитесь от&nbsp;барьеров прошлого&nbsp;&mdash; начните жить

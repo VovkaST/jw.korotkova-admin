@@ -5,12 +5,12 @@ import { CheckCircle2 } from "lucide-vue-next";
 const emit = defineEmits<{ contact: [] }>();
 
 const requests = [
-  "Неуверенность в себе и низкая самооценка",
-  "Сложности в отношениях",
-  "Финансовые блоки и страх успеха",
-  "Профессиональное выгорание",
-  "Последствия психологических травм",
-  "Поиск своего предназначения",
+  "Самообесценивание, ненужность, чувство вины",
+  "Сложности в отношениях (семья, дети, работа)",
+  "Мысли о разводе, развод, измены",
+  "Угнетенное душевное состояние, потеря смысла жизни, обиды",
+  "Странные повторяющиеся события в жизни и др.",
+  "Состояние тупика, чувство тревожности, недолюбленности",
 ] as const;
 </script>
 
@@ -18,7 +18,7 @@ const requests = [
   <section id="requests" class="py-20 px-6 md:px-12 lg:px-24 bg-brand-beige">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-3xl md:text-4xl text-center mb-16">
-        Решаем ваши проблемы эффективно
+        Решаем ваши запросы
       </h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Motion
@@ -43,7 +43,7 @@ const requests = [
           class="bg-transparent border-2 border-brand-accent text-brand-accent px-8 py-4 rounded-xl font-semibold hover:bg-brand-accent/5 transition-all"
           @click="emit('contact')"
         >
-          Узнать подробнее о методе
+          Узнать подробнее
         </button>
       </div>
     </div>
