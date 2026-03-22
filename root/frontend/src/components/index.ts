@@ -1,0 +1,14 @@
+export { default as AboutMethodSection } from "./AboutMethodSection.vue";
+export { default as ConfidentialitySection } from "./ConfidentialitySection.vue";
+export { default as ContactSection } from "./ContactSection.vue";
+export { default as ExpertSection } from "./ExpertSection.vue";
+export { default as FaqSection } from "./FaqSection.vue";
+export { default as HeroSection } from "./HeroSection.vue";
+export { default as MobileStickyCta } from "./MobileStickyCta.vue";
+export { default as PricesSection } from "./PricesSection.vue";
+export { default as ProcessSection } from "./ProcessSection.vue";
+export { default as RequestsSection } from "./RequestsSection.vue";
+export { default as ReviewsSection } from "./ReviewsSection.vue";
+export { default as ScrollToTopButton } from "./ScrollToTopButton.vue";
+export { default as SiteFooter } from "./SiteFooter.vue";
+export { default as SiteNav } from "./SiteNav.vue";
