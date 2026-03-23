@@ -41,9 +41,9 @@ const emit = defineEmits<{ contact: [] }>();
       >
         <div class="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
           <img
-            src="/BusinessCardPhoto.jpg"
+            src="/BusinessCardPhoto_sized.jpg"
             alt="Наталья Короткова"
-            class="w-full h-full object-cover object-[calc(50%-125px)_center]"
+            class="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
         </div>
