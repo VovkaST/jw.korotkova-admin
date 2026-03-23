@@ -44,8 +44,9 @@ export interface AppConfig {
 
 function envString(
   key: keyof ImportMetaEnv & string,
-  fallback: string,
+  fallback?: string,
 ): string {
+  fallback = fallback ?? "";
   const v = import.meta.env[key];
   return typeof v === "string" && v.length > 0 ? v : fallback;
 }
@@ -68,17 +69,11 @@ export function useConfig(): AppConfig {
     },
     inn: envString("VITE_CONTACT_INN", "772775846428"),
     consultation: {
-      title: envString(
-        "VITE_CONSULTATION_TITLE",
-        "Консультация «Терапия Души»",
-      ),
-      duration: envString("VITE_CONSULTATION_DURATION", "60 мин"),
-      price: envString("VITE_CONSULTATION_PRICE", "3 000 ₽"),
-      description: envString(
-        "VITE_CONSULTATION_DESC",
-        "Единичная сессия по вашему запросу",
-      ),
-      specialOffer: envString("VITE_CONSULTATION_SPECIAL_OFFER", ""),
+      title: envString("VITE_CONSULTATION_TITLE"),
+      duration: envString("VITE_CONSULTATION_DURATION"),
+      price: envString("VITE_CONSULTATION_PRICE"),
+      description: envString("VITE_CONSULTATION_DESC"),
+      specialOffer: envString("VITE_CONSULTATION_SPECIAL_OFFER"),
     },
     messengerLinks: [
       {

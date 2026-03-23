@@ -20,6 +20,19 @@ const isMenuOpen = ref<boolean>(false);
 const showStickyCTA = ref<boolean>(true);
 const showScrollTop = ref<boolean>(false);
 
+function onWindowScroll(): void {
+  showScrollTop.value = window.scrollY > 500;
+}
+
+const scrollToContact = () => {
+  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  isMenuOpen.value = false;
+};
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
 onMounted(() => {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -40,22 +53,9 @@ onMounted(() => {
   window.addEventListener("scroll", onWindowScroll);
 });
 
-function onWindowScroll(): void {
-  showScrollTop.value = window.scrollY > 500;
-}
-
 onUnmounted(() => {
   window.removeEventListener("scroll", onWindowScroll);
 });
-
-const scrollToContact = () => {
-  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  isMenuOpen.value = false;
-};
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
 </script>
 
 <template>

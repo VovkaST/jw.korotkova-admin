@@ -35,14 +35,18 @@ const prices = [
             {{ item.title }}
           </h3>
           <p
+            v-if="item.time"
             class="text-lg mb-8 text-white/80 flex items-center justify-center gap-2"
           >
             <Clock class="w-5 h-5" /> {{ item.time }}
           </p>
-          <div class="text-5xl md:text-6xl font-bold mb-8">
+          <div v-if="item.price" class="text-5xl md:text-6xl font-bold mb-8">
             {{ item.price }} ₽
           </div>
-          <p class="text-xl mb-12 text-white/90 leading-relaxed">
+          <p
+            v-if="item.desc"
+            class="text-xl mb-12 text-white/90 leading-relaxed"
+          >
             {{ item.desc }}
           </p>
           <button
