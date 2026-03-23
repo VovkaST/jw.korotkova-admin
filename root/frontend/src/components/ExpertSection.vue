@@ -6,12 +6,14 @@ import { Award, Quote } from "lucide-vue-next";
   <section id="expert" class="py-20 px-6 md:px-12 lg:px-24 bg-brand-beige">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-3xl md:text-4xl text-center mb-16">Обо мне</h2>
-      <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 md:gap-4 items-center"
+      >
         <div class="aspect-square rounded-3xl overflow-hidden shadow-xl">
           <img
             src="/SpecialistPhoto.jpg"
             alt="Наталья Короткова"
-            class="w-full h-full object-cover object-[calc(50%+125px)_center]"
+            class="w-full h-full object-cover lg:object-[calc(50%+105px)_center] md:object-[calc(50%+75px)_center] object-[calc(50%+105px)_center]"
             referrerPolicy="no-referrer"
           />
         </div>
@@ -27,9 +29,9 @@ import { Award, Quote } from "lucide-vue-next";
           <p class="text-lg text-brand-muted leading-relaxed">
             Меня зовут Наталья Короткова. Работаю с&nbsp;мировоззрением
             и&nbsp;помогаю обрести внутреннюю гармонию, научиться управлять
-            своей жизнью осознанно, бережно заглянуть в&nbsp;глубь себя, открыть
-            свое сердце для любви и&nbsp;понимания, освободиться
-            от&nbsp;барьеров на&nbsp;пути к&nbsp;себе.
+            своей жизнью осознанно, бережно заглянуть вглубь себя, открыть свое
+            сердце для любви и&nbsp;понимания, освободиться от&nbsp;барьеров
+            на&nbsp;пути к&nbsp;себе.
           </p>
 
           <div class="space-y-4">
