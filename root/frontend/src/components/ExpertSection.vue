@@ -13,7 +13,7 @@ import { Award, Quote } from "lucide-vue-next";
           <img
             src="/SpecialistPhoto.jpg"
             alt="Наталья Короткова"
-            class="w-full h-full object-cover lg:object-[calc(50%+105px)_center] md:object-[calc(50%+75px)_center] object-[calc(50%+105px)_center]"
+            class="w-full h-full object-cover lg:object-[calc(50%+105px)_center] md:object-[calc(50%+75px)_center] sm:object-[calc(50%+105px)_center] object-[calc(50%+70px)_center]"
             referrerPolicy="no-referrer"
           />
         </div>
