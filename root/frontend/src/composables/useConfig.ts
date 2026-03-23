@@ -57,17 +57,14 @@ function envString(
  */
 export function useConfig(): AppConfig {
   return {
-    siteUrl: envString("VITE_APP_URL", "https://jw-korotkova.ru"),
-    authorSiteUrl: envString(
-      "VITE_AUTHOR_SITE_URL",
-      "https://korotkovladimir.ru/",
-    ),
+    siteUrl: envString("VITE_APP_URL", "https://example.com"),
+    authorSiteUrl: envString("VITE_AUTHOR_SITE_URL"),
     email: envString("VITE_CONTACT_EMAIL", "hello@soultherapy.ru"),
     phone: {
       telHref: envString("VITE_CONTACT_PHONE_TEL", "tel:+79991234567"),
       label: envString("VITE_CONTACT_PHONE_LABEL", "+7 (999) 123-45-67"),
     },
-    inn: envString("VITE_CONTACT_INN", "772775846428"),
+    inn: envString("VITE_CONTACT_INN", "0000000000000"),
     consultation: {
       title: envString("VITE_CONSULTATION_TITLE"),
       duration: envString("VITE_CONSULTATION_DURATION"),
