@@ -164,10 +164,7 @@ class AutoSchema(AutoSchemaBase):
     def get_status_map(self):
         default_status_map = {"DELETE": status.HTTP_204_NO_CONTENT, "POST": status.HTTP_201_CREATED}
         action = self._get_action()
-        if action:
-            status_map = getattr(action, "status_map", None)
-        else:
-            status_map = getattr(self.view, "status_map", None)
+        status_map = getattr(action, "status_map", None) if action else getattr(self.view, "status_map", None)
 
         if status_map:
             status_map = {k.upper(): v for k, v in dict(status_map).items()}
@@ -189,10 +186,7 @@ class AutoSchema(AutoSchemaBase):
             serializer = serializer.__args__[0]
             is_sequence_response = True
 
-        if serializer and issubclass(serializer, BaseModel):
-            item_schema = self.get_reference(serializer)
-        else:
-            item_schema = {}
+        item_schema = self.get_reference(serializer) if serializer and issubclass(serializer, BaseModel) else {}
         if is_list_view(path, method, self.view) or is_sequence_response:
             response_schema = {"type": "array", "items": item_schema}
             paginator = self.get_paginator()

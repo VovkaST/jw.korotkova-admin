@@ -5,6 +5,7 @@ requires-python = ">=3.11"
 # Always generate Python 3.11-compatible code.
 target-version = "py311"
 line-length = 120
+extend-exclude = ["**/migrations", "**/tests/"]
 
 [tool.ruff.lint]
 select = [
