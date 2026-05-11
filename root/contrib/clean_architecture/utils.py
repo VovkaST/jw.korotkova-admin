@@ -6,7 +6,7 @@ from datetime import date, datetime, time, timedelta
 from decimal import Decimal
 from enum import Enum, EnumMeta
 from types import NoneType, UnionType
-from typing import Any, Optional, TypeVar, Union, get_args, get_type_hints, is_typeddict
+from typing import Any, Optional, TypeVar, get_args, get_type_hints, is_typeddict
 
 from annotated_types import MaxLen
 from asgiref.sync import sync_to_async
@@ -26,7 +26,7 @@ TypedDictObjectType = TypeVar("TypedDictObjectType")
 
 logger = logging.getLogger(__name__)
 
-BASE_TYPES = Union[str, int, float, Decimal, bool, datetime, NoneType, date, time, timedelta, Enum, dict]
+BASE_TYPES = str | int | float | Decimal | bool | datetime | NoneType | date | time | timedelta | Enum | dict
 
 SEQUENCE_TYPE_NAMES = ["List", "Sequence", "Tuple", "list", "tuple"]
 
@@ -39,7 +39,7 @@ class DictAsObject:
             self.__data__[name] = getattr(self, name)
 
     def _wrap(self, value):
-        if isinstance(value, (tuple, list, set, frozenset)):
+        if isinstance(value, tuple | list | set | frozenset):
             return type(value)([self._wrap(v) for v in value])
         else:
             return DictAsObject(value) if isinstance(value, dict) else value
@@ -91,8 +91,9 @@ class ObjectMapperService:
     def extract_entity_parent_type(
         cls, field_annotation: type[EntityObjectType] | list | Sequence | tuple | Optional
     ) -> tuple[Any, bool] | tuple[None, bool]:
-        """
-        Функция получает базовый тип из составного типа, также определяет, является ли составной тип последовательностью.
+        """Функция получает базовый тип из составного типа, также определяет, является ли составной тип
+        последовательностью.
+
         @param field_annotation: Составной тип, из которого необходимо получить основной тип,
         можно передать простой тип, тогда функция его и вернет.
         @return: Возвращает кортеж из 2 элементов - тип и признак, является ли поле последовательностью

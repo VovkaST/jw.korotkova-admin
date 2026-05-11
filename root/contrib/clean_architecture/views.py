@@ -12,7 +12,7 @@ class CheckPageAvailableMixin(View):
     def dispatch(self, request, *args, **kwargs):
         if not self.check_page_available(request.user, *args, **kwargs):
             raise Http404
-        return super(CheckPageAvailableMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     @abc.abstractmethod
     def check_page_available(self, user, *args, **kwargs):

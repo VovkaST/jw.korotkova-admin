@@ -16,7 +16,7 @@ class InterceptError:
                         return await method(self, *args, **kwargs)
                     return method(self, *args, **kwargs)
                 except from_error:
-                    raise to_error
+                    raise to_error from from_error
 
             return wrapper
 

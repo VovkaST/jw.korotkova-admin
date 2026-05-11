@@ -21,7 +21,7 @@ from root.contrib.pydantic.utils import validation_error_format
 def _dump_response_model_function(response):
     is_result_response = False
     content_attr = None
-    if isinstance(response, (Response, HttpResponse)):
+    if isinstance(response, Response | HttpResponse):
         is_result_response = True
         content_attr = "data" if isinstance(response, Response) else "content"
 
@@ -29,7 +29,7 @@ def _dump_response_model_function(response):
 
     if isinstance(data, BaseModel):
         data = data.model_dump()
-    elif isinstance(data, Sequence) and not isinstance(data, (str, bytes)):
+    elif isinstance(data, Sequence) and not isinstance(data, str | bytes):
         data = map(lambda item: item.model_dump() if isinstance(item, BaseModel) else item, data)
 
     if is_result_response:
@@ -57,10 +57,7 @@ def is_listed(model: type[BaseModel], field_name: str) -> bool:
 
     def _is_iterable_type(annotation):
         if isinstance(annotation, types.UnionType):
-            for _type in typing.get_args(annotation):
-                if _is_iterable_type(_type):
-                    return True
-            return False
+            return any(_is_iterable_type(_type) for _type in typing.get_args(annotation))
 
         return annotation in generic_types or typing.get_origin(annotation) in generic_types
 

@@ -26,7 +26,7 @@ def app_exception_handler(exc: Exception, context):
         errors = [ErrorItem(code=exc.code, detail=exc.message)]
         status_code = status_map.get(exc.type, default_status_code)
 
-    elif isinstance(exc, (NotAuthenticated, PermissionDenied)):
+    elif isinstance(exc, NotAuthenticated | PermissionDenied):
         errors = [ErrorItem(code=exc.default_code, detail=exc.detail)]
         status_code = exc.status_code
 

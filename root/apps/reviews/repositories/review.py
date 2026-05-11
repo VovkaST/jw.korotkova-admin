@@ -19,7 +19,11 @@ class ReviewRepository(BaseRepository[Review]):
         return self.model.objects.all()
 
     def get_published_for_site(self) -> QuerySet[Review]:
-        return self.get_queryset().filter(is_published=True).order_by(
-            "sort_order",
-            "-created_at",
+        return (
+            self.get_queryset()
+            .filter(is_published=True)
+            .order_by(
+                "sort_order",
+                "-created_at",
+            )
         )
