@@ -87,9 +87,9 @@ services:
     image: node:22.14
     container_name: korotkova-assets
     volumes:
-      - ./root/assets:/root/assets
+      - ./root/frontend:/root/frontend
       - ./static:/static
-    working_dir: /root/assets/
+    working_dir: /root/frontend/
     command: bash -c "yarn install && yarn schema:generate && yarn run build"
 
 networks:

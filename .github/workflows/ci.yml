@@ -1,0 +1,183 @@
+# Repository secrets: SSH_PRIVATE_KEY, CODECOV_TOKEN (optional)
+# Repository variables: SSH_HOST, SSH_USER, DEPLOY_PATH
+# Optional variable: SSH_PORT — if unset, port 22 is used
+#
+# Локально: pyenv + .python-version, в root/frontend — nvm/nvm use по .nvmrc.
+# В CI только actions/setup-python и actions/setup-node (без pyenv/nvm).
+
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+    tags:
+      - "backend/**"
+      - "frontend/**"
+
+permissions:
+  contents: read
+
+jobs:
+  lint-backend:
+    name: Lint backend (ruff)
+    runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff==0.9.3
+
+      - name: Ruff check
+        run: ruff check .
+
+      - name: Ruff format
+        run: ruff format --check .
+
+  lint-frontend:
+    name: Lint frontend (tsc)
+    runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: root/frontend/.nvmrc
+          cache: yarn
+          cache-dependency-path: root/frontend/yarn.lock
+
+      - name: Install dependencies
+        working-directory: root/frontend
+        run: yarn install --frozen-lockfile
+
+      - name: Lint
+        working-directory: root/frontend
+        run: yarn lint
+
+  build-frontend:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: root/frontend/.nvmrc
+          cache: yarn
+          cache-dependency-path: root/frontend/yarn.lock
+
+      - name: Prepare env for build
+        working-directory: root/frontend
+        run: cp .env.example .env
+
+      - name: Install dependencies
+        working-directory: root/frontend
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        working-directory: root/frontend
+        run: yarn build
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test-korotkova-db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/base.txt
+
+      - name: Test and coverage
+        env:
+          DJANGO_SECRET_KEY: "ci-test-only-not-for-production-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          DJANGO_SETTINGS_MODULE: root.settings.test
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test-korotkova-db
+        run: python -m pytest --cov --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  deploy-backend:
+    name: Deploy backend
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/backend/')
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.SSH_PORT != '' && vars.SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            cd "${{ vars.DEPLOY_PATH }}"
+            git pull origin master
+            docker build -t korotkova-admin-python-3.11:latest .
+            docker compose up -d admin bot celery
+
+  deploy-frontend:
+    name: Deploy frontend
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/frontend/')
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.SSH_PORT != '' && vars.SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            cd "${{ vars.DEPLOY_PATH }}"
+            git pull origin master
+            docker compose run --rm assets
+            docker compose exec -T korotkova-admin python manage.py collectstatic --noinput
